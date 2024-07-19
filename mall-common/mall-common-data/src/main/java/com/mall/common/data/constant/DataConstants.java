@@ -5,25 +5,6 @@ package com.mall.common.data.constant;
  */
 public interface DataConstants {
 
-    /**
-     * 创建人
-     */
-    String CREATE_BY = "create_by";
-
-    /**
-     * 创建时间
-     */
-    String CREATE_TIME = "create_time";
-
-    /**
-     * 更新人
-     */
-    String UPDATE_BY = "update_by";
-
-    /**
-     * 更新时间
-     */
-    String UPDATE_TIME = "update_time";
 
     /**
      * 当前页码

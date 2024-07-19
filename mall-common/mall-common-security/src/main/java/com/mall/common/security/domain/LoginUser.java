@@ -1,4 +1,4 @@
-package com.mall.common.security.entity;
+package com.mall.common.security.domain;
 
 import lombok.Data;
 

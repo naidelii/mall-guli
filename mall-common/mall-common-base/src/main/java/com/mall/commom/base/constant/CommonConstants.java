@@ -42,4 +42,24 @@ public interface CommonConstants {
      * 用户已冻结
      */
     int FREEZE = 0;
+
+    /**
+     * 创建人
+     */
+    String CREATE_BY = "create_by";
+
+    /**
+     * 创建时间
+     */
+    String CREATE_TIME = "create_time";
+
+    /**
+     * 更新人
+     */
+    String UPDATE_BY = "update_by";
+
+    /**
+     * 更新时间
+     */
+    String UPDATE_TIME = "update_time";
 }
