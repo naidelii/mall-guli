@@ -30,6 +30,7 @@
         <alibaba-cloud.version>2021.0.5.0</alibaba-cloud.version>
         <druid.version>1.2.23</druid.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <knife4j.version>3.0.3</knife4j.version>
     </properties>
 
     <dependencyManagement>
