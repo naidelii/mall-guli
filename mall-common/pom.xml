@@ -13,6 +13,7 @@
     <modules>
         <module>mall-common-base</module>
         <module>mall-common-swagger</module>
+        <module>mall-common-data</module>
     </modules>
     <artifactId>mall-common</artifactId>
 
