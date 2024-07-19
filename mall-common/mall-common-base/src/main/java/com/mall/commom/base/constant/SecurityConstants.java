@@ -14,12 +14,6 @@ public interface SecurityConstants {
     /**
      * 系统自定义的混淆参数
      */
-    String PASSWORD_CONFUSE_KEY = "HelloWord";
-
-    /**
-     * 用户缓存key
-     */
-    String USER_KEY = "Mall-User";
-
+    String PASSWORD_CONFUSE_KEY = "guli-mall";
 
 }

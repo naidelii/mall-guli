@@ -2,7 +2,7 @@ package com.mall.common.security.context;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
-import com.mall.common.security.constant.SecurityConstants;
+import com.mall.commom.base.constant.CacheConstants;
 import com.mall.common.security.entity.LoginUser;
 
 import java.util.Set;
@@ -24,7 +24,7 @@ public final class SecurityContext {
      */
     public static void login(LoginUser loginUser) {
         StpUtil.login(loginUser.getId());
-        StpUtil.getTokenSession().set(SecurityConstants.USER_KEY, loginUser);
+        StpUtil.getTokenSession().set(CacheConstants.SYS_USERS_CACHE, loginUser);
     }
 
     /**
@@ -35,7 +35,7 @@ public final class SecurityContext {
     public static LoginUser getLoginUser() {
         // 获取会话信息
         SaSession tokenSession = StpUtil.getTokenSession();
-        return (LoginUser) tokenSession.get(SecurityConstants.USER_KEY);
+        return (LoginUser) tokenSession.get(CacheConstants.SYS_USERS_CACHE);
     }
 
     /**
