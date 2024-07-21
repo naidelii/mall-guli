@@ -59,7 +59,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     vo.setChildren(buildTree(entity.getId(), permissionMap));
                     return vo;
                 })
-                .sorted((a, b) -> b.getSortOrder() - a.getSortOrder())
+                .sorted((a, b) -> a.getSortOrder() - b.getSortOrder())
                 .collect(Collectors.toList());
     }
 }
