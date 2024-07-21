@@ -1,6 +1,7 @@
 package com.mall.admin.biz.controller;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.mall.admin.biz.domain.dto.LoginUserDto;
 import com.mall.admin.biz.service.IAuthService;
 import com.mall.admin.biz.service.IVerifyCodeService;
@@ -53,6 +54,15 @@ public class AuthController {
         log.info("登录的用户,{}", loginUser);
         String token = authService.authenticateUser(loginUser);
         return Result.success(token);
+    }
+
+    /**
+     * 退出
+     */
+    @GetMapping("/logout")
+    public Result<?> logout() {
+        StpUtil.logout();
+        return Result.success();
     }
 
 }

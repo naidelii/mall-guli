@@ -2,6 +2,7 @@ package com.mall.admin.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysUser;
+import com.mall.admin.biz.domain.vo.SysUserInfoVo;
 
 
 /**
@@ -18,4 +19,12 @@ public interface ISysUserService extends IService<SysUser> {
      * @return 用户信息
      */
     SysUser queryByUserName(String username);
+
+    /**
+     * 获取用户信息
+     *
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    SysUserInfoVo getUserInfo(String userId);
 }

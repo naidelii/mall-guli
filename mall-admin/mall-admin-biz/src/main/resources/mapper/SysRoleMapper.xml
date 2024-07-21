@@ -4,4 +4,17 @@
 <mapper namespace="com.mall.admin.biz.mapper.SysRoleMapper">
 
 
+    <select id="selectRolesByUserId" resultType="com.mall.admin.api.entity.SysRole">
+        select
+            sr.id,
+            sr.role_name,
+            sr.role_code,
+            sr.description
+        from sys_role sr
+            join sys_user_role sur on sr.id = sur.role_id
+            join sys_user su on sur.user_id = su.id
+        <where>
+            su.id = #{userId};
+        </where>
+    </select>
 </mapper>

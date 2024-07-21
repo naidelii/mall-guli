@@ -1,17 +1,19 @@
-package com.mall.common.security.domain;
+package com.mall.admin.biz.domain.vo;
 
-import com.mall.common.base.constant.CommonConstants;
+import cn.hutool.core.bean.BeanUtil;
+import com.mall.admin.api.entity.SysUser;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
  * @author naidelii
  */
 @Data
-public class LoginUser {
+public class SysUserInfoVo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 主键
@@ -23,6 +25,15 @@ public class LoginUser {
      */
     private String username;
 
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * md5密码盐
+     */
+    private String salt;
 
     /**
      * 邮箱
@@ -54,22 +65,7 @@ public class LoginUser {
      */
     private LocalDateTime birthdate;
 
-    /**
-     * 角色标识集合
-     */
-    private Set<String> roles;
-
-    /**
-     * 权限标识集合
-     */
-    private Set<String> permissions;
-
-    public boolean isAdmin() {
-        return isAdmin(this.id);
+    public SysUserInfoVo(SysUser sysUser) {
+        BeanUtil.copyProperties(sysUser, this);
     }
-
-    private boolean isAdmin(String id) {
-        return StringUtils.isNotBlank(id) && CommonConstants.SUPER_ADMIN.equals(id);
-    }
-
 }

@@ -3,7 +3,46 @@
 
 <mapper namespace="com.mall.admin.biz.mapper.SysPermissionMapper">
 
-    <select id="selectPermissionsByUserId" resultType="com.mall.admin.api.entity.SysPermission">
+    <sql id="permissionResult">
+        sp.id, sp.name, sp.parent_id, sp.type, sp.url, sp.icon, sp.sort_order, sp.perms
+    </sql>
 
+    <select id="selectPermsByRoleCodes" resultType="java.lang.String">
+        select
+            distinct sp.perms
+        from sys_permission sp
+        join sys_role_permission srp on sp.id = srp.permission_id
+        join sys_role sr on srp.role_id = sr.id
+        <where>
+            sp.type = 2
+            AND sr.code IN
+            <foreach collection="codes" item="code" open="(" separator="," close=")">
+                #{code}
+            </foreach>
+        </where>
     </select>
+
+    <select id="selectUserMenuListByRoleCodes" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+            distinct <include refid="permissionResult"/>
+        from sys_permission sp
+        join sys_role_permission srp on sp.id = srp.permission_id
+        join sys_role sr on srp.role_id = sr.id
+        <where>
+            sp.type in (0, 1)
+            AND sr.code IN
+            <foreach collection="codes" item="code" open="(" separator="," close=")">
+                #{code}
+            </foreach>
+        </where>
+    </select>
+    <select id="selectAllMenuList" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+            distinct <include refid="permissionResult"/>
+        from sys_permission sp
+        <where>
+            sp.type in (0, 1)
+        </where>
+    </select>
+
 </mapper>

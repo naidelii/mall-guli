@@ -5,18 +5,33 @@ import com.mall.admin.api.entity.SysPermission;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author naidelii
  */
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
+    /**
+     * 查询用户拥有的菜单列表
+     *
+     * @param codes 角色CODE集合
+     * @return 菜单列表
+     */
+    List<SysPermission> selectUserMenuListByRoleCodes(@Param("codes") Set<String> codes);
 
     /**
-     * 根据用户ID查询权限
+     * 根据角色CODE集合，查询拥有的权限
      *
-     * @param userId 用户ID
+     * @param codes 角色CODE集合
      * @return 权限列表
      */
-    List<SysPermission> selectPermissionsByUserId(@Param("userId") String userId);
+    Set<String> selectPermsByRoleCodes(@Param("codes") Set<String> codes);
+
+    /**
+     * 查询所有菜单列表
+     *
+     * @return 菜单列表
+     */
+    List<SysPermission> selectAllMenuList();
 }

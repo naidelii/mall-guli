@@ -1,14 +1,12 @@
 package com.mall.admin.biz.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
+import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.api.entity.SysUser;
 import com.mall.admin.biz.domain.dto.LoginUserDto;
-import com.mall.admin.biz.service.IAuthService;
-import com.mall.admin.biz.service.ISysPermissionService;
-import com.mall.admin.biz.service.ISysUserService;
-import com.mall.admin.biz.service.IVerifyCodeService;
+import com.mall.admin.biz.service.*;
 import com.mall.common.base.constant.CommonConstants;
-import com.mall.common.base.constant.enums.PermissionType;
 import com.mall.common.base.exception.GlobalException;
 import com.mall.common.base.utils.PasswordUtils;
 import com.mall.common.security.context.SecurityContext;
@@ -18,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author naidelii
@@ -30,20 +30,29 @@ public class AuthServiceImpl implements IAuthService {
     private final IVerifyCodeService verifyCodeService;
     private final ISysUserService userService;
     private final ISysPermissionService permissionService;
+    private final ISysRoleService roleService;
 
     @Override
-    public String authenticateUser(LoginUserDto loginUser) {
-        verifyCodeService.verifyCode(loginUser.getRealKey(), loginUser.getCaptcha());
-        SysUser sysUser = userService.queryByUserName(loginUser.getUsername());
-        checkUser(loginUser.getUsername(), loginUser.getPassword(), sysUser);
-        LoginUser user = new LoginUser();
+    public String authenticateUser(LoginUserDto loginUserDto) {
+        verifyCodeService.verifyCode(loginUserDto.getRealKey(), loginUserDto.getCaptcha());
+        SysUser sysUser = userService.queryByUserName(loginUserDto.getUsername());
+        checkUser(loginUserDto.getUsername(), loginUserDto.getPassword(), sysUser);
+        LoginUser loginUser = new LoginUser();
         // 拷贝属性
-        BeanUtils.copyProperties(sysUser, user);
-        // 查询用户权限（按钮权限）
-        Set<String> permissions = permissionService.getPermissionsByTypeAndUserId(PermissionType.BUTTON_PERMISSIONS.getValue(), sysUser.getId());
-        user.setPermissions(permissions);
+        BeanUtils.copyProperties(sysUser, loginUser);
+        // 查询当前用户拥有的角色
+        String userId = sysUser.getId();
+        List<SysRole> roleList = roleService.selectRolesByUserId(userId);
+        if (CollUtil.isNotEmpty(roleList)) {
+            Set<String> roleCodes = roleList.stream()
+                    .map(SysRole::getRoleCode)
+                    .collect(Collectors.toSet());
+            loginUser.setRoles(roleCodes);
+            Set<String> perms = permissionService.selectPermsByRoleCodes(roleCodes);
+            loginUser.setPermissions(perms);
+        }
         // 执行登录方法
-        SecurityContext.login(user);
+        SecurityContext.login(loginUser);
         return StpUtil.getTokenValue();
     }
 
