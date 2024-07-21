@@ -59,7 +59,6 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                     // 使用封装的 JSON 工具类转换数据格式
                     return JSONUtil.toJsonStr(Result.fail(e.getMessage()));
                 })
-
                 // 前置函数：在每次认证函数之前执行
                 .setBeforeAuth(obj -> {
                     // ---------- 设置一些安全响应头 ----------

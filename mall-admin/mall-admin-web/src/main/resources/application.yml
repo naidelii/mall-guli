@@ -60,7 +60,10 @@ sa-token:
 # security 配置
 security:
   # 静态资源不拦截链接
-  webIgnores: /favicon.ico,/doc.html,/webjars/**,/swagger-resources/**,/v3/**,/v3/api-docs/**,/profile/**
+  webIgnores: /favicon.ico,/doc.html,/webjars/**,/swagger-resources/**,/v2/**,/v2/api-docs/**
   # 请求不拦截链接（多个用逗号分隔）
   httpIgnores: /auth/**
 
+# Knife4j配置
+knife4j:
+  enable: true # 开启增强配置
