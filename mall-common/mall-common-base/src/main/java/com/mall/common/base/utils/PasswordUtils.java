@@ -1,7 +1,7 @@
-package com.mall.commom.base.utils;
+package com.mall.common.base.utils;
 
 import cn.hutool.crypto.SecureUtil;
-import com.mall.commom.base.constant.SecurityConstants;
+import com.mall.common.base.constant.SecurityConstants;
 
 import java.util.Objects;
 import java.util.Random;

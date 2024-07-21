@@ -1,4 +1,4 @@
-package com.mall.commom.base.constant.enums;
+package com.mall.common.base.constant.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

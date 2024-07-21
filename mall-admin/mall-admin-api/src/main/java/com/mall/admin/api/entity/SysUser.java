@@ -1,7 +1,7 @@
 package com.mall.admin.api.entity;
 
 
-import com.mall.commom.base.domain.BaseEntity;
+import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,9 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 系统用户
- *
  * @author naidelii
+ * 用户表
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -1,4 +1,4 @@
-package com.mall.commom.base.exception;
+package com.mall.common.base.exception;
 
 /**
  * @author naidelii

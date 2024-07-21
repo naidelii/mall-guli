@@ -62,4 +62,5 @@ security:
   # 静态资源不拦截链接
   webIgnores: /favicon.ico,/doc.html,/webjars/**,/swagger-resources/**,/v3/**,/v3/api-docs/**,/profile/**
   # 请求不拦截链接（多个用逗号分隔）
-  httpIgnores: /sys/captcha,/sys/login
+  httpIgnores: /auth/**
+

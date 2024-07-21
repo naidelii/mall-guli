@@ -1,7 +1,7 @@
 package com.mall.admin.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mall.admin.biz.entity.SysRolePermission;
+import com.mall.admin.biz.domain.entity.SysRolePermission;
 
 
 /**

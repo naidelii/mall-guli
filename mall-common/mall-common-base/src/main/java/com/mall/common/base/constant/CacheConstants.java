@@ -1,4 +1,4 @@
-package com.mall.commom.base.constant;
+package com.mall.common.base.constant;
 
 /**
  * @author naidelii

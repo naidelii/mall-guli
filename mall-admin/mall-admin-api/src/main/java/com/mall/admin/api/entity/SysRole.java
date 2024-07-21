@@ -1,13 +1,13 @@
 package com.mall.admin.api.entity;
 
-import com.mall.commom.base.domain.BaseEntity;
+import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 /**
- * 角色
+ * 角色表
  *
  * @author naidelii
  */

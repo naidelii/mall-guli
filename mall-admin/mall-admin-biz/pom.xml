@@ -29,8 +29,13 @@
         </dependency>
         <dependency>
             <groupId>com.mall</groupId>
-            <artifactId>mall-commom-security</artifactId>
+            <artifactId>mall-common-security</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
     </dependencies>
 </project>

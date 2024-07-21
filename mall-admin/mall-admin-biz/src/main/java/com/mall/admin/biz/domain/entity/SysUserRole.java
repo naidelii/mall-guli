@@ -1,4 +1,4 @@
-package com.mall.admin.biz.entity;
+package com.mall.admin.biz.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

@@ -1,10 +1,11 @@
-package com.mall.admin.biz.entity;
+package com.mall.admin.biz.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
  * @author naidelii
+ * 角色权限关联表
  */
 @Data
 @TableName("sys_role_permission")

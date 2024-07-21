@@ -1,7 +1,7 @@
 package com.mall.admin.biz.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mall.admin.biz.entity.SysRolePermission;
+import com.mall.admin.biz.domain.entity.SysRolePermission;
 import com.mall.admin.biz.mapper.SysRolePermissionMapper;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import lombok.RequiredArgsConstructor;

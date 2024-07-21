@@ -1,9 +1,10 @@
-package com.mall.commom.swagger.config;
+package com.mall.common.swagger.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,6 +19,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 @Configuration
 @EnableKnife4j
+@Import({SwaggerBeanPostProcessor.class, SwaggerWebConfiguration.class})
 public class SwaggerConfiguration {
 
 
@@ -49,6 +51,5 @@ public class SwaggerConfiguration {
                 .version("1.0")
                 .build();
     }
-
 
 }

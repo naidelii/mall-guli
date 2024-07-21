@@ -1,15 +1,14 @@
 package com.mall.admin.api.entity;
 
-import com.mall.commom.base.domain.BaseEntity;
+import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 /**
- * 菜单权限
- *
  * @author naidelii
+ * 菜单权限表
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

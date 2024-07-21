@@ -3,4 +3,7 @@
 
 <mapper namespace="com.mall.admin.biz.mapper.SysPermissionMapper">
 
+    <select id="selectPermissionsByUserId" resultType="com.mall.admin.api.entity.SysPermission">
+
+    </select>
 </mapper>

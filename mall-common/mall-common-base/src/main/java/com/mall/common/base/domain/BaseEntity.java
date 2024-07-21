@@ -1,4 +1,4 @@
-package com.mall.commom.base.domain;
+package com.mall.common.base.domain;
 
 
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.mall.commom.base.api;
+package com.mall.common.base.api;
 
-import com.mall.commom.base.constant.enums.ResultCodeEnum;
+import com.mall.common.base.constant.enums.ResultCodeEnum;
 import lombok.Getter;
 import lombok.Setter;
 

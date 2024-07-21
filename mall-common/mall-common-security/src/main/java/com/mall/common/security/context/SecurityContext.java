@@ -2,7 +2,7 @@ package com.mall.common.security.context;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
-import com.mall.commom.base.constant.CacheConstants;
+import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.security.domain.LoginUser;
 
 import java.util.Set;

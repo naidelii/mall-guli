@@ -1,4 +1,4 @@
-package com.mall.commom.swagger.config;
+package com.mall.common.swagger.config;
 
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
