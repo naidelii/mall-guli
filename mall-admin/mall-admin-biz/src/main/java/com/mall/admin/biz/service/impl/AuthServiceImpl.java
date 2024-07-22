@@ -25,8 +25,8 @@ import java.util.Set;
 public class AuthServiceImpl implements IAuthService {
     private final IVerifyCodeService verifyCodeService;
     private final ISysUserService userService;
-    private final ISysPermissionService permissionService;
-    private final ISysRoleService roleService;
+    private final ISysRolePermissionService rolePermissionService;
+    private final ISysUserRoleService userRoleService;
 
     @Override
     public String authenticateUser(LoginUserDto loginUserDto) {
@@ -36,9 +36,9 @@ public class AuthServiceImpl implements IAuthService {
         LoginUser loginUser = new LoginUser();
         // 拷贝属性
         BeanUtils.copyProperties(sysUser, loginUser);
-        Set<String> roleCodes = roleService.selectRoleByLoginUser(loginUser);
+        Set<String> roleCodes = userRoleService.selectRoleByLoginUser(loginUser);
         loginUser.setRoles(roleCodes);
-        Set<String> perms = permissionService.selectPermsByLoginUser(loginUser);
+        Set<String> perms = rolePermissionService.selectPermsByLoginUser(loginUser);
         loginUser.setPermissions(perms);
         // 执行登录方法
         SecurityContext.login(loginUser);

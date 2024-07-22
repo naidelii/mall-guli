@@ -4,6 +4,7 @@ package com.mall.admin.biz.controller;
 import com.mall.admin.biz.domain.vo.SysPermissionListVo;
 import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.admin.biz.service.ISysPermissionService;
+import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.common.base.api.Result;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysPermissionController extends AbstractController {
 
+    private final ISysRolePermissionService rolePermissionService;
     private final ISysPermissionService permissionService;
 
 
@@ -37,7 +39,7 @@ public class SysPermissionController extends AbstractController {
      */
     @GetMapping("/nav")
     public Result<List<SysPermissionTreeVo>> nav() {
-        List<SysPermissionTreeVo> menuList = permissionService.selectUserMenuList();
+        List<SysPermissionTreeVo> menuList = rolePermissionService.selectUserMenuList();
         return Result.success(menuList);
     }
 

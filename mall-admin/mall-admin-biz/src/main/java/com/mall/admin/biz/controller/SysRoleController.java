@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.dto.SysRoleListQuery;
 import com.mall.admin.biz.domain.dto.SysRoleSaveDto;
+import com.mall.admin.biz.domain.vo.SysRoleInfoVo;
 import com.mall.admin.biz.domain.vo.SysRoleListVo;
 import com.mall.admin.biz.service.ISysRoleService;
 import com.mall.common.base.api.Result;
@@ -75,5 +76,18 @@ public class SysRoleController {
         BeanUtil.copyProperties(roleDto, sysRoleEntity);
         roleService.saveRole(sysRoleEntity, roleDto.getPermissionIds());
         return Result.success();
+    }
+
+    /**
+     * 根据id获取用户信息
+     *
+     * @param roleId 角色id
+     * @return 角色信息
+     */
+    @GetMapping("/info/{roleId}")
+    @SaCheckPermission("sys:role:info")
+    public Result<?> info(@PathVariable("roleId") String roleId) {
+        SysRoleInfoVo sysUserVo = roleService.getRoleInfo(roleId);
+        return Result.success(sysUserVo);
     }
 }

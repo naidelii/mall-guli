@@ -12,14 +12,6 @@ import java.util.Set;
  */
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
-    /**
-     * 查询用户的菜单列表或菜单权限
-     *
-     * @param userId 用户id
-     * @param types  类型
-     * @return List<SysPermission>
-     */
-    List<SysPermission> selectPermissionsByUserIdAndType(@Param("userId") String userId, @Param("types") Set<Integer> types);
 
     /**
      * 根据type查询菜单权限
@@ -28,5 +20,4 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      * @return List<SysPermission>
      */
     List<SysPermission> selectPermissionListByType(@Param("types") Set<Integer> types);
-
 }

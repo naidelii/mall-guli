@@ -10,7 +10,6 @@ import com.mall.admin.biz.domain.dto.SysUserListQuery;
 import com.mall.admin.biz.domain.vo.SysUserInfoVo;
 import com.mall.admin.biz.domain.vo.SysUserListVo;
 import com.mall.admin.biz.mapper.SysUserMapper;
-import com.mall.admin.biz.service.ISysRoleService;
 import com.mall.admin.biz.service.ISysUserRoleService;
 import com.mall.admin.biz.service.ISysUserService;
 import com.mall.common.base.utils.PasswordUtils;
@@ -35,7 +34,6 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     private final ISysUserRoleService userRoleService;
-    private final ISysRoleService roleService;
 
     @Override
     public SysUser queryByUserName(String username) {
@@ -91,7 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUserInfoVo getUserInfo(String userId) {
         SysUser sysUser = baseMapper.selectById(userId);
         SysUserInfoVo vo = new SysUserInfoVo(sysUser);
-        List<SysRole> rolelist = roleService.selectRolesByUserId(userId);
+        List<SysRole> rolelist = userRoleService.selectRolesByUserId(userId);
         Set<String> roleIds = rolelist.stream()
                 .map(SysRole::getId)
                 .collect(Collectors.toSet());

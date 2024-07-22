@@ -2,13 +2,17 @@ package com.mall.admin.biz.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.entity.SysUserRole;
 import com.mall.admin.biz.mapper.SysUserRoleMapper;
 import com.mall.admin.biz.service.ISysUserRoleService;
+import com.mall.common.base.constant.CommonConstants;
+import com.mall.common.security.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,6 +37,22 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .map(roleId -> new SysUserRole(userId, roleId))
                 .collect(Collectors.toList());
         saveBatch(list);
+    }
+
+    @Override
+    public Set<String> selectRoleByLoginUser(LoginUser loginUser) {
+        if (loginUser.isAdmin()) {
+            return Collections.singleton(CommonConstants.SUPER_ADMIN_ROLE);
+        }
+        List<SysRole> roleList = baseMapper.selectRolesByUserId(loginUser.getId());
+        return roleList.stream()
+                .map(SysRole::getRoleCode)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<SysRole> selectRolesByUserId(String userId) {
+        return baseMapper.selectRolesByUserId(userId);
     }
 
     @Override

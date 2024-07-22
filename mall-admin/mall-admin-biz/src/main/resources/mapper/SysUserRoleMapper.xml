@@ -3,10 +3,26 @@
 
 <mapper namespace="com.mall.admin.biz.mapper.SysUserRoleMapper">
 
+    <!-- 公共字段 -->
+    <sql id="roleResult">
+        sr.id, sr.role_name, sr.role_code, sr.description
+    </sql>
+
     <delete id="deleteUserRole" parameterType="string">
         delete from sys_user_role where user_id in
         <foreach collection="userIds" item="userId" open="(" separator="," close=")">
             #{userId}
         </foreach>
     </delete>
+
+    <select id="selectRolesByUserId" resultType="com.mall.admin.api.entity.SysRole">
+        select
+        <include refid="roleResult"/>
+        from sys_role sr
+        join sys_user_role sur on sr.id = sur.role_id
+        join sys_user su on sur.user_id = su.id
+        <where>
+            su.id = #{userId};
+        </where>
+    </select>
 </mapper>

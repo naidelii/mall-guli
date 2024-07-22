@@ -63,7 +63,10 @@ public class SysUserController extends AbstractController {
     }
 
     /**
-     * 用户信息
+     * 根据id获取用户信息
+     *
+     * @param userId 用户id
+     * @return 用户信息
      */
     @GetMapping("/info/{userId}")
     @SaCheckPermission("sys:user:info")

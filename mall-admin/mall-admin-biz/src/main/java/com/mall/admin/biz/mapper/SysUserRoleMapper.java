@@ -2,10 +2,12 @@ package com.mall.admin.biz.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.entity.SysUserRole;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,4 +29,12 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param userIds 需要删除的用户ID
      */
     void deleteUserRole(@Param("userIds") Set<String> userIds);
+
+    /**
+     * 根据用户ID查询角色
+     *
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    List<SysRole> selectRolesByUserId(@Param("userId") String userId);
 }
