@@ -1,7 +1,8 @@
 package com.mall.admin.biz.controller;
 
 
-import com.mall.admin.biz.domain.vo.SysPermissionVo;
+import com.mall.admin.biz.domain.vo.SysPermissionListVo;
+import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.admin.biz.service.ISysPermissionService;
 import com.mall.common.base.api.Result;
 import io.swagger.annotations.Api;
@@ -35,8 +36,21 @@ public class SysPermissionController extends AbstractController {
      * @return Result
      */
     @GetMapping("/nav")
-    public Result<?> nav() {
-        List<SysPermissionVo> menuList = permissionService.selectUserMenuList();
+    public Result<List<SysPermissionTreeVo>> nav() {
+        List<SysPermissionTreeVo> menuList = permissionService.selectUserMenuList();
         return Result.success(menuList);
+    }
+
+
+    /**
+     * 查询所有菜单列表
+     *
+     * @return List<SysPermissionListVo>
+     */
+    @GetMapping("/list")
+    public Result<List<SysPermissionListVo>> list() {
+        List<SysPermissionListVo> menuList = permissionService.selectAllMenuList();
+        return Result.success(menuList);
+
     }
 }

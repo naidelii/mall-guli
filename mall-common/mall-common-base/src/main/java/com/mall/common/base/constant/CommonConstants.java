@@ -62,4 +62,25 @@ public interface CommonConstants {
      * 更新时间
      */
     String UPDATE_TIME = "update_time";
+
+    /**
+     * 页码参数名称
+     */
+    String PAGE_NO_PARAM = "page";
+
+    /**
+     * 页码参数默认值
+     */
+    String PAGE_NO_DEFAULT = "1";
+
+    /**
+     * 每页大小参数名称
+     */
+    String PAGE_SIZE_PARAM = "limit";
+
+    /**
+     * 每页大小参数默认值
+     */
+    String PAGE_SIZE_DEFAULT = "10";
+
 }

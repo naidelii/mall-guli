@@ -1,16 +1,14 @@
 package com.mall.admin.biz.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mall.admin.api.entity.SysUser;
-import com.mall.admin.biz.domain.vo.SysUserInfoVo;
+import com.mall.admin.biz.domain.dto.SysUserListQuery;
+import com.mall.admin.biz.domain.vo.SysUserListVo;
 import com.mall.admin.biz.service.ISysUserService;
 import com.mall.common.base.api.Result;
+import com.mall.common.base.constant.CommonConstants;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +30,17 @@ public class SysUserController extends AbstractController {
 
     /**
      * 用户列表
+     *
+     * @param pageNo   页码
+     * @param pageSize 每页条数
+     * @param query    查询对象
+     * @return IPage<SysUserListVo>
      */
     @GetMapping("/listPage")
-    @SaCheckPermission("sys:user:list")
-    public Result<?> list(@RequestParam(name = "page", defaultValue = "1") Integer pageNo,
-                          @RequestParam(name = "limit", defaultValue = "10") Integer pageSize) {
-        Page<SysUser> page = new Page<>(pageNo, pageSize);
-        IPage<SysUserInfoVo> pageList = userService.selectListPage(page);
+    public Result<IPage<SysUserListVo>> list(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
+                                             @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
+                                             SysUserListQuery query) {
+        IPage<SysUserListVo> pageList = userService.selectListPage(pageNo, pageSize, query);
         return Result.success(pageList);
     }
 

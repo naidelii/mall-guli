@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author naidelii
  */
 @Data
-public class SysUserInfoVo implements Serializable {
+public class SysUserListVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,7 +65,7 @@ public class SysUserInfoVo implements Serializable {
      */
     private LocalDateTime birthdate;
 
-    public SysUserInfoVo(SysUser sysUser) {
+    public SysUserListVo(SysUser sysUser) {
         BeanUtil.copyProperties(sysUser, this);
     }
 }

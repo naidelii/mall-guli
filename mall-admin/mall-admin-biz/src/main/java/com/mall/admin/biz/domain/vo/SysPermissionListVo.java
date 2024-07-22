@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 菜单权限管理
@@ -17,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysPermissionVo implements Serializable {
+public class SysPermissionListVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -60,12 +59,7 @@ public class SysPermissionVo implements Serializable {
      */
     private String perms;
 
-    /**
-     * 子菜单
-     */
-    private List<SysPermissionVo> children;
-
-    public SysPermissionVo(SysPermission entity) {
+    public SysPermissionListVo(SysPermission entity) {
         BeanUtil.copyProperties(entity, this);
     }
 }

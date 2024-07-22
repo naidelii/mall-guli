@@ -14,7 +14,7 @@ public final class PageUtils {
 
     }
 
-    public static <T> IPage<T> buildPage(List<T> list, Page<?> pageList) {
+    public static <T> IPage<T> buildPage(List<T> list, IPage<?> pageList) {
         IPage<T> page = new Page<>(pageList.getCurrent(), pageList.getSize(), pageList.getTotal());
         page.setRecords(list);
         return page;
