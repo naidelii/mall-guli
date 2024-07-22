@@ -13,25 +13,20 @@ import java.util.Set;
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
     /**
-     * 查询用户拥有的菜单列表
+     * 查询用户的菜单列表或菜单权限
      *
-     * @param codes 角色CODE集合
-     * @return 菜单列表
+     * @param userId 用户id
+     * @param types  类型
+     * @return List<SysPermission>
      */
-    List<SysPermission> selectUserMenuListByRoleCodes(@Param("codes") Set<String> codes);
+    List<SysPermission> selectPermissionsByUserIdAndType(@Param("userId") String userId, @Param("types") Set<Integer> types);
 
     /**
-     * 根据角色CODE集合，查询拥有的权限
+     * 根据type查询菜单权限
      *
-     * @param codes 角色CODE集合
-     * @return 权限列表
+     * @param types 类型
+     * @return List<SysPermission>
      */
-    Set<String> selectPermsByRoleCodes(@Param("codes") Set<String> codes);
+    List<SysPermission> selectPermissionListByType(@Param("types") Set<Integer> types);
 
-    /**
-     * 查询所有菜单列表
-     *
-     * @return 菜单列表
-     */
-    List<SysPermission> selectAllMenuList();
 }

@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.dto.SysRoleListQuery;
 import com.mall.admin.biz.domain.vo.SysRoleListVo;
+import com.mall.common.security.domain.LoginUser;
 
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -17,14 +18,6 @@ import java.util.List;
 public interface ISysRoleService extends IService<SysRole> {
 
     /**
-     * 根据用户ID查询角色
-     *
-     * @param userId 用户ID
-     * @return 角色列表
-     */
-    List<SysRole> selectRolesByUserId(String userId);
-
-    /**
      * 分页查询角色列表
      *
      * @param pageNo   页码
@@ -33,4 +26,12 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return IPage<SysRoleListVo>
      */
     IPage<SysRoleListVo> selectListPage(Integer pageNo, Integer pageSize, SysRoleListQuery query);
+
+    /**
+     * 获取角色数据权限
+     *
+     * @param loginUser 登录用户信息
+     * @return 角色权限信息
+     */
+    Set<String> selectRoleByLoginUser(LoginUser loginUser);
 }

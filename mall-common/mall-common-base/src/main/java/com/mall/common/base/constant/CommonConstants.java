@@ -12,6 +12,16 @@ public interface CommonConstants {
     String SUPER_ADMIN = "1";
 
     /**
+     * 超级管理员角色
+     */
+    String SUPER_ADMIN_ROLE = "admin";
+
+    /**
+     * 管理员拥有所有权限
+     */
+    String ALL_PERMS = "*:*:*";
+
+    /**
      * 顶级父级编码
      */
     String PARENT_CODE = "0";

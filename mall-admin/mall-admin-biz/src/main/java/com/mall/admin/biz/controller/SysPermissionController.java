@@ -49,7 +49,7 @@ public class SysPermissionController extends AbstractController {
      */
     @GetMapping("/list")
     public Result<List<SysPermissionListVo>> list() {
-        List<SysPermissionListVo> menuList = permissionService.selectAllMenuList();
+        List<SysPermissionListVo> menuList = permissionService.selectPermissionList();
         return Result.success(menuList);
 
     }

@@ -9,13 +9,17 @@ import com.mall.admin.biz.domain.dto.SysRoleListQuery;
 import com.mall.admin.biz.domain.vo.SysRoleListVo;
 import com.mall.admin.biz.mapper.SysRoleMapper;
 import com.mall.admin.biz.service.ISysRoleService;
+import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.data.utils.PageUtils;
+import com.mall.common.security.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,11 +29,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
-
-    @Override
-    public List<SysRole> selectRolesByUserId(String userId) {
-        return baseMapper.selectRolesByUserId(userId);
-    }
 
     @Override
     public IPage<SysRoleListVo> selectListPage(Integer pageNo, Integer pageSize, SysRoleListQuery query) {
@@ -42,6 +41,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 .map(SysRoleListVo::new)
                 .collect(Collectors.toList());
         return PageUtils.buildPage(userListVos, pageList);
+    }
+
+    @Override
+    public Set<String> selectRoleByLoginUser(LoginUser loginUser) {
+        if (loginUser.isAdmin()) {
+            return Collections.singleton(CommonConstants.SUPER_ADMIN_ROLE);
+        }
+        List<SysRole> roleList = baseMapper.selectRolesByUserId(loginUser.getId());
+        return roleList.stream()
+                .map(SysRole::getRoleCode)
+                .collect(Collectors.toSet());
     }
 
 }
