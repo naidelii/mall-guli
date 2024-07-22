@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysUser;
 import com.mall.admin.biz.domain.dto.SysUserListQuery;
+import com.mall.admin.biz.domain.vo.SysUserInfoVo;
 import com.mall.admin.biz.domain.vo.SysUserListVo;
+
+import java.util.Set;
 
 
 /**
@@ -31,4 +34,35 @@ public interface ISysUserService extends IService<SysUser> {
      * @return IPage<SysUserListVo>
      */
     IPage<SysUserListVo> selectListPage(Integer pageNo, Integer pageSize, SysUserListQuery query);
+
+    /**
+     * 添加用户
+     *
+     * @param sysUser    用户信息
+     * @param roleIdList 角色信息
+     */
+    void saveUser(SysUser sysUser, Set<String> roleIdList);
+
+    /**
+     * 更新
+     *
+     * @param sysUser    用户信息
+     * @param roleIdList 角色信息
+     */
+    void updateUser(SysUser sysUser, Set<String> roleIdList);
+
+    /**
+     * 批量删除用户信息
+     *
+     * @param userIds 需要删除的用户ID
+     */
+    void deleteUserByIds(Set<String> userIds);
+
+    /**
+     * 根据用户id查询用户详情
+     *
+     * @param userId 用户id
+     * @return SysUserInfoVo
+     */
+    SysUserInfoVo getUserInfo(String userId);
 }

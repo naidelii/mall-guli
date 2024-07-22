@@ -1,18 +1,18 @@
 package com.mall.admin.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mall.admin.api.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * @author naidelii
  */
 @Data
-public class SysUserListVo implements Serializable {
+public class SysUserInfoVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,12 +20,6 @@ public class SysUserListVo implements Serializable {
      * 主键
      */
     private String id;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
 
     /**
      * 用户名
@@ -72,7 +66,12 @@ public class SysUserListVo implements Serializable {
      */
     private LocalDateTime birthdate;
 
-    public SysUserListVo(SysUser sysUser) {
+    /**
+     * 角色列表
+     */
+    private Set<String> roleIds;
+
+    public SysUserInfoVo(SysUser sysUser) {
         BeanUtil.copyProperties(sysUser, this);
     }
 }

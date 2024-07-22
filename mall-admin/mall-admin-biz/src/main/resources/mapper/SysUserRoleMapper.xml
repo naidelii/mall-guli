@@ -3,4 +3,10 @@
 
 <mapper namespace="com.mall.admin.biz.mapper.SysUserRoleMapper">
 
+    <delete id="deleteUserRole" parameterType="string">
+        delete from sys_user_role where user_id in
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
 </mapper>

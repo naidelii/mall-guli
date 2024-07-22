@@ -25,5 +25,10 @@ public class SysRolePermission {
      */
     private String permissionId;
 
+    public SysRolePermission(String roleId, String permissionId) {
+        this.roleId = roleId;
+        this.permissionId = permissionId;
+    }
+
 
 }

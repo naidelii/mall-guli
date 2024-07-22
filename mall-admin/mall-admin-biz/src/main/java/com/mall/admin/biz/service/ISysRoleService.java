@@ -7,6 +7,7 @@ import com.mall.admin.biz.domain.dto.SysRoleListQuery;
 import com.mall.admin.biz.domain.vo.SysRoleListVo;
 import com.mall.common.security.domain.LoginUser;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -34,4 +35,28 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return 角色权限信息
      */
     Set<String> selectRoleByLoginUser(LoginUser loginUser);
+
+    /**
+     * 根据用户id获取角色数据权限
+     *
+     * @param userId 用户id
+     * @return 角色信息
+     */
+    List<SysRole> selectRolesByUserId(String userId);
+
+    /**
+     * 查询角色列表
+     *
+     * @return List<SysRoleListVo>
+     */
+    List<SysRoleListVo> selectList();
+
+
+    /**
+     * 新增角色
+     *
+     * @param role          角色信息
+     * @param permissionIds 菜单权限id
+     */
+    void saveRole(SysRole role, Set<String> permissionIds);
 }
