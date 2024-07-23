@@ -55,4 +55,11 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
      * @param roleIds 角色id集合
      */
     void deleteRolePermission(Set<String> roleIds);
+
+    /**
+     * 根据菜单id进行删除
+     *
+     * @param permissionId 菜单权限id
+     */
+    void deleteByPermissionId(String permissionId);
 }

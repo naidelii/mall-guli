@@ -11,6 +11,7 @@ import com.mall.admin.biz.domain.vo.SysUserListVo;
 import com.mall.admin.biz.service.ISysUserService;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
+import com.mall.common.security.context.SecurityContext;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/sys/user")
 @RequiredArgsConstructor
-public class SysUserController extends AbstractController {
+public class SysUserController {
 
     private final ISysUserService userService;
 
@@ -57,7 +58,7 @@ public class SysUserController extends AbstractController {
      */
     @GetMapping("/info")
     public Result<?> info() {
-        return Result.success(getUser());
+        return Result.success(SecurityContext.getLoginUser());
     }
 
     /**
@@ -111,7 +112,8 @@ public class SysUserController extends AbstractController {
      */
     @PostMapping("/updatePassword")
     public Result<?> updatePassword(@Valid @RequestBody SysUserUpdatePasswordDto dto) {
-        userService.updatePassword(getUserId(), dto.getPassword(), dto.getNewPassword());
+        String userId = SecurityContext.getLoginUser().getId();
+        userService.updatePassword(userId, dto.getPassword(), dto.getNewPassword());
         return Result.success();
     }
 
@@ -136,7 +138,8 @@ public class SysUserController extends AbstractController {
     @PostMapping("/delete")
     @SaCheckPermission("sys:user:delete")
     public Result<?> delete(@RequestBody Set<String> userIds) {
-        if (CollUtil.contains(userIds, getUserId())) {
+        String userId = SecurityContext.getLoginUser().getId();
+        if (CollUtil.contains(userIds, userId)) {
             return Result.fail("当前用户不能删除");
         }
         if (CollUtil.contains(userIds, CommonConstants.SUPER_ADMIN)) {

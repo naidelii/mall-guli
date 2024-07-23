@@ -47,4 +47,13 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
      * @return 条数
      */
     int deleteRolePermission(@Param("roleIds") Set<String> roleIds);
+
+    /**
+     * 根据菜单权限id删除与角色的关联关系
+     *
+     * @param permissionId 菜单权限id
+     * @return 影响的数量
+     */
+    @Delete("delete from sys_role_permission where permission_id = #{permissionId}")
+    int deleteByPermissionId(@Param("permissionId") String permissionId);
 }

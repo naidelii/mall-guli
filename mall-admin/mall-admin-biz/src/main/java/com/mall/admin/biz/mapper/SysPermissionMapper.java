@@ -20,4 +20,12 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      * @return List<SysPermission>
      */
     List<SysPermission> selectPermissionListByType(@Param("types") Set<Integer> types);
+
+    /**
+     * 根据parentId查询子级菜单
+     *
+     * @param parentId 父级id
+     * @return List<SysPermission>
+     */
+    List<SysPermission> selectPermissionListByParentId(@Param("parentId") String parentId);
 }

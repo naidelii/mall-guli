@@ -44,6 +44,11 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
         baseMapper.deleteRolePermission(roleIds);
     }
 
+    @Override
+    public void deleteByPermissionId(String permissionId) {
+        baseMapper.deleteByPermissionId(permissionId);
+    }
+
     private List<SysPermissionTreeVo> buildMenuTree(List<SysPermission> list) {
         Map<String, List<SysPermission>> permissionMap = list.stream()
                 .collect(Collectors.groupingBy(SysPermission::getParentId));
@@ -77,9 +82,8 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
 
     @Override
     public Set<String> selectPermsByLoginUser(LoginUser loginUser) {
-        Set<Integer> types = new HashSet<>();
-        types.add(PermissionType.BUTTON_PERMISSIONS.getValue());
-        List<SysPermission> permissionList = getUserPermissionsByTypes(loginUser, types);
+        List<SysPermission> permissionList = getUserPermissionsByTypes(loginUser,
+                Collections.singleton(PermissionType.BUTTON_PERMISSIONS.getValue()));
         return permissionList.stream()
                 .map(SysPermission::getPerms)
                 .collect(Collectors.toSet());

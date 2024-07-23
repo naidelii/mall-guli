@@ -21,5 +21,13 @@
             </if>
         </where>
     </select>
+    <select id="selectPermissionListByParentId" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+        <include refid="permissionResult"/>
+        from sys_permission sp
+        <where>
+            parent_id = #{parentId}
+        </where>
+    </select>
 
 </mapper>
