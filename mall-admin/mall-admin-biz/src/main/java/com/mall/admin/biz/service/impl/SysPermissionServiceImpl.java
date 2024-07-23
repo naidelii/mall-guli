@@ -56,7 +56,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public SysPermissionInfoVo getPermissionInfo(String permissionId) {
+    public SysPermissionInfoVo selectInfoById(String permissionId) {
         SysPermission permission = baseMapper.selectById(permissionId);
         return new SysPermissionInfoVo(permission);
     }

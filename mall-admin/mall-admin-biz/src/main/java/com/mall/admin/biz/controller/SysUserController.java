@@ -64,13 +64,13 @@ public class SysUserController {
     /**
      * 根据id获取用户信息
      *
-     * @param userId 用户id
+     * @param id 用户id
      * @return 用户信息
      */
-    @GetMapping("/info/{userId}")
+    @GetMapping("/info/{id}")
     @SaCheckPermission("sys:user:info")
-    public Result<?> info(@PathVariable("userId") String userId) {
-        SysUserInfoVo sysUserVo = userService.getUserInfo(userId);
+    public Result<?> info(@PathVariable("id") String id) {
+        SysUserInfoVo sysUserVo = userService.selectInfoById(id);
         return Result.success(sysUserVo);
     }
 

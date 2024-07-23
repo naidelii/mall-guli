@@ -64,7 +64,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId 用户id
      * @return SysUserInfoVo
      */
-    SysUserInfoVo getUserInfo(String userId);
+    SysUserInfoVo selectInfoById(String userId);
 
     /**
      * 更新密码

@@ -45,7 +45,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param permissionId 主键
      * @return SysPermissionInfoVo
      */
-    SysPermissionInfoVo getPermissionInfo(String permissionId);
+    SysPermissionInfoVo selectInfoById(String permissionId);
 
     /**
      * 修改菜单权限

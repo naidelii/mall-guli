@@ -74,7 +74,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteRoleByIds(Set<String> roleIds) {
+    public void deleteByIds(Set<String> roleIds) {
         // 删除用户与角色的关联
         userRoleService.deleteByRoleIds(roleIds);
         // 删除角色与菜单权限的关联
@@ -84,7 +84,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public SysRoleInfoVo getRoleInfo(String roleId) {
+    public SysRoleInfoVo selectInfoById(String roleId) {
         SysRole sysRole = baseMapper.selectById(roleId);
         SysRoleInfoVo vo = new SysRoleInfoVo(sysRole);
         List<SysPermission> permissionList = rolePermissionService.selectPermissionByRoleId(roleId);

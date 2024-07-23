@@ -99,13 +99,13 @@ public class SysRoleController {
     /**
      * 根据id获取用户信息
      *
-     * @param roleId 角色id
+     * @param id 角色id
      * @return 角色信息
      */
-    @GetMapping("/info/{roleId}")
+    @GetMapping("/info/{id}")
     @SaCheckPermission("sys:role:info")
-    public Result<?> info(@PathVariable("roleId") String roleId) {
-        SysRoleInfoVo sysUserVo = roleService.getRoleInfo(roleId);
+    public Result<?> info(@PathVariable("id") String id) {
+        SysRoleInfoVo sysUserVo = roleService.selectInfoById(id);
         return Result.success(sysUserVo);
     }
 
@@ -115,7 +115,7 @@ public class SysRoleController {
     @PostMapping("/delete")
     @SaCheckPermission("sys:role:delete")
     public Result<?> delete(@RequestBody Set<String> roleIds) {
-        roleService.deleteRoleByIds(roleIds);
+        roleService.deleteByIds(roleIds);
         return Result.success();
     }
 }

@@ -3,7 +3,6 @@ package com.mall.admin.biz.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mall.admin.api.entity.SysPermission;
 import com.mall.admin.biz.domain.dto.SysPermissionSaveDto;
 import com.mall.admin.biz.domain.dto.SysPermissionUpdateDto;
@@ -105,13 +104,13 @@ public class SysPermissionController {
     /**
      * 根据id获取菜单权限信息
      *
-     * @param permissionId 菜单权限id
+     * @param id 菜单权限id
      * @return 用户信息
      */
-    @GetMapping("/info/{permissionId}")
+    @GetMapping("/info/{id}")
     @SaCheckPermission("sys:permission:info")
-    public Result<?> info(@PathVariable("permissionId") String permissionId) {
-        SysPermissionInfoVo vo = permissionService.getPermissionInfo(permissionId);
+    public Result<?> info(@PathVariable("id") String id) {
+        SysPermissionInfoVo vo = permissionService.selectInfoById(id);
         return Result.success(vo);
     }
 

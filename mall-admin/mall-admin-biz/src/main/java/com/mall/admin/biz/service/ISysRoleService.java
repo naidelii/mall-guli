@@ -50,7 +50,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param roleId 角色id
      * @return 角色详情
      */
-    SysRoleInfoVo getRoleInfo(String roleId);
+    SysRoleInfoVo selectInfoById(String roleId);
 
     /**
      * 修改角色
@@ -65,5 +65,5 @@ public interface ISysRoleService extends IService<SysRole> {
      *
      * @param roleIds 角色id集合
      */
-    void deleteRoleByIds(Set<String> roleIds);
+    void deleteByIds(Set<String> roleIds);
 }

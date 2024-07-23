@@ -80,7 +80,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUserInfoVo getUserInfo(String userId) {
+    public SysUserInfoVo selectInfoById(String userId) {
         SysUser sysUser = baseMapper.selectById(userId);
         SysUserInfoVo vo = new SysUserInfoVo(sysUser);
         List<SysRole> rolelist = userRoleService.selectRolesByUserId(userId);
