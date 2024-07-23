@@ -51,4 +51,19 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return 角色详情
      */
     SysRoleInfoVo getRoleInfo(String roleId);
+
+    /**
+     * 修改角色
+     *
+     * @param role          角色信息
+     * @param permissionIds 菜单权限id
+     */
+    void updateRole(SysRole role, Set<String> permissionIds);
+
+    /**
+     * 根据角色id集合删除角色
+     *
+     * @param roleIds 角色id集合
+     */
+    void deleteRoleByIds(Set<String> roleIds);
 }

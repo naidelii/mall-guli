@@ -17,6 +17,13 @@
         join sys_user su on sur.user_id = su.id
     </sql>
 
+    <delete id="deleteRolePermission">
+        delete from sys_role_permission where role_id in
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
     <select id="selectPermissionsByUserIdAndType" resultType="com.mall.admin.api.entity.SysPermission">
         select
             distinct <include refid="permissionResult"/>

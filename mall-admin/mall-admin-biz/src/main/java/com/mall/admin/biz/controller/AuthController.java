@@ -56,8 +56,11 @@ public class AuthController {
         return Result.success(token);
     }
 
+
     /**
-     * 退出
+     * 退出登录
+     *
+     * @return Result
      */
     @GetMapping("/logout")
     public Result<?> logout() {

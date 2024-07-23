@@ -65,4 +65,21 @@ public interface ISysUserService extends IService<SysUser> {
      * @return SysUserInfoVo
      */
     SysUserInfoVo getUserInfo(String userId);
+
+    /**
+     * 更新密码
+     *
+     * @param userId      用户id
+     * @param password    原来的密码
+     * @param newPassword 新的密码
+     */
+    void updatePassword(String userId, String password, String newPassword);
+
+    /**
+     * 重置密码
+     *
+     * @param userId      用户id
+     * @param newPassword 重置后的密码
+     */
+    void resetPassword(String userId, String newPassword);
 }

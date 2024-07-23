@@ -12,6 +12,7 @@ import com.mall.admin.biz.domain.vo.SysUserListVo;
 import com.mall.admin.biz.mapper.SysUserMapper;
 import com.mall.admin.biz.service.ISysUserRoleService;
 import com.mall.admin.biz.service.ISysUserService;
+import com.mall.common.base.exception.GlobalException;
 import com.mall.common.base.utils.PasswordUtils;
 import com.mall.common.data.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
@@ -67,13 +68,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateUser(SysUser sysUser, Set<String> roleIdList) {
-        // 如果有密码，则说明是修改密码
-        String password = sysUser.getPassword();
-        if (StringUtils.isNotBlank(password)) {
-            String salt = PasswordUtils.randomGen(8);
-            sysUser.setSalt(salt);
-            sysUser.setPassword(PasswordUtils.encode(password, salt));
-        }
         baseMapper.updateById(sysUser);
         userRoleService.saveOrUpdate(sysUser.getId(), roleIdList);
     }
@@ -81,7 +75,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public void deleteUserByIds(Set<String> userIds) {
         // 删除用户与角色关联
-        userRoleService.deleteUserRole(userIds);
+        userRoleService.deleteByUserIds(userIds);
         baseMapper.deleteBatchIds(userIds);
     }
 
@@ -96,5 +90,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         vo.setRoleIds(roleIds);
         return vo;
     }
+
+    @Override
+    public void updatePassword(String userId, String password, String newPassword) {
+        SysUser sysUser = baseMapper.selectById(userId);
+        boolean matches = PasswordUtils.matches(password, sysUser.getSalt(), sysUser.getPassword());
+        if (!matches) {
+            throw new GlobalException("原密码不正确");
+        }
+        String newSalt = PasswordUtils.randomGen(8);
+        sysUser.setSalt(newSalt);
+        sysUser.setPassword(PasswordUtils.encode(newPassword, newSalt));
+        baseMapper.updateById(sysUser);
+    }
+
+    @Override
+    public void resetPassword(String userId, String newPassword) {
+        SysUser updateUser = new SysUser();
+        updateUser.setId(userId);
+        String newSalt = PasswordUtils.randomGen(8);
+        updateUser.setSalt(newSalt);
+        updateUser.setPassword(PasswordUtils.encode(newPassword, newSalt));
+        baseMapper.updateById(updateUser);
+    }
+
 
 }

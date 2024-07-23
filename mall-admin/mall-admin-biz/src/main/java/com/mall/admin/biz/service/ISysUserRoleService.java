@@ -45,5 +45,13 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      *
      * @param userIds 需要删除的用户ID
      */
-    void deleteUserRole(Set<String> userIds);
+    void deleteByUserIds(Set<String> userIds);
+
+
+    /**
+     * 批量删除角色和用户关联
+     *
+     * @param roleIds 需要删除的角色id
+     */
+    void deleteByRoleIds(Set<String> roleIds);
 }

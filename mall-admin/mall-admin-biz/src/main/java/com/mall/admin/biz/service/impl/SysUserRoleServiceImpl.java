@@ -56,7 +56,13 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public void deleteUserRole(Set<String> userIds) {
+    public void deleteByUserIds(Set<String> userIds) {
         baseMapper.deleteUserRole(userIds);
     }
+
+    @Override
+    public void deleteByRoleIds(Set<String> roleIds) {
+        baseMapper.deleteByRoleIds(roleIds);
+    }
+
 }

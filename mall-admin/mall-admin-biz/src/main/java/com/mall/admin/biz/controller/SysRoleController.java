@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.dto.SysRoleListQuery;
 import com.mall.admin.biz.domain.dto.SysRoleSaveDto;
+import com.mall.admin.biz.domain.dto.SysRoleUpdateDto;
 import com.mall.admin.biz.domain.vo.SysRoleInfoVo;
 import com.mall.admin.biz.domain.vo.SysRoleListVo;
 import com.mall.admin.biz.service.ISysRoleService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Naidelii
@@ -79,6 +81,22 @@ public class SysRoleController {
     }
 
     /**
+     * 修改角色
+     *
+     * @param roleDto 角色信息
+     * @return Result
+     */
+    @PostMapping("/update")
+    @SaCheckPermission("sys:role:update")
+    public Result<?> save(@Valid @RequestBody SysRoleUpdateDto roleDto) {
+        SysRole sysRoleEntity = new SysRole();
+        BeanUtil.copyProperties(roleDto, sysRoleEntity);
+        roleService.updateRole(sysRoleEntity, roleDto.getPermissionIds());
+        return Result.success();
+    }
+
+
+    /**
      * 根据id获取用户信息
      *
      * @param roleId 角色id
@@ -89,5 +107,15 @@ public class SysRoleController {
     public Result<?> info(@PathVariable("roleId") String roleId) {
         SysRoleInfoVo sysUserVo = roleService.getRoleInfo(roleId);
         return Result.success(sysUserVo);
+    }
+
+    /**
+     * 删除角色
+     */
+    @PostMapping("/delete")
+    @SaCheckPermission("sys:role:delete")
+    public Result<?> delete(@RequestBody Set<String> roleIds) {
+        roleService.deleteRoleByIds(roleIds);
+        return Result.success();
     }
 }

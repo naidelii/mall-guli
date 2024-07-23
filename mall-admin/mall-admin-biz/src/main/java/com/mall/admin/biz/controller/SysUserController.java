@@ -5,9 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.admin.api.entity.SysUser;
-import com.mall.admin.biz.domain.dto.SysUserListQuery;
-import com.mall.admin.biz.domain.dto.SysUserSaveDto;
-import com.mall.admin.biz.domain.dto.SysUserUpdateDto;
+import com.mall.admin.biz.domain.dto.*;
 import com.mall.admin.biz.domain.vo.SysUserInfoVo;
 import com.mall.admin.biz.domain.vo.SysUserListVo;
 import com.mall.admin.biz.service.ISysUserService;
@@ -104,8 +102,36 @@ public class SysUserController extends AbstractController {
         return Result.success();
     }
 
+
+    /**
+     * 更新自己的登录密码
+     *
+     * @param dto 用户信息
+     * @return userService
+     */
+    @PostMapping("/updatePassword")
+    public Result<?> updatePassword(@Valid @RequestBody SysUserUpdatePasswordDto dto) {
+        userService.updatePassword(getUserId(), dto.getPassword(), dto.getNewPassword());
+        return Result.success();
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param dto 用户信息
+     * @return userService
+     */
+    @PostMapping("/resetPassword")
+    public Result<?> resetPassword(@Valid @RequestBody SysUserResetPasswordDto dto) {
+        userService.resetPassword(dto.getId(), dto.getNewPassword());
+        return Result.success();
+    }
+
     /**
      * 删除用户
+     *
+     * @param userIds 用户id集合
+     * @return Result
      */
     @PostMapping("/delete")
     @SaCheckPermission("sys:user:delete")

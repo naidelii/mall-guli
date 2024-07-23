@@ -12,6 +12,7 @@ import com.mall.admin.biz.domain.vo.SysRoleListVo;
 import com.mall.admin.biz.mapper.SysRoleMapper;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.admin.biz.service.ISysRoleService;
+import com.mall.admin.biz.service.ISysUserRoleService;
 import com.mall.common.data.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     private final ISysRolePermissionService rolePermissionService;
+    private final ISysUserRoleService userRoleService;
 
     @Override
     public IPage<SysRoleListVo> selectListPage(Integer pageNo, Integer pageSize, SysRoleListQuery query) {
@@ -60,6 +62,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         baseMapper.insert(role);
         // 保存角色与菜单关系
         rolePermissionService.saveOrUpdate(role.getId(), permissionIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRole(SysRole role, Set<String> permissionIds) {
+        baseMapper.updateById(role);
+        // 保存角色与菜单关系
+        rolePermissionService.saveOrUpdate(role.getId(), permissionIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRoleByIds(Set<String> roleIds) {
+        // 删除用户与角色的关联
+        userRoleService.deleteByRoleIds(roleIds);
+        // 删除角色与菜单权限的关联
+        rolePermissionService.deleteRolePermission(roleIds);
+        // 删除角色
+        baseMapper.deleteBatchIds(roleIds);
     }
 
     @Override

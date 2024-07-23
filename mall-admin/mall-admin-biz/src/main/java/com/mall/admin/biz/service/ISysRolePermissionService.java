@@ -48,4 +48,11 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
      * @return 菜单列表
      */
     List<SysPermissionTreeVo> selectUserMenuList();
+
+    /**
+     * 删除角色与菜单权限的关联
+     *
+     * @param roleIds 角色id集合
+     */
+    void deleteRolePermission(Set<String> roleIds);
 }
