@@ -46,3 +46,7 @@ spring:
 mybatis-plus:
   mapper-locations:
     - classpath*:mapper/*.xml
+
+# Knife4j配置
+knife4j:
+  enable: true # 开启增强配置

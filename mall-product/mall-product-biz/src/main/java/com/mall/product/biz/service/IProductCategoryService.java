@@ -18,7 +18,7 @@ public interface IProductCategoryService extends IService<ProductCategory> {
     /**
      * 查询出所有分类及其子分类，以树形结构展示
      *
-     * @return 分类树
+     * @return 商品分类树
      */
     List<ProductCategoryListTreeVo> listWithTree();
 }

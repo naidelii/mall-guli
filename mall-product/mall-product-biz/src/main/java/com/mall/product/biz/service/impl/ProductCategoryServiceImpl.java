@@ -9,6 +9,7 @@ import com.mall.product.biz.service.IProductCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,13 +24,13 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     @Override
     public List<ProductCategoryListTreeVo> listWithTree() {
         List<ProductCategory> productCategoryList = baseMapper.selectList(null);
+        productCategoryList.sort(Comparator.comparingInt(ProductCategory::getSortOrder).reversed());
         Map<String, List<ProductCategory>> parentIdToChildrenMap = productCategoryList.stream()
                 .collect(Collectors.groupingBy(ProductCategory::getParentId));
         // 获取顶级分类
         return parentIdToChildrenMap.getOrDefault(CommonConstants.PARENT_CODE, Collections.emptyList())
                 .stream()
                 .map(vo -> convertToVo(vo, parentIdToChildrenMap))
-                .sorted((a, b) -> b.getSortOrder() - a.getSortOrder())
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +38,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         return parentIdToChildrenMap.getOrDefault(parentId, Collections.emptyList())
                 .stream()
                 .map(vo -> convertToVo(vo, parentIdToChildrenMap))
-                .sorted((a, b) -> b.getSortOrder() - a.getSortOrder())
                 .collect(Collectors.toList());
     }
 

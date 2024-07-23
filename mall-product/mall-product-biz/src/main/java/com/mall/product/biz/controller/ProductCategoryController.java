@@ -4,6 +4,7 @@ import com.mall.common.base.api.Result;
 import com.mall.product.biz.domain.vo.ProductCategoryListTreeVo;
 import com.mall.product.biz.service.IProductCategoryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,9 @@ public class ProductCategoryController {
     private final IProductCategoryService productCategoryService;
 
     @GetMapping("/listWithTree")
+    @ApiOperation("商品分类列表-树形结构")
     public Result<List<ProductCategoryListTreeVo>> listWithTree() {
-        return Result.success(productCategoryService.listWithTree());
+        List<ProductCategoryListTreeVo> listTreeVos = productCategoryService.listWithTree();
+        return Result.success(listTreeVos);
     }
 }

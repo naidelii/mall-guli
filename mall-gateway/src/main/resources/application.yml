@@ -1,0 +1,14 @@
+server:
+  port: 9999
+#spring配置
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      discovery:
+        #naocs-server地址
+        server-addr: http://192.168.230.7:8848
+      config:
+        # 配置中心地址
+        server-addr: http://192.168.230.7:8848
