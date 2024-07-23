@@ -58,7 +58,6 @@ public class SysRoleController {
      * @return List<SysRoleListVo>
      */
     @GetMapping("/list")
-    @SaCheckPermission("sys:role:list")
     public Result<List<SysRoleListVo>> list() {
         List<SysRoleListVo> list = roleService.selectList();
         return Result.success(list);
