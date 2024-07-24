@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "security")
 @Data
 @Configuration
-public class SecurityConfigure {
+public class SecurityProperties {
 
     /**
      * 静态资源不拦截链接

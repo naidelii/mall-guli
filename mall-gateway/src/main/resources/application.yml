@@ -12,3 +12,31 @@ spring:
       config:
         # 配置中心地址
         server-addr: http://192.168.230.7:8848
+    # 网关配置
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            #springboot2.4后需用allowedOriginPatterns
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微服务]
+      routes:
+        # 路由的id，要求唯一，建议配合服务名
+        - id: admin_service
+          # 路由的目标地址，uri: http://localhost:8001(http是固定地址)
+          # 路由的目标地址，lb就是负载均衡，后面跟服务名称
+          uri: lb://mall-admin
+          # 路由断言，判断请求是否符合路由规则的条件
+          predicates:
+            - Path=/sys/**,/auth/**
+        # 路由的id，要求唯一，建议配合服务名
+        - id: product_service
+          # 路由的目标地址，uri: http://localhost:8001(http是固定地址)
+          # 路由的目标地址，lb就是负载均衡，后面跟服务名称
+          uri: lb://mall-product
+          # 路由断言，判断请求是否符合路由规则的条件
+          predicates:
+            - Path=/product/**

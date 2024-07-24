@@ -34,6 +34,12 @@ spring:
         max-idle: 10
         # 连接池中的最小空闲连接
         min-idle: 0
+  cloud:
+    nacos:
+      discovery:
+        #naocs-server地址
+        server-addr: http://192.168.230.7:8848
+
 # MyBatis Plus
 mybatis-plus:
   mapper-locations:

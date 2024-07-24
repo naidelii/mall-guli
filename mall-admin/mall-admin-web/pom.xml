@@ -17,6 +17,11 @@
             <artifactId>mall-admin-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- Nacos注册中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
