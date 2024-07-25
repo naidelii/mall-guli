@@ -1,5 +1,6 @@
 package com.mall.product.biz.controller;
 
+
 import com.mall.product.biz.service.IProductBrandService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "品牌表")
 @Slf4j
-@RequestMapping("/product/brand")
+@RequestMapping("product/brand")
 @RestController
 @RequiredArgsConstructor
 public class ProductBrandController {
 
-    private final IProductBrandService brandService;
+    private final IProductBrandService productBrandService;
+
 
 }

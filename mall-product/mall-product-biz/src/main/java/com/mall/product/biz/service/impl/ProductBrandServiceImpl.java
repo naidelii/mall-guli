@@ -6,7 +6,10 @@ import com.mall.product.biz.mapper.ProductBrandMapper;
 import com.mall.product.biz.service.IProductBrandService;
 import org.springframework.stereotype.Service;
 
+
 /**
+ * 品牌表
+ *
  * @author naidelii
  */
 @Service

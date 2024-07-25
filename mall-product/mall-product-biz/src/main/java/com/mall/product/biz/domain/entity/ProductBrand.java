@@ -25,22 +25,27 @@ public class ProductBrand extends BaseEntity implements Serializable {
      * 品牌名称
      */
     private String name;
+
     /**
      * 品牌logo
      */
     private String logo;
+
     /**
      * 介绍
      */
     private String describe;
+
     /**
      * 是否显示（0：不显示，1：显示）
      */
     private Integer isShow;
+
     /**
      * 排序值
      */
     private Integer sortOrder;
+
     /**
      * 检索首字母
      */

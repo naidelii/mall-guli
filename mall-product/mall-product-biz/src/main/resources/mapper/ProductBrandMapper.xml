@@ -3,6 +3,4 @@
 
 <mapper namespace="com.mall.product.biz.mapper.ProductBrandMapper">
 
-
-
 </mapper>
