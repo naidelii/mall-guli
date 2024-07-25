@@ -21,5 +21,13 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      * @return 商品分类树
      */
     List<ProductCategoryListTreeVo> listWithTree();
+
+    /**
+     * 批量删除
+     *
+     * @param categoryIds 分类id集合
+     */
+    void deleteByIds(List<String> categoryIds);
+
 }
 

@@ -34,6 +34,12 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteByIds(List<String> categoryIds) {
+        // 批量删除
+        baseMapper.deleteBatchIds(categoryIds);
+    }
+
     private List<ProductCategoryListTreeVo> getChildren(String parentId, Map<String, List<ProductCategory>> parentIdToChildrenMap) {
         return parentIdToChildrenMap.getOrDefault(parentId, Collections.emptyList())
                 .stream()

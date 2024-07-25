@@ -1,8 +1,6 @@
 package com.mall.product.biz.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,14 +15,12 @@ import java.io.Serializable;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("product_category")
 public class ProductCategory extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 主键
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /**
@@ -48,6 +44,12 @@ public class ProductCategory extends BaseEntity implements Serializable {
     private Integer isShow;
 
     /**
+     * 逻辑删除（1：删除，0：未删除）
+     */
+    @TableLogic
+    private Integer isDeleted;
+
+    /**
      * 排序值
      */
     private Integer sortOrder;
@@ -55,6 +57,6 @@ public class ProductCategory extends BaseEntity implements Serializable {
     /**
      * 图片
      */
-    private String icon;
+    private String img;
 
 }
