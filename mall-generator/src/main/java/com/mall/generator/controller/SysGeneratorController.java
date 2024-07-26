@@ -1,19 +1,21 @@
 package com.mall.generator.controller;
 
-import com.mall.generator.service.SysGeneratorService;
-import com.mall.generator.utils.PageUtils;
-import com.mall.generator.utils.Query;
-import com.mall.generator.utils.R;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mall.common.base.api.Result;
+import com.mall.common.base.constant.CommonConstants;
+import com.mall.generator.domain.dto.TableSchemaQuery;
+import com.mall.generator.domain.entity.TableSchema;
+import com.mall.generator.service.impl.SysGeneratorService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * 代码生成器
@@ -22,18 +24,18 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/sys/generator")
+@RequiredArgsConstructor
 public class SysGeneratorController {
-    @Autowired
-    private SysGeneratorService sysGeneratorService;
 
-    /**
-     * 列表
-     */
+    private final SysGeneratorService generatorService;
+
+    @GetMapping("/listPage")
     @ResponseBody
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils pageUtil = sysGeneratorService.queryList(new Query(params));
-        return R.ok().put("page", pageUtil);
+    public Result<?> list(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
+                          @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
+                          TableSchemaQuery query) {
+        IPage<TableSchema> pageList = generatorService.selectListPage(pageNo, pageSize, query);
+        return Result.success(pageList);
     }
 
     /**
@@ -41,8 +43,7 @@ public class SysGeneratorController {
      */
     @RequestMapping("/code")
     public void code(String tables, HttpServletResponse response) throws IOException {
-        byte[] data = sysGeneratorService.generatorCode(tables.split(","));
-
+        byte[] data = generatorService.generatorCode(tables.split(","));
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"renren.zip\"");
         response.addHeader("Content-Length", "" + data.length);

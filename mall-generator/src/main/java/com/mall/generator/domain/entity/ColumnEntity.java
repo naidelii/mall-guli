@@ -1,4 +1,4 @@
-package com.mall.generator.entity;
+package com.mall.generator.domain.entity;
 
 /**
  * 列的属性
