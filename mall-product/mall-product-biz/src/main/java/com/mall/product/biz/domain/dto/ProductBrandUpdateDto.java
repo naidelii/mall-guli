@@ -1,25 +1,22 @@
-package com.mall.product.biz.domain.entity;
+package com.mall.product.biz.domain.dto;
 
-import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 品牌表
  *
  * @author naidelii
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class ProductBrand extends BaseEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class ProductBrandUpdateDto {
     /**
      * 主键
      */
+    @NotBlank(message = "id不能为空")
     private String id;
+
 
     /**
      * 品牌名称

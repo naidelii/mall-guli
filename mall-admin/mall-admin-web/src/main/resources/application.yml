@@ -4,6 +4,10 @@ server:
     context-path: /
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   application:
     name: mall-admin
   datasource:
@@ -73,3 +77,9 @@ security:
 # Knife4j配置
 knife4j:
   enable: true # 开启增强配置
+
+minio:
+  url: http://192.168.230.7:9000
+  name: cqgsl
+  pass: gsl_123456
+  bucketName: gongshanglian

@@ -9,14 +9,12 @@
         <version>1.0</version>
     </parent>
 
-    <packaging>pom</packaging>
-    <modules>
-        <module>mall-common-base</module>
-        <module>mall-common-swagger</module>
-        <module>mall-common-data</module>
-        <module>mall-common-security</module>
-        <module>mall-common-minio</module>
-    </modules>
-    <artifactId>mall-common</artifactId>
+    <artifactId>mall-third-party</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>

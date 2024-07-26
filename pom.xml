@@ -16,6 +16,7 @@
         <module>mall-product</module>
         <module>mall-gateway</module>
         <module>mall-generator</module>
+        <module>mall-third-party</module>
     </modules>
 
     <parent>
@@ -28,6 +29,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <minio.version>8.3.0</minio.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <boot.version>2.6.6</boot.version>
         <cloud.version>2021.0.8</cloud.version>
