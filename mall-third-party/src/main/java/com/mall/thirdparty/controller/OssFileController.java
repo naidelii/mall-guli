@@ -1,4 +1,4 @@
-package com.mall.admin.biz.controller;
+package com.mall.thirdparty.controller;
 
 import com.mall.common.base.api.Result;
 import com.mall.common.minio.entity.OssFile;
@@ -21,7 +21,7 @@ import java.io.InputStream;
  */
 @Slf4j
 @Controller
-@RequestMapping("/sys/oss")
+@RequestMapping("/thirdparty/oss")
 @RequiredArgsConstructor
 public class OssFileController {
 

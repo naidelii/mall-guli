@@ -37,10 +37,5 @@
             <artifactId>hutool-captcha</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>mall-common-minio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 </project>
