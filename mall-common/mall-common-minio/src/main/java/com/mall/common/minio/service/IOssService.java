@@ -4,6 +4,7 @@ import com.mall.common.minio.entity.OssFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * @author naidelii
@@ -45,4 +46,13 @@ public interface IOssService {
      * @return 新的文件名
      */
     String generateFileName(String dirName, String originalFilename);
+
+    /**
+     * 生成文件上传凭证
+     *
+     * @param fileName 文件名
+     * @return Map
+     */
+    Map<String, String> generatePolicy(String fileName);
+
 }

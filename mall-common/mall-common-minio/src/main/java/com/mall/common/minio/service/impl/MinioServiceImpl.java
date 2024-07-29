@@ -7,6 +7,7 @@ import com.mall.common.minio.service.IOssService;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.time.ZonedDateTime;
+import java.util.Map;
 
 /**
  * @author naidelii
@@ -110,8 +113,28 @@ public class MinioServiceImpl implements IOssService {
     public String generateFileName(String dirName, String originalFilename) {
         // 获取当前时间戳
         long timestamp = System.currentTimeMillis();
-        // 拼接文件路径
-        return File.separator + dirName + File.separator + timestamp + "_" + originalFilename;
+        String prefix = "";
+        if (StringUtils.isNotBlank(dirName)) {
+            prefix = File.separator + dirName + File.separator;
+        }
+        return prefix + timestamp + "_" + originalFilename;
+    }
+
+    @Override
+    public Map<String, String> generatePolicy(String fileName) {
+        // 设置凭证有效期（5分钟）
+        ZonedDateTime expirationDate = ZonedDateTime.now().plusMinutes(5);
+        // 创建一个凭证
+        PostPolicy postPolicy = new PostPolicy(minIoProperties.getBucket(), expirationDate);
+        // 添加条件：值为上传对象的名称（保存在桶中的名字）
+        postPolicy.addEqualsCondition("key", fileName);
+        try {
+            // 生成凭证并返回
+            return minioClient.getPresignedPostFormData(postPolicy);
+        } catch (Exception e) {
+            log.error("获取文件 {} 的上传凭证失败", fileName, e);
+            throw new GlobalException("获取凭证失败！");
+        }
     }
 
 }

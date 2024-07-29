@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * @author naidelii
@@ -51,6 +49,15 @@ public class OssFileController {
         OssFile ossFile = ossService.upLoadFile(filePath, originalFilename, is);
         return Result.success(ossFile);
     }
+
+
+    @ResponseBody
+    @GetMapping("/getPolicy")
+    public Result<?> getPolicy(@RequestParam String fileName) {
+        Map<String, String> map = ossService.generatePolicy(fileName);
+        return Result.success(map);
+    }
+
 
     /**
      * 获取文件后缀名
