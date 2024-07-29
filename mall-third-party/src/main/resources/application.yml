@@ -16,7 +16,7 @@ spring:
         server-addr: http://192.168.230.7:8848
 
 minio:
-  url: http://192.168.230.7:9000
-  name: cqgsl
-  pass: gsl_123456
-  bucketName: gongshanglian
+  endpoint: http://192.168.230.7:9000
+  accessKey: cqgsl
+  secretKey: gsl_123456
+  bucket: gongshanglian

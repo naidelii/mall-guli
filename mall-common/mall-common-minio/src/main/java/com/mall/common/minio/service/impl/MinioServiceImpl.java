@@ -42,7 +42,7 @@ public class MinioServiceImpl implements IOssService {
 
     @Override
     public OssFile upLoadFile(String filePath, String originalFilename, InputStream stream) {
-        return doUpLoadFile(minIoProperties.getBucketName(), filePath, originalFilename, stream, "application/octet-stream");
+        return doUpLoadFile(minIoProperties.getBucket(), filePath, originalFilename, stream, "application/octet-stream");
     }
 
     public OssFile doUpLoadFile(String bucketName,
@@ -77,25 +77,15 @@ public class MinioServiceImpl implements IOssService {
     private OssFile buildOssFile(String bucketName, String originalName, String filePath) {
         OssFile file = new OssFile();
         file.setOriginalName(originalName);
-        file.setDomain(getOssHost(bucketName));
+        file.setDomain(minIoProperties.getOssHost(bucketName));
         file.setFilePath(filePath);
         return file;
-    }
-
-    /**
-     * 获取域名
-     *
-     * @param bucketName 存储桶名称
-     * @return String
-     */
-    public String getOssHost(String bucketName) {
-        return minIoProperties.getUrl() + File.separator + bucketName;
     }
 
     @Override
     public void downloadFile(HttpServletResponse response, String filePath) {
         GetObjectArgs build = GetObjectArgs.builder()
-                .bucket(minIoProperties.getBucketName())
+                .bucket(minIoProperties.getBucket())
                 .object(filePath)
                 .build();
         try (GetObjectResponse is = minioClient.getObject(build)) {

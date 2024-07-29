@@ -3,6 +3,8 @@ package com.mall.common.minio.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.io.File;
+
 /**
  * @author naidelii
  */
@@ -11,23 +13,33 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class MinIoProperties {
 
     /**
-     * minio地址
+     * 对象存储服务的URL（minio地址）
      */
-    private String url;
+    private String endpoint;
 
     /**
-     * 用户名
+     * Access key就像用户ID，可以唯一标识你的账户
      */
-    private String name;
+    private String accessKey;
 
     /**
-     * 密码
+     * Secret key是你账户的密码
      */
-    private String pass;
+    private String secretKey;
 
     /**
-     * 桶名
+     * 默认文件桶
      */
-    private String bucketName;
+    private String bucket;
+
+    /**
+     * 获取域名
+     *
+     * @param bucketName 存储桶名称
+     * @return String
+     */
+    public String getOssHost(String bucketName) {
+        return endpoint + File.separator + bucketName;
+    }
 
 }
