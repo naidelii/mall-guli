@@ -1,11 +1,11 @@
 package com.mall.generator.utils;
 
 import cn.hutool.core.date.DateUtil;
+import com.mall.common.base.exception.GlobalException;
 import com.mall.generator.domain.entity.ColumnEntity;
 import com.mall.generator.domain.entity.ColumnSchema;
 import com.mall.generator.domain.entity.TableEntity;
 import com.mall.generator.domain.entity.TableSchema;
-import com.mall.generator.exception.GeneratorException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -133,7 +133,7 @@ public class GenUtils {
         map.put("moduleName", config.getString("moduleName"));
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
-        map.put("datetime", DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        map.put("datetime", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 
         return map;
     }
@@ -146,7 +146,7 @@ public class GenUtils {
             IOUtils.write(sw.toString(), zip, "UTF-8");
             zip.closeEntry();
         } catch (IOException e) {
-            throw new GeneratorException("渲染模板失败，表名：" + tableEntity.getTableName());
+            throw new GlobalException("渲染模板失败，表名：" + tableEntity.getTableName());
         }
     }
 
@@ -169,7 +169,7 @@ public class GenUtils {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new GeneratorException("获取配置文件失败");
+            throw new GlobalException("获取配置文件失败");
         }
     }
 

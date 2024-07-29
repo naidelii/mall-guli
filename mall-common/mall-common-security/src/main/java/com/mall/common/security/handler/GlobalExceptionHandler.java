@@ -9,6 +9,7 @@ import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.constant.enums.ResultCodeEnum;
 import com.mall.common.base.exception.GlobalException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -75,6 +76,17 @@ public class GlobalExceptionHandler {
         return Result.fail(e.getMessage());
     }
 
+    /**
+     * 处理唯一性约束异常
+     *
+     * @param e 异常信息
+     * @return Result
+     */
+    @ExceptionHandler(DuplicateKeyException.class)
+    public Result<Object> handleDuplicateKeyException(DuplicateKeyException e) {
+        log.error(e.getMessage(), e);
+        return Result.fail("数据库中已存在该记录");
+    }
 
     /**
      * 处理参数校验错误
