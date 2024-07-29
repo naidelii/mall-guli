@@ -1,8 +1,9 @@
 package com.mall.thirdparty.controller;
 
+import cn.hutool.core.io.FileUtil;
 import com.mall.common.base.api.Result;
 import com.mall.common.minio.entity.OssFile;
-import com.mall.common.minio.service.OssTemplate;
+import com.mall.common.minio.service.IOssService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,12 +26,13 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class OssFileController {
 
-    private final OssTemplate ossTemplate;
+    private final IOssService ossService;
 
 
     @ResponseBody
     @PostMapping("/upload")
-    public Result<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("dirName") String dirName) throws IOException {
+    public Result<?> upload(@RequestParam("file") MultipartFile file,
+                            @RequestParam("dirName") String dirName) throws IOException {
         if (file == null || file.isEmpty()) {
             return Result.fail("文件不能为空！");
         }
@@ -42,11 +44,11 @@ public class OssFileController {
         // 文件的后缀名
         String suffix = getFileExtension(file.getOriginalFilename());
         // TODO 做一些校验
-        
+
         // 生成新的文件路径
-        String filePath = ossTemplate.generateFileName(dirName, originalFilename);
+        String filePath = ossService.generateFileName(dirName, originalFilename);
         InputStream is = file.getInputStream();
-        OssFile ossFile = ossTemplate.upLoadFile(filePath, originalFilename, is);
+        OssFile ossFile = ossService.upLoadFile(filePath, originalFilename, is);
         return Result.success(ossFile);
     }
 
@@ -57,7 +59,7 @@ public class OssFileController {
      * @return 后缀名
      */
     public String getFileExtension(String originalFilename) {
-        return originalFilename.substring(originalFilename.lastIndexOf("."));
+        return FileUtil.getPrefix(originalFilename);
     }
 
 }

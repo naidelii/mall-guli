@@ -6,12 +6,11 @@ package com.mall.common.base.exception;
  */
 public class GlobalException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * 错误提示
      */
     private String message;
+
 
     public GlobalException() {
     }
@@ -22,7 +21,7 @@ public class GlobalException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
 }

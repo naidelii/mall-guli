@@ -17,6 +17,7 @@
         <module>mall-common-security</module>
         <module>mall-common-minio</module>
     </modules>
+
     <artifactId>mall-common</artifactId>
 
 </project>

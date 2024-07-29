@@ -1,9 +1,9 @@
 package com.mall.common.minio.service.impl;
 
+import com.mall.common.base.exception.GlobalException;
 import com.mall.common.minio.config.MinIoProperties;
 import com.mall.common.minio.entity.OssFile;
-import com.mall.common.minio.exception.OssException;
-import com.mall.common.minio.service.OssTemplate;
+import com.mall.common.minio.service.IOssService;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MinioTemplate implements OssTemplate {
+public class MinioServiceImpl implements IOssService {
 
     private final MinioClient minioClient;
 
@@ -52,7 +52,7 @@ public class MinioTemplate implements OssTemplate {
                                 String contentType) {
         if (!bucketExists(bucketName)) {
             log.info("minio bucketName is not create");
-            throw new OssException("文件上传失败，请联系管理员");
+            throw new GlobalException("文件上传失败，请联系管理员");
         }
         try {
             PutObjectArgs args = PutObjectArgs.builder()
@@ -70,7 +70,7 @@ public class MinioTemplate implements OssTemplate {
             return buildOssFile(bucketName, originalName, filePath);
         } catch (Exception e) {
             log.error("MinIO upLoadFile Exception", e);
-            throw new OssException("文件上传失败，请联系管理员");
+            throw new GlobalException("文件上传失败，请联系管理员");
         }
     }
 
@@ -112,7 +112,7 @@ public class MinioTemplate implements OssTemplate {
             log.info("MinIO downloadFile success, filePath:{}", filePath);
         } catch (Exception e) {
             log.error("MinIO downloadFile Exception", e);
-            throw new OssException("文件下载失败！");
+            throw new GlobalException("文件下载失败！");
         }
     }
 

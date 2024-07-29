@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * @author naidelii
  */
-public interface OssTemplate {
+public interface IOssService {
 
 
     /**
