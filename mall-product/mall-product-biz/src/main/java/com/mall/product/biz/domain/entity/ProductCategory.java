@@ -48,8 +48,7 @@ public class ProductCategory extends BaseEntity implements Serializable {
      * 逻辑删除（1：删除，0：未删除）
      */
     @TableLogic
-    @TableField(value = "is_deleted")
-    private Integer deleted;
+    private Integer isDeleted;
 
     /**
      * 排序值
