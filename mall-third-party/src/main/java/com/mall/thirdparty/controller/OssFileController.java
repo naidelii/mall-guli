@@ -53,8 +53,9 @@ public class OssFileController {
 
     @ResponseBody
     @GetMapping("/getPolicy")
-    public Result<?> getPolicy(@RequestParam String fileName) {
-        Map<String, String> map = ossService.generatePolicy(fileName);
+    public Result<?> getPolicy(@RequestParam String fileName,
+                               @RequestParam("dirName") String dirName) {
+        Map<String, String> map = ossService.generatePolicy(dirName, fileName);
         return Result.success(map);
     }
 

@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.product.biz.domain.dto.ProductBrandQuery;
-import com.mall.product.biz.domain.dto.ProductBrandSaveDto;
-import com.mall.product.biz.domain.dto.ProductBrandUpdateDto;
+import com.mall.product.biz.domain.dto.ProductBrandSaveDTO;
+import com.mall.product.biz.domain.dto.ProductBrandUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductBrand;
 import com.mall.product.biz.domain.entity.ProductCategory;
-import com.mall.product.biz.domain.vo.ProductBrandListVo;
+import com.mall.product.biz.domain.vo.ProductBrandListVO;
 import com.mall.product.biz.service.IProductBrandService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -37,15 +37,15 @@ public class ProductBrandController {
     private final IProductBrandService productBrandService;
 
     @GetMapping("/listPage")
-    public Result<IPage<ProductBrandListVo>> listPage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
+    public Result<IPage<ProductBrandListVO>> listPage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
                                                       @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
                                                       ProductBrandQuery query) {
-        IPage<ProductBrandListVo> pageList = productBrandService.selectListPage(pageNo, pageSize, query);
+        IPage<ProductBrandListVO> pageList = productBrandService.selectListPage(pageNo, pageSize, query);
         return Result.success(pageList);
     }
 
     @PostMapping("/save")
-    public Result<?> save(@Valid @RequestBody ProductBrandSaveDto saveDto) {
+    public Result<?> save(@Valid @RequestBody ProductBrandSaveDTO saveDto) {
         ProductBrand data = new ProductBrand();
         BeanUtil.copyProperties(saveDto, data);
         productBrandService.save(data);
@@ -53,7 +53,7 @@ public class ProductBrandController {
     }
 
     @PostMapping("/update")
-    public Result<?> update(@Valid @RequestBody ProductBrandUpdateDto updateDto) {
+    public Result<?> update(@Valid @RequestBody ProductBrandUpdateDTO updateDto) {
         ProductBrand data = new ProductBrand();
         BeanUtil.copyProperties(updateDto, data);
         productBrandService.updateById(data);

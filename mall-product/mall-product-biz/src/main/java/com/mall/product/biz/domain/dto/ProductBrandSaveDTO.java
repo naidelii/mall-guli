@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @author naidelii
  */
 @Data
-public class ProductBrandSaveDto {
+public class ProductBrandSaveDTO {
 
     /**
      * 品牌名称

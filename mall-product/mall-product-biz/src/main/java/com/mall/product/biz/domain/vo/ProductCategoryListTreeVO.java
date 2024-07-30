@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryListTreeVo implements Serializable {
+public class ProductCategoryListTreeVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -59,9 +59,9 @@ public class ProductCategoryListTreeVo implements Serializable {
     /**
      * 子分类
      */
-    private List<ProductCategoryListTreeVo> children;
+    private List<ProductCategoryListTreeVO> children;
 
-    public ProductCategoryListTreeVo(ProductCategory entity) {
+    public ProductCategoryListTreeVO(ProductCategory entity) {
         BeanUtil.copyProperties(entity, this);
     }
 

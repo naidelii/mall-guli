@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductBrandQuery;
 import com.mall.product.biz.domain.entity.ProductBrand;
-import com.mall.product.biz.domain.vo.ProductBrandListVo;
+import com.mall.product.biz.domain.vo.ProductBrandListVO;
 import com.mall.product.biz.mapper.ProductBrandMapper;
 import com.mall.product.biz.service.IProductBrandService;
 import org.springframework.stereotype.Service;
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, ProductBrand> implements IProductBrandService {
 
     @Override
-    public IPage<ProductBrandListVo> selectListPage(Integer pageNo, Integer pageSize, ProductBrandQuery query) {
+    public IPage<ProductBrandListVO> selectListPage(Integer pageNo, Integer pageSize, ProductBrandQuery query) {
         Page<ProductBrand> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<ProductBrand> queryWrapper = new LambdaQueryWrapper<>();
         IPage<ProductBrand> pageList = baseMapper.selectPage(page, queryWrapper);
-        List<ProductBrandListVo> userListVos = pageList.getRecords()
+        List<ProductBrandListVO> userListVos = pageList.getRecords()
                 .stream()
-                .map(ProductBrandListVo::new)
+                .map(ProductBrandListVO::new)
                 .collect(Collectors.toList());
         return PageUtils.buildPage(userListVos, pageList);
     }

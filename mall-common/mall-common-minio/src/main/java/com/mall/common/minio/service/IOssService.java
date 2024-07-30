@@ -50,9 +50,10 @@ public interface IOssService {
     /**
      * 生成文件上传凭证
      *
-     * @param fileName 文件名
+     * @param dirName          文件夹
+     * @param originalFilename 原始文件名
      * @return Map
      */
-    Map<String, String> generatePolicy(String fileName);
+    Map<String, String> generatePolicy(String dirName, String originalFilename);
 
 }

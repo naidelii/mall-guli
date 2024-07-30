@@ -14,7 +14,7 @@ public class OssTest {
 
     @Test
     public void testGetPostPolicy() {
-        Map<String, String> policy = minioService.generatePolicy("a.png");
+        Map<String, String> policy = minioService.generatePolicy("", "a.png");
         System.out.println(policy);
     }
 }

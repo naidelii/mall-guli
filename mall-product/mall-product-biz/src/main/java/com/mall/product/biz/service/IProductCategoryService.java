@@ -3,7 +3,7 @@ package com.mall.product.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.product.biz.domain.entity.ProductCategory;
-import com.mall.product.biz.domain.vo.ProductCategoryListTreeVo;
+import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      *
      * @return 商品分类树
      */
-    List<ProductCategoryListTreeVo> listWithTree();
+    List<ProductCategoryListTreeVO> listWithTree();
 
     /**
      * 批量删除

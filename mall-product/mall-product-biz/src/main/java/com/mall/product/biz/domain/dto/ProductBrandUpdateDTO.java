@@ -5,34 +5,38 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 商品分类表
+ * 品牌表
  *
  * @author naidelii
- * @since 2024-07-15 18:06:50
  */
 @Data
-public class ProductCategoryUpdateDto {
-
+public class ProductBrandUpdateDTO {
     /**
      * 主键
      */
     @NotBlank(message = "id不能为空")
     private String id;
 
-    /**
-     * 分类名称
-     */
-    private String categoryName;
 
     /**
-     * 父级分类id
+     * 品牌名称
      */
-    private String parentId;
+    private String name;
 
     /**
-     * 层级
+     * 品牌logo
      */
-    private Integer level;
+    private String logo;
+
+    /**
+     * 介绍
+     */
+    private String description;
+
+    /**
+     * 是否显示（0：不显示，1：显示）
+     */
+    private Integer isShow;
 
     /**
      * 排序值
@@ -40,8 +44,8 @@ public class ProductCategoryUpdateDto {
     private Integer sortOrder;
 
     /**
-     * 图片
+     * 检索首字母
      */
-    private String img;
+    private String firstLetter;
 
 }

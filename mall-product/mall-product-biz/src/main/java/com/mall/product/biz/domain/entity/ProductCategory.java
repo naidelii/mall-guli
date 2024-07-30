@@ -1,5 +1,6 @@
 package com.mall.product.biz.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;
@@ -47,7 +48,8 @@ public class ProductCategory extends BaseEntity implements Serializable {
      * 逻辑删除（1：删除，0：未删除）
      */
     @TableLogic
-    private Integer isDeleted;
+    @TableField(value = "is_deleted")
+    private Integer deleted;
 
     /**
      * 排序值

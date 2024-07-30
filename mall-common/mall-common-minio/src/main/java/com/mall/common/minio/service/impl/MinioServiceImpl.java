@@ -121,18 +121,22 @@ public class MinioServiceImpl implements IOssService {
     }
 
     @Override
-    public Map<String, String> generatePolicy(String fileName) {
+    public Map<String, String> generatePolicy(String dirName, String originalFilename) {
         // 设置凭证有效期（5分钟）
         ZonedDateTime expirationDate = ZonedDateTime.now().plusMinutes(5);
         // 创建一个凭证
         PostPolicy postPolicy = new PostPolicy(minIoProperties.getBucket(), expirationDate);
         // 添加条件：值为上传对象的名称（保存在桶中的名字）
+        String fileName = generateFileName(dirName, originalFilename);
         postPolicy.addEqualsCondition("key", fileName);
         try {
             // 生成凭证并返回
-            return minioClient.getPresignedPostFormData(postPolicy);
+            Map<String, String> formData = minioClient.getPresignedPostFormData(postPolicy);
+            // 将生成的文件名返回
+            formData.put("key", fileName);
+            return formData;
         } catch (Exception e) {
-            log.error("获取文件 {} 的上传凭证失败", fileName, e);
+            log.error("获取文件 {} 的上传凭证失败", originalFilename, e);
             throw new GlobalException("获取凭证失败！");
         }
     }

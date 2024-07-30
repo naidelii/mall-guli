@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @since 2024-07-15 18:06:50
  */
 @Data
-public class ProductCategorySaveDto {
+public class ProductCategorySaveDTO {
     /**
      * 分类名称
      */

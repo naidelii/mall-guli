@@ -2,10 +2,10 @@ package com.mall.product.biz.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.mall.common.base.api.Result;
-import com.mall.product.biz.domain.dto.ProductCategorySaveDto;
-import com.mall.product.biz.domain.dto.ProductCategoryUpdateDto;
+import com.mall.product.biz.domain.dto.ProductCategorySaveDTO;
+import com.mall.product.biz.domain.dto.ProductCategoryUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductCategory;
-import com.mall.product.biz.domain.vo.ProductCategoryListTreeVo;
+import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
 import com.mall.product.biz.service.IProductCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +35,8 @@ public class ProductCategoryController {
 
     @GetMapping("/listWithTree")
     @ApiOperation("商品分类列表-树形结构")
-    public Result<List<ProductCategoryListTreeVo>> listWithTree() {
-        List<ProductCategoryListTreeVo> listTreeVos = productCategoryService.listWithTree();
+    public Result<List<ProductCategoryListTreeVO>> listWithTree() {
+        List<ProductCategoryListTreeVO> listTreeVos = productCategoryService.listWithTree();
         return Result.success(listTreeVos);
     }
 
@@ -48,7 +48,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/save")
-    public Result<?> save(@Valid @RequestBody ProductCategorySaveDto saveDto) {
+    public Result<?> save(@Valid @RequestBody ProductCategorySaveDTO saveDto) {
         ProductCategory data = new ProductCategory();
         BeanUtil.copyProperties(saveDto, data);
         productCategoryService.save(data);
@@ -62,7 +62,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/update")
-    public Result<?> update(@Valid @RequestBody ProductCategoryUpdateDto saveDto) {
+    public Result<?> update(@Valid @RequestBody ProductCategoryUpdateDTO saveDto) {
         ProductCategory data = new ProductCategory();
         BeanUtil.copyProperties(saveDto, data);
         productCategoryService.updateById(data);
