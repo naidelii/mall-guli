@@ -8,8 +8,11 @@ import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
+import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.mapper.ProductAttrGroupMapper;
 import com.mall.product.biz.service.IProductAttrGroupService;
+import com.mall.product.biz.service.IProductCategoryService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,9 @@ import java.util.stream.Collectors;
  * @author naidelii
  */
 @Service
+@RequiredArgsConstructor
 public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMapper, ProductAttrGroup> implements IProductAttrGroupService {
+    private final IProductCategoryService categoryService;
 
     @Override
     public IPage<ProductAttrGroupListVO> listAttrGroupWithPage(Integer pageNo, Integer pageSize, ProductAttrGroupQuery query) {
@@ -39,5 +44,18 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
                 .map(ProductAttrGroupListVO::new)
                 .collect(Collectors.toList());
         return PageUtils.buildPage(userListVos, pageList);
+    }
+
+    @Override
+    public ProductAttrGroupVO getDetailsById(String id) {
+        ProductAttrGroup productAttrGroup = baseMapper.selectById(id);
+        ProductAttrGroupVO vo = new ProductAttrGroupVO(productAttrGroup);
+        // 分类id
+        String categoryId = productAttrGroup.getCategoryId();
+        // 根据分类id查询出父级关系
+        List<String> categoryIds = categoryService.getCategoryPathById(categoryId);
+        String[] array = categoryIds.toArray(new String[0]);
+        vo.setCategoryIds(array);
+        return vo;
     }
 }

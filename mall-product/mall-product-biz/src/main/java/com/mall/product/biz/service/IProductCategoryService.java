@@ -29,5 +29,12 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      */
     void deleteByIds(List<String> categoryIds);
 
+    /**
+     * 根据id查询出完整的path
+     *
+     * @param id 主键
+     * @return List<String>
+     */
+    List<String> getCategoryPathById(String id);
 }
 

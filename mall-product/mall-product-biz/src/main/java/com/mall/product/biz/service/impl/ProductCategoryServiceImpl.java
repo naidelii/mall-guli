@@ -8,10 +8,7 @@ import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -31,6 +28,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         return parentIdToChildrenMap.getOrDefault(CommonConstants.PARENT_CODE, Collections.emptyList())
                 .stream()
                 .map(vo -> convertToVo(vo, parentIdToChildrenMap))
+                .sorted((a, b) -> a.getSortOrder() - b.getSortOrder())
                 .collect(Collectors.toList());
     }
 
@@ -40,10 +38,34 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         baseMapper.deleteBatchIds(categoryIds);
     }
 
+    @Override
+    public List<String> getCategoryPathById(String id) {
+        List<String> categoryPath = new ArrayList<>();
+        getCategoryPathRecursive(id, categoryPath);
+        Collections.reverse(categoryPath);
+        return categoryPath;
+    }
+
+    private void getCategoryPathRecursive(String id, List<String> categoryPath) {
+        // 防止无限递归
+        if (categoryPath.contains(id)) {
+            return;
+        }
+        ProductCategory productCategory = baseMapper.selectById(id);
+        if (productCategory != null) {
+            categoryPath.add(productCategory.getId());
+            // 如果parentId不是0，递归查找上一级分类
+            if (!CommonConstants.PARENT_CODE.equals(productCategory.getParentId())) {
+                getCategoryPathRecursive(productCategory.getParentId(), categoryPath);
+            }
+        }
+    }
+
     private List<ProductCategoryListTreeVO> getChildren(String parentId, Map<String, List<ProductCategory>> parentIdToChildrenMap) {
         return parentIdToChildrenMap.getOrDefault(parentId, Collections.emptyList())
                 .stream()
                 .map(vo -> convertToVo(vo, parentIdToChildrenMap))
+                .sorted((a, b) -> a.getSortOrder() - b.getSortOrder())
                 .collect(Collectors.toList());
     }
 

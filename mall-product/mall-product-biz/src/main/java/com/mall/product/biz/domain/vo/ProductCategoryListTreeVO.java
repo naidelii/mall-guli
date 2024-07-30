@@ -1,6 +1,7 @@
 package com.mall.product.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,7 +50,7 @@ public class ProductCategoryListTreeVO implements Serializable {
     /**
      * 排序值
      */
-    private int sortOrder;
+    private Integer sortOrder;
 
     /**
      * 图片
@@ -59,6 +60,7 @@ public class ProductCategoryListTreeVO implements Serializable {
     /**
      * 子分类
      */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ProductCategoryListTreeVO> children;
 
     public ProductCategoryListTreeVO(ProductCategory entity) {

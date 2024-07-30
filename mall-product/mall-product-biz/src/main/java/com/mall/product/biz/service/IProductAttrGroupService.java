@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
+import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 
 /**
  * 商品属性分组
@@ -22,5 +23,13 @@ public interface IProductAttrGroupService extends IService<ProductAttrGroup> {
      * @return IPage<ProductAttrGroupListVO>
      */
     IPage<ProductAttrGroupListVO> listAttrGroupWithPage(Integer pageNo, Integer pageSize, ProductAttrGroupQuery query);
+
+    /**
+     * 获取详情信息
+     *
+     * @param id 主键
+     * @return ProductAttrGroupVo
+     */
+    ProductAttrGroupVO getDetailsById(String id);
 }
 
