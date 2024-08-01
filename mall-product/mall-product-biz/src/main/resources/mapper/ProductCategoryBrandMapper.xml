@@ -3,4 +3,16 @@
 
 <mapper namespace="com.mall.product.biz.mapper.ProductCategoryBrandMapper">
 
+    <update id="updateBrand">
+        update product_category_brand set brand_name = #{brandName}
+        <where>
+            brand_id = #{brandId}
+        </where>
+    </update>
+    <update id="updateCategory">
+        update product_category_brand set category_name = #{categoryName}
+        <where>
+            category_id = #{categoryId}
+        </where>
+    </update>
 </mapper>

@@ -36,5 +36,12 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      * @return List<String>
      */
     List<String> getCategoryPathById(String id);
+
+    /**
+     * 更新分类数据
+     *
+     * @param data 分类数据
+     */
+    void updateData(ProductCategory data);
 }
 

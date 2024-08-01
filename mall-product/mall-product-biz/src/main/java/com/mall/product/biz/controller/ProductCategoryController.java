@@ -65,7 +65,7 @@ public class ProductCategoryController {
     public Result<?> update(@Valid @RequestBody ProductCategoryUpdateDTO saveDto) {
         ProductCategory data = new ProductCategory();
         BeanUtil.copyProperties(saveDto, data);
-        productCategoryService.updateById(data);
+        productCategoryService.updateData(data);
         return Result.success();
     }
 

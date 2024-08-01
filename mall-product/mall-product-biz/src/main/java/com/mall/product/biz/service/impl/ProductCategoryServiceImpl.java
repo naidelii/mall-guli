@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
+import com.mall.product.biz.mapper.ProductCategoryBrandMapper;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,7 +20,10 @@ import java.util.stream.Collectors;
  * @author naidelii
  */
 @Service
+@RequiredArgsConstructor
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements IProductCategoryService {
+
+    private final ProductCategoryBrandMapper categoryBrandMapper;
 
     @Override
     public List<ProductCategoryListTreeVO> listWithTree() {
@@ -44,6 +51,16 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         getCategoryPathRecursive(id, categoryPath);
         Collections.reverse(categoryPath);
         return categoryPath;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateData(ProductCategory data) {
+        String categoryName = data.getCategoryName();
+        if (StringUtils.isNotBlank(categoryName)) {
+            categoryBrandMapper.updateCategory(data.getId(), categoryName);
+        }
+        baseMapper.updateById(data);
     }
 
     private void getCategoryPathRecursive(String id, List<String> categoryPath) {

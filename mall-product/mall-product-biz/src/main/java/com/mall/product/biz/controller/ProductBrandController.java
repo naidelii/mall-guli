@@ -9,7 +9,6 @@ import com.mall.product.biz.domain.dto.ProductBrandQuery;
 import com.mall.product.biz.domain.dto.ProductBrandSaveDTO;
 import com.mall.product.biz.domain.dto.ProductBrandUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductBrand;
-import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductBrandListVO;
 import com.mall.product.biz.service.IProductBrandService;
 import io.swagger.annotations.Api;
@@ -56,7 +55,7 @@ public class ProductBrandController {
     public Result<?> update(@Valid @RequestBody ProductBrandUpdateDTO updateDto) {
         ProductBrand data = new ProductBrand();
         BeanUtil.copyProperties(updateDto, data);
-        productBrandService.updateById(data);
+        productBrandService.updateData(data);
         return Result.success();
     }
 

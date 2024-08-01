@@ -19,5 +19,12 @@ public interface IProductBrandService extends IService<ProductBrand> {
     IPage<ProductBrandListVO> selectListPage(Integer pageNo, Integer pageSize, ProductBrandQuery query);
 
     void deleteByIds(List<String> removeIds);
+
+    /**
+     * 更新品牌信息
+     *
+     * @param data 要更新的数据
+     */
+    void updateData(ProductBrand data);
 }
 
