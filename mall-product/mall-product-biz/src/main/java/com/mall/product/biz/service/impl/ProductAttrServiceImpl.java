@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mall.common.base.constant.enums.ProductAttrEnum;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductAttrQuery;
 import com.mall.product.biz.domain.entity.ProductAttr;
@@ -48,10 +49,11 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
     private final ProductAttrGroupMapper attrGroupMapper;
 
     @Override
-    public IPage<ProductAttrListVO> listAttrWithPage(Integer pageNo, Integer pageSize, ProductAttrQuery query) {
+    public IPage<ProductAttrListVO> listAttrWithPage(Integer pageNo, Integer pageSize, ProductAttrQuery query, Integer attrType) {
         Page<ProductAttr> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<ProductAttr> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotBlank(query.getCategoryId()), ProductAttr::getCategoryId, query.getCategoryId());
+        queryWrapper.eq(ProductAttr::getAttrType, attrType);
         String key = query.getKey();
         if (StringUtils.isNotBlank(key)) {
             queryWrapper.and((wrapper ->
@@ -66,6 +68,11 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
         if (CollUtil.isEmpty(recordsList)) {
             return new Page<>();
         }
+        List<ProductAttrListVO> listVos = assembleListVO(recordsList, attrType);
+        return PageUtils.buildPage(listVos, pageList);
+    }
+
+    private List<ProductAttrListVO> assembleListVO(List<ProductAttr> recordsList, Integer attrType) {
         // 分类id集合
         Set<String> categoryIds = recordsList.stream()
                 .map(ProductAttr::getCategoryId)
@@ -78,32 +85,37 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
                         ProductCategory::getId,
                         ProductCategory::getCategoryName
                 ));
-        // 商品属性id
-        Set<String> attrIds = recordsList.stream()
-                .map(ProductAttr::getId)
-                .collect(Collectors.toSet());
-        List<ProductAttrGroupRelation> attrGroupRelations = attrIds.isEmpty()
-                ? Collections.emptyList()
-                : attrGroupRelationMapper.selectByAttrIds(attrIds);
-        // 提取所有分组ID，并一次性查询所有分组
-        Set<String> attrGroupIds = attrGroupRelations.stream()
-                .map(ProductAttrGroupRelation::getAttrGroupId)
-                .collect(Collectors.toSet());
-        Map<String, String> attrGroupNames = attrGroupIds.isEmpty()
-                ? Collections.emptyMap()
-                : attrGroupMapper.selectBatchIds(attrGroupIds).stream()
-                .collect(Collectors.toMap(
-                        ProductAttrGroup::getId,
-                        ProductAttrGroup::getGroupName
-                ));
-        // 生成属性ID到属性分组名称的映射
-        Map<String, String> attrIdToGroupNameMap = attrGroupRelations.stream()
-                .collect(Collectors.toMap(
-                        ProductAttrGroupRelation::getAttrId,
-                        relation -> attrGroupNames.get(relation.getAttrGroupId())
-                ));
-        List<ProductAttrListVO> listVos = buildVos(recordsList, categoryMaps, attrIdToGroupNameMap);
-        return PageUtils.buildPage(listVos, pageList);
+        // 如果是基本属性，则查询属性分组信息
+        Map<String, String> attrIdToGroupNameMap = Collections.emptyMap();
+        if (ProductAttrEnum.BASE.getType().equals(attrType)) {
+            // 商品属性id
+            Set<String> attrIds = recordsList.stream()
+                    .map(ProductAttr::getId)
+                    .collect(Collectors.toSet());
+            List<ProductAttrGroupRelation> attrGroupRelations = attrIds.isEmpty()
+                    ? Collections.emptyList()
+                    : attrGroupRelationMapper.selectByAttrIds(attrIds);
+            // 提取所有分组ID，并一次性查询所有分组
+            Set<String> attrGroupIds = attrGroupRelations.stream()
+                    .map(ProductAttrGroupRelation::getAttrGroupId)
+                    .collect(Collectors.toSet());
+            Map<String, String> attrGroupNames = attrGroupIds.isEmpty()
+                    ? Collections.emptyMap()
+                    : attrGroupMapper.selectBatchIds(attrGroupIds).stream()
+                    .collect(Collectors.toMap(
+                            ProductAttrGroup::getId,
+                            ProductAttrGroup::getGroupName
+                    ));
+            // 生成属性ID到属性分组名称的映射
+
+            attrIdToGroupNameMap = attrGroupRelations.stream()
+                    .collect(Collectors.toMap(
+                            ProductAttrGroupRelation::getAttrId,
+                            relation -> attrGroupNames.getOrDefault(relation.getAttrGroupId(), "")
+                    ));
+
+        }
+        return buildVos(recordsList, categoryMaps, attrIdToGroupNameMap);
     }
 
     @Override
@@ -111,9 +123,12 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
         ProductAttr data = baseMapper.selectById(id);
         ProductAttrVO vo = new ProductAttrVO(data);
         // 查询分类信息
-        List<String> categoryPathById = categoryService.getCategoryPathById(data.getCategoryId());
-        String[] array = categoryPathById.toArray(new String[0]);
-        vo.setCategoryPath(array);
+        String categoryId = data.getCategoryId();
+        if (StringUtils.isNotBlank(categoryId)) {
+            List<String> categoryPathById = categoryService.getCategoryPathById(categoryId);
+            String[] array = categoryPathById.toArray(new String[0]);
+            vo.setCategoryPath(array);
+        }
         // 查询分组信息
         ProductAttrGroupRelation relation = attrGroupRelationMapper.selectByAttrId(id);
         if (relation != null) {
@@ -130,6 +145,15 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
             attrGroupRelationService.saveOrUpdateAttrInfo(data.getId(), attrGroupId);
         }
     }
+
+    @Override
+    public void saveData(ProductAttr data, String attrGroupId) {
+        baseMapper.insert(data);
+        if (StringUtils.isNotBlank(attrGroupId)) {
+            attrGroupRelationService.saveOrUpdateAttrInfo(data.getId(), attrGroupId);
+        }
+    }
+
 
     private List<ProductAttrListVO> buildVos(List<ProductAttr> recordsList, Map<String, String> categoryMaps, Map<String, String> attrIdToGroupNameMap) {
         return recordsList.stream()

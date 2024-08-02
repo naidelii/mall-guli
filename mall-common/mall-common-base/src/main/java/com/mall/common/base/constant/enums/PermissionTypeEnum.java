@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum PermissionType {
+public enum PermissionTypeEnum {
     /**
      * 目录
      */

@@ -5,7 +5,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
+import com.mall.common.base.constant.enums.ProductAttrEnum;
 import com.mall.product.biz.domain.dto.ProductAttrQuery;
+import com.mall.product.biz.domain.dto.ProductAttrSaveDTO;
 import com.mall.product.biz.domain.dto.ProductAttrUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductAttr;
 import com.mall.product.biz.domain.vo.ProductAttrListVO;
@@ -33,11 +35,19 @@ public class ProductAttrController {
 
     private final IProductAttrService productAttrService;
 
-    @GetMapping("/listPage")
-    public Result<IPage<ProductAttrListVO>> listPage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
-                                                     @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
-                                                     ProductAttrQuery query) {
-        IPage<ProductAttrListVO> pageList = productAttrService.listAttrWithPage(pageNo, pageSize, query);
+    @GetMapping("/base/listPage")
+    public Result<IPage<ProductAttrListVO>> listBasePage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
+                                                         @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
+                                                         ProductAttrQuery query) {
+        IPage<ProductAttrListVO> pageList = productAttrService.listAttrWithPage(pageNo, pageSize, query, ProductAttrEnum.BASE.getType());
+        return Result.success(pageList);
+    }
+
+    @GetMapping("/sale/listPage")
+    public Result<IPage<ProductAttrListVO>> listSalePage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
+                                                         @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
+                                                         ProductAttrQuery query) {
+        IPage<ProductAttrListVO> pageList = productAttrService.listAttrWithPage(pageNo, pageSize, query, ProductAttrEnum.SALE.getType());
         return Result.success(pageList);
     }
 
@@ -54,6 +64,16 @@ public class ProductAttrController {
         // 所属分组id
         String attrGroupId = updateDto.getAttrGroupId();
         productAttrService.updateData(data, attrGroupId);
+        return Result.success();
+    }
+
+    @PostMapping("/save")
+    public Result<?> save(@Valid @RequestBody ProductAttrSaveDTO saveDto) {
+        ProductAttr data = new ProductAttr();
+        BeanUtil.copyProperties(saveDto, data);
+        // 所属分组id
+        String attrGroupId = saveDto.getAttrGroupId();
+        productAttrService.saveData(data, attrGroupId);
         return Result.success();
     }
 

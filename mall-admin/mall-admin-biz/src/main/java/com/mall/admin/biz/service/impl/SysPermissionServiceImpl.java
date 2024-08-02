@@ -9,7 +9,7 @@ import com.mall.admin.biz.domain.vo.SysPermissionListVo;
 import com.mall.admin.biz.mapper.SysPermissionMapper;
 import com.mall.admin.biz.service.ISysPermissionService;
 import com.mall.admin.biz.service.ISysRolePermissionService;
-import com.mall.common.base.constant.enums.PermissionType;
+import com.mall.common.base.constant.enums.PermissionTypeEnum;
 import com.mall.common.base.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +42,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public List<SysPermissionListVo> selectMenuList() {
         Set<Integer> types = new HashSet<>();
-        types.add(PermissionType.DIRECTORY.getValue());
-        types.add(PermissionType.MENU.getValue());
+        types.add(PermissionTypeEnum.DIRECTORY.getValue());
+        types.add(PermissionTypeEnum.MENU.getValue());
         List<SysPermission> menuList = baseMapper.selectPermissionListByType(types);
         return menuList.stream()
                 .map(SysPermissionListVo::new)

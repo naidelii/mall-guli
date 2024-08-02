@@ -15,11 +15,13 @@ import com.mall.product.biz.domain.vo.ProductAttrVO;
 public interface IProductAttrService extends IService<ProductAttr> {
 
 
-    IPage<ProductAttrListVO> listAttrWithPage(Integer pageNo, Integer pageSize, ProductAttrQuery query);
+    IPage<ProductAttrListVO> listAttrWithPage(Integer pageNo, Integer pageSize, ProductAttrQuery query, Integer attrType);
 
 
     ProductAttrVO getDetailsById(String id);
 
     void updateData(ProductAttr data, String attrGroupId);
+
+    void saveData(ProductAttr data, String attrGroupId);
 }
 

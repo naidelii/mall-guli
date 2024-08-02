@@ -9,7 +9,7 @@ import com.mall.admin.biz.mapper.SysPermissionMapper;
 import com.mall.admin.biz.mapper.SysRolePermissionMapper;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.common.base.constant.CommonConstants;
-import com.mall.common.base.constant.enums.PermissionType;
+import com.mall.common.base.constant.enums.PermissionTypeEnum;
 import com.mall.common.security.context.SecurityContext;
 import com.mall.common.security.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,8 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     public List<SysPermissionTreeVo> selectUserMenuList() {
         LoginUser loginUser = SecurityContext.getLoginUser();
         Set<Integer> types = new HashSet<>();
-        types.add(PermissionType.DIRECTORY.getValue());
-        types.add(PermissionType.MENU.getValue());
+        types.add(PermissionTypeEnum.DIRECTORY.getValue());
+        types.add(PermissionTypeEnum.MENU.getValue());
         List<SysPermission> sysPermissions = getUserPermissionsByTypes(loginUser, types);
         return buildMenuTree(sysPermissions);
     }
@@ -83,7 +83,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     @Override
     public Set<String> selectPermsByLoginUser(LoginUser loginUser) {
         List<SysPermission> permissionList = getUserPermissionsByTypes(loginUser,
-                Collections.singleton(PermissionType.BUTTON_PERMISSIONS.getValue()));
+                Collections.singleton(PermissionTypeEnum.BUTTON_PERMISSIONS.getValue()));
         return permissionList.stream()
                 .map(SysPermission::getPerms)
                 .collect(Collectors.toSet());
