@@ -35,8 +35,11 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
         Page<ProductAttrGroup> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<ProductAttrGroup> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotBlank(query.getCategoryId()), ProductAttrGroup::getCategoryId, query.getCategoryId());
-        if (StringUtils.isNotBlank(query.getKey())) {
-            queryWrapper.and((obj) -> obj.like(ProductAttrGroup::getGroupName, query.getKey()));
+        String key = query.getKey();
+        if (StringUtils.isNotBlank(key)) {
+            queryWrapper.and((wrapper ->
+                    wrapper.like(ProductAttrGroup::getGroupName, key)
+            ));
         }
         IPage<ProductAttrGroup> pageList = baseMapper.selectPage(page, queryWrapper);
         List<ProductAttrGroupListVO> userListVos = pageList.getRecords()
@@ -57,5 +60,15 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
         String[] array = categoryIds.toArray(new String[0]);
         vo.setCategoryIds(array);
         return vo;
+    }
+
+    @Override
+    public List<ProductAttrGroupListVO> listAttrGroupByCategoryId(String categoryId) {
+        LambdaQueryWrapper<ProductAttrGroup> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttrGroup::getCategoryId, categoryId);
+        List<ProductAttrGroup> attrGroupList = baseMapper.selectList(queryWrapper);
+        return attrGroupList.stream()
+                .map(ProductAttrGroupListVO::new)
+                .collect(Collectors.toList());
     }
 }

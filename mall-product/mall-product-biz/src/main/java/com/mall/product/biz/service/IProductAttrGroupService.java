@@ -7,6 +7,8 @@ import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 
+import java.util.List;
+
 /**
  * 商品属性分组
  *
@@ -31,5 +33,7 @@ public interface IProductAttrGroupService extends IService<ProductAttrGroup> {
      * @return ProductAttrGroupVo
      */
     ProductAttrGroupVO getDetailsById(String id);
+
+    List<ProductAttrGroupListVO> listAttrGroupByCategoryId(String categoryId);
 }
 

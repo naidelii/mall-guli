@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.product.biz.mapper.ProductAttrGroupRelationMapper">
+    <update id="updateAttrInfo">
+        update product_attr_group_relation set attr_group_id = #{attrGroupId} where attr_id = #{attrId}
+    </update>
+
+    <select id="selectByAttrIds" resultType="com.mall.product.biz.domain.entity.ProductAttrGroupRelation">
+        select * from product_attr_group_relation
+        <where>
+            attr_id in
+            <foreach collection="attrIds" item="attrId" open="(" separator="," close=")">
+                #{attrId}
+            </foreach>
+        </where>
+    </select>
+    <select id="selectByAttrId" resultType="com.mall.product.biz.domain.entity.ProductAttrGroupRelation">
+        select * from product_attr_group_relation
+        <where>
+            attr_id = #{attrId}
+        </where>
+    </select>
+</mapper>

@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 /**
@@ -41,6 +42,13 @@ public class ProductAttrGroupController {
                                                           ProductAttrGroupQuery query) {
         IPage<ProductAttrGroupListVO> pageList = productAttrGroupService.listAttrGroupWithPage(pageNo, pageSize, query);
         return Result.success(pageList);
+    }
+
+
+    @GetMapping("/listByCategoryId")
+    public Result<?> listByCategoryId(ProductAttrGroupQuery query) {
+        List<ProductAttrGroupListVO> list = productAttrGroupService.listAttrGroupByCategoryId(query.getCategoryId());
+        return Result.success(list);
     }
 
     @PostMapping("/save")
