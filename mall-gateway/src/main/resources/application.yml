@@ -32,19 +32,15 @@ spring:
           # 路由断言，判断请求是否符合路由规则的条件
           predicates:
             - Path=/sys/**,/auth/**
-        # 路由的id，要求唯一，建议配合服务名
         - id: product_service
-          # 路由的目标地址，uri: http://localhost:8001(http是固定地址)
-          # 路由的目标地址，lb就是负载均衡，后面跟服务名称
           uri: lb://mall-product
-          # 路由断言，判断请求是否符合路由规则的条件
           predicates:
             - Path=/product/**
-        # 路由的id，要求唯一，建议配合服务名
         - id: third_party_service
-          # 路由的目标地址，uri: http://localhost:8001(http是固定地址)
-          # 路由的目标地址，lb就是负载均衡，后面跟服务名称
           uri: lb://mall-third-party
-          # 路由断言，判断请求是否符合路由规则的条件
           predicates:
             - Path=/thirdparty/**
+        - id: member_service
+          uri: lb://mall-member
+          predicates:
+            - Path=/member/**

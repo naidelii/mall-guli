@@ -17,6 +17,7 @@
         <module>mall-gateway</module>
         <module>mall-generator</module>
         <module>mall-third-party</module>
+        <module>mall-member</module>
     </modules>
 
     <parent>
