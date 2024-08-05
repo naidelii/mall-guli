@@ -13,6 +13,7 @@ import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.entity.ProductAttrGroupRelation;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductAttrListVO;
+import com.mall.product.biz.domain.vo.ProductAttrRelationVO;
 import com.mall.product.biz.domain.vo.ProductAttrVO;
 import com.mall.product.biz.mapper.ProductAttrGroupMapper;
 import com.mall.product.biz.mapper.ProductAttrGroupRelationMapper;
@@ -152,6 +153,65 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttrMapper, Produ
         if (StringUtils.isNotBlank(attrGroupId)) {
             attrGroupRelationService.saveOrUpdateAttrInfo(data.getId(), attrGroupId);
         }
+    }
+
+    @Override
+    public List<ProductAttrRelationVO> listAttrGroupsWithAttributes(String attrGroupId) {
+        LambdaQueryWrapper<ProductAttrGroupRelation> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttrGroupRelation::getAttrGroupId, attrGroupId);
+        List<ProductAttrGroupRelation> groupRelations = attrGroupRelationMapper.selectList(queryWrapper);
+        if (CollUtil.isEmpty(groupRelations)) {
+            return Collections.emptyList();
+        }
+        // 所有的属性id
+        Set<String> attrIds = groupRelations.stream()
+                .map(ProductAttrGroupRelation::getAttrId)
+                .collect(Collectors.toSet());
+        List<ProductAttr> productAttrs = baseMapper.selectBatchIds(attrIds);
+        if (CollUtil.isEmpty(productAttrs)) {
+            return Collections.emptyList();
+        }
+        return productAttrs.stream()
+                .map(ProductAttrRelationVO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void removeRelation(String attrId, String attrGroupId) {
+        LambdaQueryWrapper<ProductAttrGroupRelation> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttrGroupRelation::getAttrGroupId, attrGroupId)
+                .eq(ProductAttrGroupRelation::getAttrId, attrId);
+        attrGroupRelationMapper.delete(queryWrapper);
+    }
+
+    @Override
+    public IPage<ProductAttrRelationVO> listUnrelatedAttributes(Integer pageNo, Integer pageSize, String attrGroupId, String categoryId) {
+        Page<ProductAttr> page = new Page<>(pageNo, pageSize);
+        // 1.根据分类id查询该属性分组信息
+        LambdaQueryWrapper<ProductAttrGroup> attrGroupQueryWrapper = new LambdaQueryWrapper<>();
+        attrGroupQueryWrapper.eq(ProductAttrGroup::getCategoryId, categoryId);
+        List<ProductAttrGroup> attrGroupList = attrGroupMapper.selectList(attrGroupQueryWrapper);
+        // 当前分类下所有的属性分组id
+        Set<String> attrGroupIds = attrGroupList.stream()
+                .map(ProductAttrGroup::getId)
+                .collect(Collectors.toSet());
+        LambdaQueryWrapper<ProductAttrGroupRelation> attrGroupRelationQueryWrapper = new LambdaQueryWrapper<>();
+        attrGroupRelationQueryWrapper.in(ProductAttrGroupRelation::getAttrGroupId, attrGroupIds);
+        List<ProductAttrGroupRelation> attrGroupRelations = attrGroupRelationMapper.selectList(attrGroupRelationQueryWrapper);
+        // 已经被关联的属性
+        Set<String> attrIds = attrGroupRelations.stream()
+                .map(ProductAttrGroupRelation::getAttrId)
+                .collect(Collectors.toSet());
+        LambdaQueryWrapper<ProductAttr> attrQueryWrapper = new LambdaQueryWrapper<>();
+        attrQueryWrapper.eq(ProductAttr::getCategoryId, categoryId)
+                .eq(ProductAttr::getAttrType, ProductAttrEnum.BASE.getType())
+                .notIn(ProductAttr::getId, attrIds);
+        Page<ProductAttr> pageList = baseMapper.selectPage(page, attrQueryWrapper);
+        List<ProductAttrRelationVO> listVos = pageList.getRecords()
+                .stream()
+                .map(ProductAttrRelationVO::new)
+                .collect(Collectors.toList());
+        return PageUtils.buildPage(listVos, pageList);
     }
 
 

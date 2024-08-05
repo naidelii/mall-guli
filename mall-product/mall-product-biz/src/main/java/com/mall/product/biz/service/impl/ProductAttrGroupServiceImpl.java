@@ -71,4 +71,5 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
                 .map(ProductAttrGroupListVO::new)
                 .collect(Collectors.toList());
     }
+
 }

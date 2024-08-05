@@ -35,5 +35,6 @@ public interface IProductAttrGroupService extends IService<ProductAttrGroup> {
     ProductAttrGroupVO getDetailsById(String id);
 
     List<ProductAttrGroupListVO> listAttrGroupByCategoryId(String categoryId);
+
 }
 
