@@ -44,4 +44,10 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelMapper, Membe
                 .collect(Collectors.toList());
         return PageUtils.buildPage(userListVos, pageList);
     }
+
+    @Override
+    public MemberLevelListVO getDetailsById(String id) {
+        MemberLevel data = baseMapper.selectById(id);
+        return new MemberLevelListVO(data);
+    }
 }

@@ -14,5 +14,7 @@ import com.mall.member.biz.entity.MemberLevel;
 public interface IMemberLevelService extends IService<MemberLevel> {
 
     IPage<MemberLevelListVO> selectListPage(Integer pageNo, Integer pageSize, MemberLevelQuery query);
+
+    MemberLevelListVO getDetailsById(String id);
 }
 
