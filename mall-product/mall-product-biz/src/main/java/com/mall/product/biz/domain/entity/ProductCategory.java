@@ -1,6 +1,5 @@
 package com.mall.product.biz.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.mall.common.base.domain.BaseEntity;
 import lombok.Data;

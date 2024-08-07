@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Api(tags = "品牌表")
 @Slf4j
-@RequestMapping("product/brand")
+@RequestMapping("/product/brand")
 @RestController
 @RequiredArgsConstructor
 public class ProductBrandController {
@@ -41,6 +42,15 @@ public class ProductBrandController {
                                                       ProductBrandQuery query) {
         IPage<ProductBrandListVO> pageList = productBrandService.selectListPage(pageNo, pageSize, query);
         return Result.success(pageList);
+    }
+
+    @GetMapping("/listByCategoryId")
+    public Result<List<ProductBrandListVO>> listByCategoryId(@RequestParam("categoryId") String categoryId) {
+        List<ProductBrand> list = productBrandService.listByCategoryId(categoryId);
+        List<ProductBrandListVO> voList = list.stream()
+                .map(ProductBrandListVO::new)
+                .collect(Collectors.toList());
+        return Result.success(voList);
     }
 
     @PostMapping("/save")

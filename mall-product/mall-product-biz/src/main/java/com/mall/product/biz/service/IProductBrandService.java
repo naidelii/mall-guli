@@ -26,5 +26,7 @@ public interface IProductBrandService extends IService<ProductBrand> {
      * @param data 要更新的数据
      */
     void updateData(ProductBrand data);
+
+    List<ProductBrand> listByCategoryId(String categoryId);
 }
 

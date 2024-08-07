@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductBrandQuery;
 import com.mall.product.biz.domain.entity.ProductBrand;
+import com.mall.product.biz.domain.entity.ProductCategoryBrand;
 import com.mall.product.biz.domain.vo.ProductBrandListVO;
 import com.mall.product.biz.mapper.ProductBrandMapper;
 import com.mall.product.biz.mapper.ProductCategoryBrandMapper;
@@ -16,7 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -58,5 +61,20 @@ public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, Pro
             categoryBrandMapper.updateBrand(data.getId(), name);
         }
         baseMapper.updateById(data);
+    }
+
+    @Override
+    public List<ProductBrand> listByCategoryId(String categoryId) {
+        // 根据分类id查询出对应的品牌信息
+        LambdaQueryWrapper<ProductCategoryBrand> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductCategoryBrand::getCategoryId, categoryId);
+        List<ProductCategoryBrand> categoryBrands = categoryBrandMapper.selectList(queryWrapper);
+        if (categoryBrands.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Set<String> brandIds = categoryBrands.stream()
+                .map(ProductCategoryBrand::getBrandId)
+                .collect(Collectors.toSet());
+        return baseMapper.selectBatchIds(brandIds);
     }
 }

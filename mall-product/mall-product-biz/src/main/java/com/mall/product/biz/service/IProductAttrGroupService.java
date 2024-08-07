@@ -6,6 +6,7 @@ import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
+import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
 
 import java.util.List;
 
@@ -35,6 +36,8 @@ public interface IProductAttrGroupService extends IService<ProductAttrGroup> {
     ProductAttrGroupVO getDetailsById(String id);
 
     List<ProductAttrGroupListVO> listAttrGroupByCategoryId(String categoryId);
+
+    List<ProductAttrGroupWithAttrsVO> listAttrGroupWithAttrsByCategoryId(String categoryId);
 
 }
 

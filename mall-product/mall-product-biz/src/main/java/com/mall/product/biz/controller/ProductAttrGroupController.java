@@ -10,6 +10,7 @@ import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.entity.ProductAttrGroupRelation;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
+import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
 import com.mall.product.biz.domain.vo.ProductAttrRelationVO;
 import com.mall.product.biz.service.IProductAttrGroupRelationService;
 import com.mall.product.biz.service.IProductAttrGroupService;
@@ -64,6 +65,11 @@ public class ProductAttrGroupController {
         return Result.success(pageList);
     }
 
+    @GetMapping("/listAttrGroupWithAttrs")
+    public Result<?> listAttrGroupWithAttrs(@RequestParam("categoryId") String categoryId) {
+        List<ProductAttrGroupWithAttrsVO> list = attrGroupService.listAttrGroupWithAttrsByCategoryId(categoryId);
+        return Result.success(list);
+    }
 
     @GetMapping("/listByCategoryId")
     public Result<?> listByCategoryId(ProductAttrGroupQuery query) {
