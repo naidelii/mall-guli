@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.base.constant.enums.ProductAttrEnum;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductAttrQuery;
-import com.mall.product.biz.domain.entity.ProductAttrGroup;
+import com.mall.product.biz.domain.entity.ProductAttributeGroups;
 import com.mall.product.biz.domain.entity.ProductAttributes;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductAttrListVO;
 import com.mall.product.biz.domain.vo.ProductAttrRelationVO;
 import com.mall.product.biz.domain.vo.ProductAttrVO;
-import com.mall.product.biz.mapper.ProductAttrGroupMapper;
+import com.mall.product.biz.mapper.ProductAttributeGroupsMapper;
 import com.mall.product.biz.mapper.ProductAttributesMapper;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductAttributesService;
@@ -38,7 +38,7 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttributesMapper,
 
     private final ProductCategoryMapper categoryMapper;
     private final IProductCategoryService categoryService;
-    private final ProductAttrGroupMapper attrGroupMapper;
+    private final ProductAttributeGroupsMapper attrGroupMapper;
 
     @Override
     public IPage<ProductAttrListVO> listAttrWithPage(Integer pageNo, Integer pageSize, ProductAttrQuery query, Integer attrType) {
@@ -86,11 +86,11 @@ public class ProductAttrServiceImpl extends ServiceImpl<ProductAttributesMapper,
         if (groupIds.isEmpty()) {
             attrIdToGroupNameMap = Collections.emptyMap();
         } else {
-            List<ProductAttrGroup> productAttrGroups = attrGroupMapper.selectBatchIds(groupIds);
+            List<ProductAttributeGroups> productAttrGroups = attrGroupMapper.selectBatchIds(groupIds);
             attrIdToGroupNameMap = productAttrGroups.stream()
                     .collect(Collectors.toMap(
-                            ProductAttrGroup::getId,
-                            ProductAttrGroup::getGroupName
+                            ProductAttributeGroups::getId,
+                            ProductAttributeGroups::getGroupName
                     ));
         }
         return buildVos(recordsList, categoryMaps, attrIdToGroupNameMap);

@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.product.biz.domain.dto.*;
-import com.mall.product.biz.domain.entity.ProductAttrGroup;
+import com.mall.product.biz.domain.entity.ProductAttributeGroups;
 import com.mall.product.biz.domain.entity.ProductAttributes;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
 import com.mall.product.biz.domain.vo.ProductAttrRelationVO;
-import com.mall.product.biz.service.IProductAttrGroupService;
+import com.mall.product.biz.service.IProductAttributeGroupsService;
 import com.mall.product.biz.service.IProductAttributesService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductAttrGroupController {
 
-    private final IProductAttrGroupService attrGroupService;
+    private final IProductAttributeGroupsService attrGroupService;
     private final IProductAttributesService attrService;
 
     @GetMapping("/listPage")
@@ -78,7 +78,7 @@ public class ProductAttrGroupController {
 
     @PostMapping("/save")
     public Result<?> save(@Validated @RequestBody ProductAttrGroupSaveDTO saveDto) {
-        ProductAttrGroup data = new ProductAttrGroup();
+        ProductAttributeGroups data = new ProductAttributeGroups();
         BeanUtil.copyProperties(saveDto, data);
         attrGroupService.save(data);
         return Result.success();
@@ -106,7 +106,7 @@ public class ProductAttrGroupController {
 
     @PostMapping("/update")
     public Result<?> update(@Valid @RequestBody ProductAttrGroupUpdateDTO updateDto) {
-        ProductAttrGroup data = new ProductAttrGroup();
+        ProductAttributeGroups data = new ProductAttributeGroups();
         BeanUtil.copyProperties(updateDto, data);
         attrGroupService.updateById(data);
         return Result.success();

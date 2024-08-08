@@ -6,14 +6,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
+import com.mall.product.biz.domain.entity.ProductAttributeGroups;
 import com.mall.product.biz.domain.entity.ProductAttributes;
-import com.mall.product.biz.domain.entity.ProductAttrGroup;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
-import com.mall.product.biz.mapper.ProductAttrGroupMapper;
+import com.mall.product.biz.mapper.ProductAttributeGroupsMapper;
 import com.mall.product.biz.mapper.ProductAttributesMapper;
-import com.mall.product.biz.service.IProductAttrGroupService;
+import com.mall.product.biz.service.IProductAttributeGroupsService;
 import com.mall.product.biz.service.IProductCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -33,22 +33,22 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMapper, ProductAttrGroup> implements IProductAttrGroupService {
+public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttributeGroupsMapper, ProductAttributeGroups> implements IProductAttributeGroupsService {
     private final IProductCategoryService categoryService;
     private final ProductAttributesMapper attrMapper;
 
     @Override
     public IPage<ProductAttrGroupListVO> listAttrGroupWithPage(Integer pageNo, Integer pageSize, ProductAttrGroupQuery query) {
-        Page<ProductAttrGroup> page = new Page<>(pageNo, pageSize);
-        LambdaQueryWrapper<ProductAttrGroup> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(StringUtils.isNotBlank(query.getCategoryId()), ProductAttrGroup::getCategoryId, query.getCategoryId());
+        Page<ProductAttributeGroups> page = new Page<>(pageNo, pageSize);
+        LambdaQueryWrapper<ProductAttributeGroups> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotBlank(query.getCategoryId()), ProductAttributeGroups::getCategoryId, query.getCategoryId());
         String key = query.getKey();
         if (StringUtils.isNotBlank(key)) {
             queryWrapper.and((wrapper ->
-                    wrapper.like(ProductAttrGroup::getGroupName, key)
+                    wrapper.like(ProductAttributeGroups::getGroupName, key)
             ));
         }
-        IPage<ProductAttrGroup> pageList = baseMapper.selectPage(page, queryWrapper);
+        IPage<ProductAttributeGroups> pageList = baseMapper.selectPage(page, queryWrapper);
         List<ProductAttrGroupListVO> userListVos = pageList.getRecords()
                 .stream()
                 .map(ProductAttrGroupListVO::new)
@@ -58,7 +58,7 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
 
     @Override
     public ProductAttrGroupVO getDetailsById(String id) {
-        ProductAttrGroup productAttrGroup = baseMapper.selectById(id);
+        ProductAttributeGroups productAttrGroup = baseMapper.selectById(id);
         ProductAttrGroupVO vo = new ProductAttrGroupVO(productAttrGroup);
         // 分类id
         String categoryId = productAttrGroup.getCategoryId();
@@ -71,9 +71,9 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
 
     @Override
     public List<ProductAttrGroupListVO> listAttrGroupByCategoryId(String categoryId) {
-        LambdaQueryWrapper<ProductAttrGroup> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ProductAttrGroup::getCategoryId, categoryId);
-        List<ProductAttrGroup> attrGroupList = baseMapper.selectList(queryWrapper);
+        LambdaQueryWrapper<ProductAttributeGroups> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductAttributeGroups::getCategoryId, categoryId);
+        List<ProductAttributeGroups> attrGroupList = baseMapper.selectList(queryWrapper);
         return attrGroupList.stream()
                 .map(ProductAttrGroupListVO::new)
                 .collect(Collectors.toList());
@@ -82,15 +82,15 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
     @Override
     public List<ProductAttrGroupWithAttrsVO> listAttrGroupWithAttrsByCategoryId(String categoryId) {
         // 1.根据分类id查询出所有的属性分组
-        LambdaQueryWrapper<ProductAttrGroup> attrGroupQueryWrapper = new LambdaQueryWrapper<>();
-        attrGroupQueryWrapper.eq(ProductAttrGroup::getCategoryId, categoryId);
-        List<ProductAttrGroup> attrGroupList = baseMapper.selectList(attrGroupQueryWrapper);
+        LambdaQueryWrapper<ProductAttributeGroups> attrGroupQueryWrapper = new LambdaQueryWrapper<>();
+        attrGroupQueryWrapper.eq(ProductAttributeGroups::getCategoryId, categoryId);
+        List<ProductAttributeGroups> attrGroupList = baseMapper.selectList(attrGroupQueryWrapper);
         if (attrGroupList.isEmpty()) {
             return Collections.emptyList();
         }
         // 所有的分组id
         Set<String> groupIds = attrGroupList.stream()
-                .map(ProductAttrGroup::getId)
+                .map(ProductAttributeGroups::getId)
                 .collect(Collectors.toSet());
         // 查询出所有分组下的属性
         LambdaQueryWrapper<ProductAttributes> attributesQueryWrapper = new LambdaQueryWrapper<>();

@@ -1,8 +1,8 @@
 package com.mall.product.biz.domain.entity;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 商品属性分组
@@ -10,7 +10,7 @@ import lombok.Data;
  * @author naidelii
  */
 @Data
-public class ProductAttrGroup implements Serializable {
+public class ProductAttributeGroups implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

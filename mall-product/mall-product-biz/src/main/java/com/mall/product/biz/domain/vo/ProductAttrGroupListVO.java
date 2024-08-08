@@ -1,7 +1,7 @@
 package com.mall.product.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.mall.product.biz.domain.entity.ProductAttrGroup;
+import com.mall.product.biz.domain.entity.ProductAttributeGroups;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -45,7 +45,7 @@ public class ProductAttrGroupListVO implements Serializable {
      */
     private Integer sortOrder;
 
-    public ProductAttrGroupListVO(ProductAttrGroup data) {
+    public ProductAttrGroupListVO(ProductAttributeGroups data) {
         BeanUtil.copyProperties(data, this);
     }
 

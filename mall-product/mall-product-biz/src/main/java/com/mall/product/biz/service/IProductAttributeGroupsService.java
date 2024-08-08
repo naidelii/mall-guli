@@ -3,7 +3,7 @@ package com.mall.product.biz.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
-import com.mall.product.biz.domain.entity.ProductAttrGroup;
+import com.mall.product.biz.domain.entity.ProductAttributeGroups;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author naidelii
  */
-public interface IProductAttrGroupService extends IService<ProductAttrGroup> {
+public interface IProductAttributeGroupsService extends IService<ProductAttributeGroups> {
 
     /**
      * 分页查询商品属性分组信息
