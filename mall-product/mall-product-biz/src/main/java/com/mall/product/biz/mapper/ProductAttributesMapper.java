@@ -1,7 +1,7 @@
 package com.mall.product.biz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mall.product.biz.domain.entity.ProductAttr;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author naidelii
  */
 @Mapper
-public interface ProductAttrMapper extends BaseMapper<ProductAttr> {
+public interface ProductAttributesMapper extends BaseMapper<ProductAttributes> {
 
 }

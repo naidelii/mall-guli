@@ -1,7 +1,7 @@
 package com.mall.product.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.mall.product.biz.domain.entity.ProductAttr;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -76,7 +76,7 @@ public class ProductAttrVO implements Serializable {
     private String icon;
 
 
-    public ProductAttrVO(ProductAttr data) {
+    public ProductAttrVO(ProductAttributes data) {
         BeanUtil.copyProperties(data, this);
     }
 

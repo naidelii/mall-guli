@@ -6,15 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductAttrGroupQuery;
-import com.mall.product.biz.domain.entity.ProductAttr;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
-import com.mall.product.biz.domain.entity.ProductAttrGroupRelation;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
 import com.mall.product.biz.mapper.ProductAttrGroupMapper;
-import com.mall.product.biz.mapper.ProductAttrGroupRelationMapper;
-import com.mall.product.biz.mapper.ProductAttrMapper;
+import com.mall.product.biz.mapper.ProductAttributesMapper;
 import com.mall.product.biz.service.IProductAttrGroupService;
 import com.mall.product.biz.service.IProductCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMapper, ProductAttrGroup> implements IProductAttrGroupService {
     private final IProductCategoryService categoryService;
-    private final ProductAttrGroupRelationMapper groupRelationMapper;
-    private final ProductAttrMapper attrMapper;
+    private final ProductAttributesMapper attrMapper;
 
     @Override
     public IPage<ProductAttrGroupListVO> listAttrGroupWithPage(Integer pageNo, Integer pageSize, ProductAttrGroupQuery query) {
@@ -96,34 +93,16 @@ public class ProductAttrGroupServiceImpl extends ServiceImpl<ProductAttrGroupMap
                 .map(ProductAttrGroup::getId)
                 .collect(Collectors.toSet());
         // 查询出所有分组下的属性
-        LambdaQueryWrapper<ProductAttrGroupRelation> attrGroupRelationQueryWrapper = new LambdaQueryWrapper<>();
-        attrGroupRelationQueryWrapper.in(ProductAttrGroupRelation::getAttrGroupId, groupIds);
-        List<ProductAttrGroupRelation> attrGroupRelations = groupRelationMapper.selectList(attrGroupRelationQueryWrapper);
-        if (attrGroupRelations.isEmpty()) {
-            return Collections.emptyList();
-        }
-        // 所有的属性id
-        Set<String> attrIds = attrGroupRelations.stream()
-                .map(ProductAttrGroupRelation::getAttrId)
-                .collect(Collectors.toSet());
-        // 相关的属性信息
-        List<ProductAttr> productAttrs = attrMapper.selectBatchIds(attrIds);
+        LambdaQueryWrapper<ProductAttributes> attributesQueryWrapper = new LambdaQueryWrapper<>();
+        attributesQueryWrapper.in(ProductAttributes::getAttrGroupId, groupIds);
+        List<ProductAttributes> productAttrs = attrMapper.selectList(attributesQueryWrapper);
         // 将属性分组和属性关联起来
-        Map<String, List<ProductAttr>> groupIdToAttrsMap = attrGroupRelations.stream()
-                .collect(Collectors.groupingBy(
-                        ProductAttrGroupRelation::getAttrGroupId,
-                        Collectors.mapping(
-                                relation -> productAttrs.stream()
-                                        .filter(attr -> attr.getId().equals(relation.getAttrId()))
-                                        .findFirst()
-                                        .orElse(null),
-                                Collectors.toList()
-                        )
-                ));
+        Map<String, List<ProductAttributes>> groupIdToAttrsMap = productAttrs.stream()
+                .collect(Collectors.groupingBy(ProductAttributes::getAttrGroupId));
         return attrGroupList.stream()
                 .map(group -> {
                     ProductAttrGroupWithAttrsVO vo = new ProductAttrGroupWithAttrsVO(group);
-                    List<ProductAttr> attrs = groupIdToAttrsMap.getOrDefault(group.getId(), Collections.emptyList());
+                    List<ProductAttributes> attrs = groupIdToAttrsMap.getOrDefault(group.getId(), Collections.emptyList());
                     vo.setAttrList(attrs);
                     return vo;
                 }).collect(Collectors.toList());

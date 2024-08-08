@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author naidelii
  */
 @Data
-public class ProductAttr implements Serializable {
+public class ProductAttributes implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -29,6 +29,11 @@ public class ProductAttr implements Serializable {
     private String categoryId;
 
     /**
+     * 所属分组id
+     */
+    private String attrGroupId;
+
+    /**
      * 属性类型[0-销售属性，1-基本属性
      */
     private Integer attrType;
@@ -41,12 +46,12 @@ public class ProductAttr implements Serializable {
     /**
      * 是否快速展示[0-否，1-是]展示在介绍上；，在sku中仍然可以调整
      */
-    private Integer isShow;
+    private Integer isQuickShow;
 
     /**
-     * 启用状态[0-禁用，1-启用]
+     * 是否启用[0-禁用，1-启用]
      */
-    private Integer enable;
+    private Integer isEnable;
 
     /**
      * 值类型[0-单个值，1-可以选择多个值]

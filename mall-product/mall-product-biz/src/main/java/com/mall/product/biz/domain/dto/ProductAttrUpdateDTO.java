@@ -44,12 +44,12 @@ public class ProductAttrUpdateDTO {
     /**
      * 是否快速展示[0-否，1-是]展示在介绍上；，在sku中仍然可以调整
      */
-    private Integer isShow;
+    private Integer isQuickShow;
 
     /**
      * 启用状态[0-禁用，1-启用]
      */
-    private Integer enable;
+    private Integer isEnable;
 
     /**
      * 值类型[0-单个值，1-可以选择多个值]

@@ -1,7 +1,7 @@
 package com.mall.product.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.mall.product.biz.domain.entity.ProductAttr;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -36,6 +36,11 @@ public class ProductAttrListVO implements Serializable {
     private String categoryName;
 
     /**
+     * 所属分组id
+     */
+    private String attrGroupId;
+
+    /**
      * 属性分组名称
      */
     private String attrGroupName;
@@ -53,12 +58,12 @@ public class ProductAttrListVO implements Serializable {
     /**
      * 是否快速展示[0-否，1-是]展示在介绍上；，在sku中仍然可以调整
      */
-    private Integer isShow;
+    private Integer isQuickShow;
 
     /**
-     * 启用状态[0-禁用，1-启用]
+     * 是否启用[0-禁用，1-启用]
      */
-    private Integer enable;
+    private Integer isEnable;
 
     /**
      * 值类型[0-单个值，1-可以选择多个值]
@@ -75,7 +80,7 @@ public class ProductAttrListVO implements Serializable {
      */
     private String icon;
 
-    public ProductAttrListVO(ProductAttr data) {
+    public ProductAttrListVO(ProductAttributes data) {
         BeanUtil.copyProperties(data, this);
     }
 

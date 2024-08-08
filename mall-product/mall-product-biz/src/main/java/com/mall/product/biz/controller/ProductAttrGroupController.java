@@ -7,17 +7,17 @@ import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.product.biz.domain.dto.*;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
-import com.mall.product.biz.domain.entity.ProductAttrGroupRelation;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import com.mall.product.biz.domain.vo.ProductAttrGroupListVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupVO;
 import com.mall.product.biz.domain.vo.ProductAttrGroupWithAttrsVO;
 import com.mall.product.biz.domain.vo.ProductAttrRelationVO;
-import com.mall.product.biz.service.IProductAttrGroupRelationService;
 import com.mall.product.biz.service.IProductAttrGroupService;
-import com.mall.product.biz.service.IProductAttrService;
+import com.mall.product.biz.service.IProductAttributesService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +39,7 @@ import java.util.List;
 public class ProductAttrGroupController {
 
     private final IProductAttrGroupService attrGroupService;
-    private final IProductAttrService attrService;
-    private final IProductAttrGroupRelationService attrGroupRelationService;
+    private final IProductAttributesService attrService;
 
     @GetMapping("/listPage")
     public Result<IPage<ProductAttrGroupListVO>> listPage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
@@ -94,14 +93,14 @@ public class ProductAttrGroupController {
     @PostMapping("/addAttributeToGroup")
     public Result<?> addAttributeToGroup(@Validated @RequestBody ProductAttrRelationSaveDTO saveDto) {
         String attrGroupId = saveDto.getAttrGroupId();
-        List<ProductAttrGroupRelation> saveList = new ArrayList<>();
+        List<ProductAttributes> updateAttributes = new ArrayList<>();
         for (String attrId : saveDto.getAttrIds()) {
-            ProductAttrGroupRelation relation = new ProductAttrGroupRelation();
-            relation.setAttrGroupId(attrGroupId);
-            relation.setAttrId(attrId);
-            saveList.add(relation);
+            ProductAttributes productAttributes = new ProductAttributes();
+            productAttributes.setId(attrId);
+            productAttributes.setAttrGroupId(attrGroupId);
+            updateAttributes.add(productAttributes);
         }
-        attrGroupRelationService.saveBatch(saveList);
+        attrService.updateBatchById(updateAttributes);
         return Result.success();
     }
 
@@ -121,7 +120,10 @@ public class ProductAttrGroupController {
 
     @PostMapping("/deleteAttrRelation")
     public Result<?> deleteAttrRelation(@Validated @RequestBody ProductAttrRelationRemoveDTO dto) {
-        attrService.removeRelation(dto.getAttrId(), dto.getAttrGroupId());
+        ProductAttributes productAttributes = new ProductAttributes();
+        productAttributes.setId(dto.getAttrId());
+        productAttributes.setAttrGroupId(StringUtils.EMPTY);
+        attrService.updateById(productAttributes);
         return Result.success();
     }
 

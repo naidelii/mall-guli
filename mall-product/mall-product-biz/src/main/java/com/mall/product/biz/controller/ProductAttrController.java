@@ -9,10 +9,10 @@ import com.mall.common.base.constant.enums.ProductAttrEnum;
 import com.mall.product.biz.domain.dto.ProductAttrQuery;
 import com.mall.product.biz.domain.dto.ProductAttrSaveDTO;
 import com.mall.product.biz.domain.dto.ProductAttrUpdateDTO;
-import com.mall.product.biz.domain.entity.ProductAttr;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import com.mall.product.biz.domain.vo.ProductAttrListVO;
 import com.mall.product.biz.domain.vo.ProductAttrVO;
-import com.mall.product.biz.service.IProductAttrService;
+import com.mall.product.biz.service.IProductAttributesService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ProductAttrController {
 
-    private final IProductAttrService productAttrService;
+    private final IProductAttributesService productAttrService;
 
     @GetMapping("/base/listPage")
     public Result<IPage<ProductAttrListVO>> listBasePage(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
@@ -59,21 +59,17 @@ public class ProductAttrController {
 
     @PostMapping("/update")
     public Result<?> update(@Valid @RequestBody ProductAttrUpdateDTO updateDto) {
-        ProductAttr data = new ProductAttr();
+        ProductAttributes data = new ProductAttributes();
         BeanUtil.copyProperties(updateDto, data);
-        // 所属分组id
-        String attrGroupId = updateDto.getAttrGroupId();
-        productAttrService.updateData(data, attrGroupId);
+        productAttrService.updateData(data);
         return Result.success();
     }
 
     @PostMapping("/save")
     public Result<?> save(@Valid @RequestBody ProductAttrSaveDTO saveDto) {
-        ProductAttr data = new ProductAttr();
+        ProductAttributes data = new ProductAttributes();
         BeanUtil.copyProperties(saveDto, data);
-        // 所属分组id
-        String attrGroupId = saveDto.getAttrGroupId();
-        productAttrService.saveData(data, attrGroupId);
+        productAttrService.saveData(data);
         return Result.success();
     }
 

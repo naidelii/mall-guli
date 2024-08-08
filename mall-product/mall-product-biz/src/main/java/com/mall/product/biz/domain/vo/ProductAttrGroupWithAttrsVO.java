@@ -1,8 +1,8 @@
 package com.mall.product.biz.domain.vo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.mall.product.biz.domain.entity.ProductAttr;
 import com.mall.product.biz.domain.entity.ProductAttrGroup;
+import com.mall.product.biz.domain.entity.ProductAttributes;
 import lombok.Data;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class ProductAttrGroupWithAttrsVO {
     /**
      * 分组下所有属性
      */
-    private List<ProductAttr> attrList;
+    private List<ProductAttributes> attrList;
 
     public ProductAttrGroupWithAttrsVO(ProductAttrGroup data) {
         BeanUtil.copyProperties(data, this);
