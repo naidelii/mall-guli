@@ -39,6 +39,6 @@ public class ProductCategorySaveDTO {
     /**
      * 图片
      */
-    private String img;
+    private String imageUrl;
 
 }

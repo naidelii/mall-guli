@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
-import com.mall.product.biz.mapper.ProductCategoryBrandMapper;
+import com.mall.product.biz.mapper.ProductBrandCategoryRelationMapper;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements IProductCategoryService {
 
-    private final ProductCategoryBrandMapper categoryBrandMapper;
+    private final ProductBrandCategoryRelationMapper brandCategoryRelationMapper;
 
     @Override
     public List<ProductCategoryListTreeVO> listWithTree() {
@@ -58,7 +58,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     public void updateData(ProductCategory data) {
         String categoryName = data.getCategoryName();
         if (StringUtils.isNotBlank(categoryName)) {
-            categoryBrandMapper.updateCategory(data.getId(), categoryName);
+            brandCategoryRelationMapper.updateCategory(data.getId(), categoryName);
         }
         baseMapper.updateById(data);
     }

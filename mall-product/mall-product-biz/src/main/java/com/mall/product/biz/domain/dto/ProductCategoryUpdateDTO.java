@@ -42,6 +42,6 @@ public class ProductCategoryUpdateDTO {
     /**
      * 图片
      */
-    private String img;
+    private String imageUrl;
 
 }

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @author naidelii
  */
 @Data
-public class ProductCategoryBrandSaveDTO {
+public class ProductBrandCategoryRelationSaveDTO {
 
     /**
      * 品牌id

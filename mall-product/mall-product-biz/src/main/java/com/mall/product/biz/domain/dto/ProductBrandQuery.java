@@ -13,7 +13,7 @@ public class ProductBrandQuery {
     /**
      * 品牌名称
      */
-    private String name;
+    private String brandName;
 
     /**
      * 检索首字母

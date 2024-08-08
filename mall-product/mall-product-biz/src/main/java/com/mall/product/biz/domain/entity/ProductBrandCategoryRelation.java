@@ -1,7 +1,5 @@
-package com.mall.product.biz.domain.vo;
+package com.mall.product.biz.domain.entity;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.mall.product.biz.domain.entity.ProductCategoryBrand;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,13 +10,23 @@ import java.io.Serializable;
  * @author naidelii
  */
 @Data
-public class ProductCategoryBrandListVO implements Serializable {
+public class ProductBrandCategoryRelation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 主键
      */
     private String id;
+
+    /**
+     * 品牌id
+     */
+    private String brandId;
+
+    /**
+     * 分类id
+     */
+    private String categoryId;
 
     /**
      * 品牌名称
@@ -29,9 +37,5 @@ public class ProductCategoryBrandListVO implements Serializable {
      * 分类名称
      */
     private String categoryName;
-
-    public ProductCategoryBrandListVO(ProductCategoryBrand data) {
-        BeanUtil.copyProperties(data, this);
-    }
 
 }

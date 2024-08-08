@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.common.data.utils.PageUtils;
 import com.mall.product.biz.domain.dto.ProductBrandQuery;
 import com.mall.product.biz.domain.entity.ProductBrand;
-import com.mall.product.biz.domain.entity.ProductCategoryBrand;
+import com.mall.product.biz.domain.entity.ProductBrandCategoryRelation;
 import com.mall.product.biz.domain.vo.ProductBrandListVO;
+import com.mall.product.biz.mapper.ProductBrandCategoryRelationMapper;
 import com.mall.product.biz.mapper.ProductBrandMapper;
-import com.mall.product.biz.mapper.ProductCategoryBrandMapper;
 import com.mall.product.biz.service.IProductBrandService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, ProductBrand> implements IProductBrandService {
 
-    private final ProductCategoryBrandMapper categoryBrandMapper;
+    private final ProductBrandCategoryRelationMapper brandCategoryRelationMapper;
 
     @Override
     public IPage<ProductBrandListVO> selectListPage(Integer pageNo, Integer pageSize, ProductBrandQuery query) {
@@ -55,10 +55,10 @@ public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, Pro
     @Transactional(rollbackFor = Exception.class)
     public void updateData(ProductBrand data) {
         // 保证冗余字段的数据一致性
-        String name = data.getName();
+        String name = data.getBrandName();
         if (StringUtils.isNotBlank(name)) {
             // 同步更新其他关联表的数据
-            categoryBrandMapper.updateBrand(data.getId(), name);
+            brandCategoryRelationMapper.updateBrand(data.getId(), name);
         }
         baseMapper.updateById(data);
     }
@@ -66,14 +66,14 @@ public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, Pro
     @Override
     public List<ProductBrand> listByCategoryId(String categoryId) {
         // 根据分类id查询出对应的品牌信息
-        LambdaQueryWrapper<ProductCategoryBrand> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ProductCategoryBrand::getCategoryId, categoryId);
-        List<ProductCategoryBrand> categoryBrands = categoryBrandMapper.selectList(queryWrapper);
+        LambdaQueryWrapper<ProductBrandCategoryRelation> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ProductBrandCategoryRelation::getCategoryId, categoryId);
+        List<ProductBrandCategoryRelation> categoryBrands = brandCategoryRelationMapper.selectList(queryWrapper);
         if (categoryBrands.isEmpty()) {
             return Collections.emptyList();
         }
         Set<String> brandIds = categoryBrands.stream()
-                .map(ProductCategoryBrand::getBrandId)
+                .map(ProductBrandCategoryRelation::getBrandId)
                 .collect(Collectors.toSet());
         return baseMapper.selectBatchIds(brandIds);
     }

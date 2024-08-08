@@ -44,7 +44,7 @@ public class ProductCategory extends BaseEntity implements Serializable {
     private Integer isShow;
 
     /**
-     * 逻辑删除（1：删除，0：未删除）
+     * 逻辑删除（0：未删除，1：删除）
      */
     @TableLogic
     private Integer isDeleted;
@@ -57,6 +57,6 @@ public class ProductCategory extends BaseEntity implements Serializable {
     /**
      * 图片
      */
-    private String img;
+    private String imageUrl;
 
 }

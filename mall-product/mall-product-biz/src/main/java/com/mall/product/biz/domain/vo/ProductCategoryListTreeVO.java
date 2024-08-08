@@ -55,7 +55,7 @@ public class ProductCategoryListTreeVO implements Serializable {
     /**
      * 图片
      */
-    private String img;
+    private String imageUrl;
 
     /**
      * 子分类

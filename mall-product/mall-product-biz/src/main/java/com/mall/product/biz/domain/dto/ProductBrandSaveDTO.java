@@ -16,12 +16,12 @@ public class ProductBrandSaveDTO {
      * 品牌名称
      */
     @NotBlank(message = "品牌名称不能为空")
-    private String name;
+    private String brandName;
 
     /**
      * 品牌logo
      */
-    private String logo;
+    private String logoUrl;
 
     /**
      * 介绍

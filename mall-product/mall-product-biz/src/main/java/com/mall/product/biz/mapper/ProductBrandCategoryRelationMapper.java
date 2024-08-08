@@ -1,7 +1,7 @@
 package com.mall.product.biz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mall.product.biz.domain.entity.ProductCategoryBrand;
+import com.mall.product.biz.domain.entity.ProductBrandCategoryRelation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @author naidelii
  */
 @Mapper
-public interface ProductCategoryBrandMapper extends BaseMapper<ProductCategoryBrand> {
+public interface ProductBrandCategoryRelationMapper extends BaseMapper<ProductBrandCategoryRelation> {
 
     void updateBrand(@Param("brandId") String brandId, @Param("brandName") String brandName);
 

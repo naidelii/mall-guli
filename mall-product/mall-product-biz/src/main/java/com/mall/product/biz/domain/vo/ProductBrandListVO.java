@@ -27,12 +27,12 @@ public class ProductBrandListVO implements Serializable {
     /**
      * 品牌名称
      */
-    private String name;
+    private String brandName;
 
     /**
      * 品牌logo
      */
-    private String logo;
+    private String logoUrl;
 
     /**
      * 介绍

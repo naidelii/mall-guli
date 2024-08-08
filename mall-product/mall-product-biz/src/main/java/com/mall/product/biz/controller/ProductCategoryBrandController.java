@@ -3,10 +3,10 @@ package com.mall.product.biz.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.mall.common.base.api.Result;
-import com.mall.product.biz.domain.dto.ProductCategoryBrandSaveDTO;
-import com.mall.product.biz.domain.entity.ProductCategoryBrand;
-import com.mall.product.biz.domain.vo.ProductCategoryBrandListVO;
-import com.mall.product.biz.service.IProductCategoryBrandService;
+import com.mall.product.biz.domain.dto.ProductBrandCategoryRelationSaveDTO;
+import com.mall.product.biz.domain.entity.ProductBrandCategoryRelation;
+import com.mall.product.biz.domain.vo.ProductBrandCategoryRelationListVO;
+import com.mall.product.biz.service.IProductBrandCategoryRelationService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,25 +28,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductCategoryBrandController {
 
-    private final IProductCategoryBrandService productCategoryBrandService;
+    private final IProductBrandCategoryRelationService brandCategoryRelationService;
 
     @GetMapping("/listByBrandId")
-    public Result<List<ProductCategoryBrandListVO>> listByBrandId(@RequestParam("brandId") String brandId) {
-        List<ProductCategoryBrandListVO> list = productCategoryBrandService.listByBrandId(brandId);
+    public Result<List<ProductBrandCategoryRelationListVO>> listByBrandId(@RequestParam("brandId") String brandId) {
+        List<ProductBrandCategoryRelationListVO> list = brandCategoryRelationService.listByBrandId(brandId);
         return Result.success(list);
     }
 
     @PostMapping("/save")
-    public Result<?> save(@Validated @RequestBody ProductCategoryBrandSaveDTO saveDto) {
-        ProductCategoryBrand data = new ProductCategoryBrand();
+    public Result<?> save(@Validated @RequestBody ProductBrandCategoryRelationSaveDTO saveDto) {
+        ProductBrandCategoryRelation data = new ProductBrandCategoryRelation();
         BeanUtil.copyProperties(saveDto, data);
-        productCategoryBrandService.saveDetail(data);
+        brandCategoryRelationService.saveDetail(data);
         return Result.success();
     }
 
     @PostMapping("/delete")
     public Result<?> delete(@RequestParam String id) {
-        productCategoryBrandService.removeById(id);
+        brandCategoryRelationService.removeById(id);
         return Result.success();
     }
 }

@@ -1,8 +1,8 @@
 package com.mall.product.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mall.product.biz.domain.entity.ProductCategoryBrand;
-import com.mall.product.biz.domain.vo.ProductCategoryBrandListVO;
+import com.mall.product.biz.domain.entity.ProductBrandCategoryRelation;
+import com.mall.product.biz.domain.vo.ProductBrandCategoryRelationListVO;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author naidelii
  */
-public interface IProductCategoryBrandService extends IService<ProductCategoryBrand> {
+public interface IProductBrandCategoryRelationService extends IService<ProductBrandCategoryRelation> {
 
 
     /**
@@ -19,7 +19,7 @@ public interface IProductCategoryBrandService extends IService<ProductCategoryBr
      *
      * @param data 品牌分类关联信息
      */
-    void saveDetail(ProductCategoryBrand data);
+    void saveDetail(ProductBrandCategoryRelation data);
 
     /**
      * 根据品牌id查询 品牌相关的分类信息
@@ -27,6 +27,6 @@ public interface IProductCategoryBrandService extends IService<ProductCategoryBr
      * @param brandId 品牌id
      * @return List<ProductCategoryBrandListVO>
      */
-    List<ProductCategoryBrandListVO> listByBrandId(String brandId);
+    List<ProductBrandCategoryRelationListVO> listByBrandId(String brandId);
 }
 
