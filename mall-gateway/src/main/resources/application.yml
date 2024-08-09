@@ -8,10 +8,10 @@ spring:
     nacos:
       discovery:
         #naocs-server地址
-        server-addr: http://192.168.230.7:8848
+        server-addr: http://192.168.230.7:18848
       config:
         # 配置中心地址
-        server-addr: http://192.168.230.7:8848
+        server-addr: http://192.168.230.7:18848
     # 网关配置
     gateway:
       globalcors:
