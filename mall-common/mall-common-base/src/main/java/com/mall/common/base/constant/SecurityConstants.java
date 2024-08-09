@@ -16,4 +16,9 @@ public interface SecurityConstants {
      */
     String PASSWORD_CONFUSE_KEY = "guli-mall";
 
+    /**
+     * token
+     */
+    String AUTHORIZATION = "Authorization";
+
 }
