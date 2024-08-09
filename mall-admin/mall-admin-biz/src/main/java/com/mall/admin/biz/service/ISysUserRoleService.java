@@ -3,7 +3,6 @@ package com.mall.admin.biz.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.entity.SysUserRole;
-import com.mall.common.security.domain.LoginUser;
 
 import java.util.List;
 import java.util.Set;
@@ -31,14 +30,6 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      * @return 角色信息
      */
     List<SysRole> selectRolesByUserId(String userId);
-
-    /**
-     * 获取角色数据权限
-     *
-     * @param loginUser 登录用户信息
-     * @return 角色权限信息
-     */
-    Set<String> selectRoleByLoginUser(LoginUser loginUser);
 
     /**
      * 批量删除用户和角色关联

@@ -81,16 +81,6 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    public Set<String> selectPermsByLoginUser(LoginUser loginUser) {
-        List<SysPermission> permissionList = getUserPermissionsByTypes(loginUser,
-                Collections.singleton(PermissionTypeEnum.BUTTON_PERMISSIONS.getValue()));
-        return permissionList.stream()
-                .map(SysPermission::getPerms)
-                .collect(Collectors.toSet());
-    }
-
-
-    @Override
     public List<SysPermission> selectPermissionByRoleId(String roleId) {
         return baseMapper.selectPermissionByRoleId(roleId);
     }
