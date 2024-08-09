@@ -24,6 +24,8 @@
         </foreach>
     </delete>
 
+
+
     <select id="selectPermissionsByUserIdAndType" resultType="com.mall.admin.api.entity.SysPermission">
         select
             distinct <include refid="permissionResult"/>

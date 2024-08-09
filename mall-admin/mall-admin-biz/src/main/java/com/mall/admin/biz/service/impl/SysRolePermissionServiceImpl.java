@@ -31,12 +31,23 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
 
     @Override
     public List<SysPermissionTreeVo> selectUserMenuList() {
+        // 获取当前登录用户
         LoginUser loginUser = SecurityContext.getLoginUser();
+        if (loginUser.isAdmin()) {
+            List<SysPermission> sysPermissions = permissionMapper.selectMenuList();
+            return buildMenuTree(sysPermissions);
+        }
         Set<Integer> types = new HashSet<>();
         types.add(PermissionTypeEnum.DIRECTORY.getValue());
         types.add(PermissionTypeEnum.MENU.getValue());
         List<SysPermission> sysPermissions = getUserPermissionsByTypes(loginUser, types);
         return buildMenuTree(sysPermissions);
+    }
+
+    private List<SysPermission> getUserPermissionsByTypes(LoginUser loginUser, Set<Integer> types) {
+        return loginUser.isAdmin() ?
+                permissionMapper.selectPermissionListByType(types) :
+                baseMapper.selectPermissionsByUserIdAndType(loginUser.getId(), types);
     }
 
     @Override
@@ -85,11 +96,5 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
         return baseMapper.selectPermissionByRoleId(roleId);
     }
 
-
-    private List<SysPermission> getUserPermissionsByTypes(LoginUser loginUser, Set<Integer> types) {
-        return loginUser.isAdmin() ?
-                permissionMapper.selectPermissionListByType(types) :
-                baseMapper.selectPermissionsByUserIdAndType(loginUser.getId(), types);
-    }
 
 }

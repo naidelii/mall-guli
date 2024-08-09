@@ -33,7 +33,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysPermissionListVo> selectPermissionList() {
-        List<SysPermission> menuList = baseMapper.selectPermissionListByType(null);
+        List<SysPermission> menuList = baseMapper.selectPermissionList();
         return menuList.stream()
                 .map(SysPermissionListVo::new)
                 .collect(Collectors.toList());
@@ -41,10 +41,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysPermissionListVo> selectMenuList() {
-        Set<Integer> types = new HashSet<>();
-        types.add(PermissionTypeEnum.DIRECTORY.getValue());
-        types.add(PermissionTypeEnum.MENU.getValue());
-        List<SysPermission> menuList = baseMapper.selectPermissionListByType(types);
+        List<SysPermission> menuList = baseMapper.selectMenuList();
         return menuList.stream()
                 .map(SysPermissionListVo::new)
                 .collect(Collectors.toList());

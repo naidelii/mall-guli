@@ -8,6 +8,21 @@
         sp.id, sp.name, sp.parent_id, sp.type, sp.url, sp.icon, sp.sort_order, sp.perms
     </sql>
 
+    <select id="selectMenuList" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+        distinct <include refid="permissionResult"/>
+        from sys_permission sp
+        <where>
+            sp.type in (0, 1)
+        </where>
+    </select>
+
+    <select id="selectPermissionList" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+        <include refid="permissionResult"/>
+        from sys_permission sp
+    </select>
+
     <select id="selectPermissionListByType" resultType="com.mall.admin.api.entity.SysPermission">
         select
         distinct <include refid="permissionResult"/>
@@ -21,6 +36,8 @@
             </if>
         </where>
     </select>
+
+
     <select id="selectPermissionListByParentId" resultType="com.mall.admin.api.entity.SysPermission">
         select
         <include refid="permissionResult"/>

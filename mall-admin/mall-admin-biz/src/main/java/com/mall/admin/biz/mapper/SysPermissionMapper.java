@@ -12,6 +12,19 @@ import java.util.Set;
  */
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
+    /**
+     * 根据type查询菜单权限
+     *
+     * @return List<SysPermission>
+     */
+    List<SysPermission> selectMenuList();
+
+    /**
+     * 根据type查询菜单权限
+     *
+     * @return List<SysPermission>
+     */
+    List<SysPermission> selectPermissionList();
 
     /**
      * 根据type查询菜单权限
