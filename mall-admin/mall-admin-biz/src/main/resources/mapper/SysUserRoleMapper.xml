@@ -9,10 +9,10 @@
     </sql>
 
     <insert id="saveBatch">
-        INSERT INTO sys_user_role (user_id, role_id)
+        INSERT INTO sys_user_role (id, user_id, role_id)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.userId}, #{item.roleId})
+            (#{item.id}, #{item.userId}, #{item.roleId})
         </foreach>
     </insert>
 

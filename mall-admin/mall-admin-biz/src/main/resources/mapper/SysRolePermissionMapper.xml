@@ -18,10 +18,10 @@
     </sql>
 
     <insert id="saveBatch">
-        INSERT INTO sys_role_permission (role_id, permission_id)
+        INSERT INTO sys_role_permission (id, role_id, permission_id)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.roleId}, #{item.permissionId})
+            (#{item.id}, #{item.roleId}, #{item.permissionId})
         </foreach>
     </insert>
 
