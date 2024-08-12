@@ -1,0 +1,23 @@
+server:
+  port: 18080
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    # 环境 dev|test|prod
+    active: dev
+  application:
+    name: mall-admin
+  cloud:
+    nacos:
+      discovery:
+        #naocs-server地址
+        server-addr: http://192.168.230.7:18848
+      config:
+        # 配置中心地址
+        server-addr: http://192.168.230.7:18848
+  config:
+    import:
+      - optional:nacos:mall-security.yaml
+      - optional:nacos:mall-admin-${spring.profiles.active}.yaml
