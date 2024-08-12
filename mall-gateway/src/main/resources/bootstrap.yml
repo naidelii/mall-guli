@@ -18,6 +18,8 @@ spring:
   config:
     import:
       - optional:nacos:mall-gateway-router.yaml
+      - optional:nacos:mall-gateway-${spring.profiles.active}.yaml
+      - optional:nacos:mall-security.yaml
 
 # 自定义配置
 app:
