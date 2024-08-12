@@ -1,46 +1,28 @@
 server:
   port: 9999
-#spring配置
+
+# spring配置
 spring:
+  profiles:
+    # 环境 dev|test|prod
+    active: dev
+
   application:
     name: mall-gateway
   cloud:
     nacos:
       discovery:
         #naocs-server地址
-        server-addr: http://192.168.230.7:18848
+        server-addr: ${nacos.discovery.server-addr}
       config:
         # 配置中心地址
-        server-addr: http://192.168.230.7:18848
-    # 网关配置
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowCredentials: true
-            #springboot2.4后需用allowedOriginPatterns
-            allowedOriginPatterns: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-      # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微服务]
-      routes:
-        # 路由的id，要求唯一，建议配合服务名
-        - id: admin_service
-          # 路由的目标地址，uri: http://localhost:8001(http是固定地址)
-          # 路由的目标地址，lb就是负载均衡，后面跟服务名称
-          uri: lb://mall-admin
-          # 路由断言，判断请求是否符合路由规则的条件
-          predicates:
-            - Path=/sys/**,/auth/**
-        - id: product_service
-          uri: lb://mall-product
-          predicates:
-            - Path=/product/**
-        - id: third_party_service
-          uri: lb://mall-third-party
-          predicates:
-            - Path=/thirdparty/**
-        - id: member_service
-          uri: lb://mall-member
-          predicates:
-            - Path=/member/**
+        server-addr: ${nacos.config.server-addr}
+        namespace: public
+        group: DEFAULT_GROUP
+        file-extension: yaml
+
+# 自定义配置
+app:
+  # 跨域配置是否开启
+  cors:
+    enabled: true
