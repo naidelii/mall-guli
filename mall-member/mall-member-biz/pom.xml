@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.mall</groupId>
-            <artifactId>mall-common-data</artifactId>
+            <artifactId>mall-common-datasource</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

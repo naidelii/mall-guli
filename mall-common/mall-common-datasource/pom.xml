@@ -5,27 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.mall</groupId>
-        <artifactId>mall-product</artifactId>
+        <artifactId>mall-common</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>mall-product-biz</artifactId>
+    <artifactId>mall-common-datasource</artifactId>
+
 
     <dependencies>
         <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>mall-common-swagger</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>mall-product-api</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>mall-common-datasource</artifactId>
-            <version>${project.version}</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 
