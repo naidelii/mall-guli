@@ -4,22 +4,16 @@ package com.mall.admin.biz.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.admin.api.entity.SysPermission;
-import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
-import com.mall.admin.biz.domain.vo.SysPermissionListVo;
 import com.mall.admin.biz.mapper.SysPermissionMapper;
+import com.mall.admin.biz.mapper.SysRolePermissionMapper;
 import com.mall.admin.biz.service.ISysPermissionService;
-import com.mall.admin.biz.service.ISysRolePermissionService;
-import com.mall.common.base.constant.enums.PermissionTypeEnum;
 import com.mall.common.base.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 /**
@@ -29,33 +23,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
-    private final ISysRolePermissionService rolePermissionService;
+    private final SysRolePermissionMapper rolePermissionMapper;
 
     @Override
-    public List<SysPermissionListVo> selectPermissionList() {
-        List<SysPermission> menuList = baseMapper.selectPermissionList();
-        return menuList.stream()
-                .map(SysPermissionListVo::new)
-                .collect(Collectors.toList());
+    public List<SysPermission> listAllPermissions() {
+        return baseMapper.listAllPermissions();
     }
 
     @Override
-    public List<SysPermissionListVo> selectMenuList() {
-        List<SysPermission> menuList = baseMapper.selectMenuList();
-        return menuList.stream()
-                .map(SysPermissionListVo::new)
-                .collect(Collectors.toList());
+    public List<SysPermission> listAllMenus() {
+        return baseMapper.listAllMenus();
     }
 
     @Override
     public void savePermission(SysPermission permission) {
         baseMapper.insert(permission);
-    }
-
-    @Override
-    public SysPermissionInfoVo selectInfoById(String permissionId) {
-        SysPermission permission = baseMapper.selectById(permissionId);
-        return new SysPermissionInfoVo(permission);
     }
 
     @Override
@@ -67,12 +49,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(String id) {
         // 判断是否有子菜单或按钮
-        List<SysPermission> list = baseMapper.selectPermissionListByParentId(id);
+        List<SysPermission> list = baseMapper.listPermissionByParentId(id);
         if (CollUtil.isNotEmpty(list)) {
             throw new GlobalException("请先删除子菜单或按钮");
         }
         // 删除菜单与角色关联
-        rolePermissionService.deleteByPermissionId(id);
+        rolePermissionMapper.deleteByPermissionId(id);
         baseMapper.deleteById(id);
     }
 

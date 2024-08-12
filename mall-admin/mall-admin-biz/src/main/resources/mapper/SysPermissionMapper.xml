@@ -8,7 +8,7 @@
         sp.id, sp.name, sp.parent_id, sp.type, sp.url, sp.icon, sp.sort_order, sp.perms
     </sql>
 
-    <select id="selectMenuList" resultType="com.mall.admin.api.entity.SysPermission">
+    <select id="listAllMenus" resultType="com.mall.admin.api.entity.SysPermission">
         select
         distinct <include refid="permissionResult"/>
         from sys_permission sp
@@ -17,7 +17,7 @@
         </where>
     </select>
 
-    <select id="selectPermissionList" resultType="com.mall.admin.api.entity.SysPermission">
+    <select id="listAllPermissions" resultType="com.mall.admin.api.entity.SysPermission">
         select
         <include refid="permissionResult"/>
         from sys_permission sp
@@ -38,7 +38,7 @@
     </select>
 
 
-    <select id="selectPermissionListByParentId" resultType="com.mall.admin.api.entity.SysPermission">
+    <select id="listPermissionByParentId" resultType="com.mall.admin.api.entity.SysPermission">
         select
         <include refid="permissionResult"/>
         from sys_permission sp

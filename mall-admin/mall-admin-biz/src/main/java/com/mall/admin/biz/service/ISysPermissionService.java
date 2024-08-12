@@ -3,8 +3,6 @@ package com.mall.admin.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysPermission;
-import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
-import com.mall.admin.biz.domain.vo.SysPermissionListVo;
 
 import java.util.List;
 
@@ -22,7 +20,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
      *
      * @return List<SysPermissionListVo>
      */
-    List<SysPermissionListVo> selectPermissionList();
+    List<SysPermission> listAllPermissions();
 
 
     /**
@@ -30,7 +28,7 @@ public interface ISysPermissionService extends IService<SysPermission> {
      *
      * @return List<SysPermissionListVo>
      */
-    List<SysPermissionListVo> selectMenuList();
+    List<SysPermission> listAllMenus();
 
     /**
      * 添加菜单权限
@@ -38,14 +36,6 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param permission 菜单权限信息
      */
     void savePermission(SysPermission permission);
-
-    /**
-     * 获取菜单权限详情
-     *
-     * @param permissionId 主键
-     * @return SysPermissionInfoVo
-     */
-    SysPermissionInfoVo selectInfoById(String permissionId);
 
     /**
      * 修改菜单权限

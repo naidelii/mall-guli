@@ -1,19 +1,17 @@
 package com.mall.admin.biz.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mall.admin.api.entity.SysPermission;
 import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.biz.domain.dto.SysRoleListQuery;
-import com.mall.admin.biz.domain.vo.SysRoleInfoVo;
-import com.mall.admin.biz.domain.vo.SysRoleListVo;
+import com.mall.admin.biz.domain.entity.SysRolePermission;
 import com.mall.admin.biz.mapper.SysRoleMapper;
-import com.mall.admin.biz.service.ISysRolePermissionService;
+import com.mall.admin.biz.mapper.SysRolePermissionMapper;
+import com.mall.admin.biz.mapper.SysUserRoleMapper;
 import com.mall.admin.biz.service.ISysRoleService;
-import com.mall.admin.biz.service.ISysUserRoleService;
-import com.mall.common.data.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,28 +30,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
-    private final ISysRolePermissionService rolePermissionService;
-    private final ISysUserRoleService userRoleService;
+    private final SysRolePermissionMapper rolePermissionMapper;
+    private final SysUserRoleMapper userRoleMapper;
 
     @Override
-    public IPage<SysRoleListVo> selectListPage(Integer pageNo, Integer pageSize, SysRoleListQuery query) {
+    public IPage<SysRole> listRolesByPage(Integer pageNo, Integer pageSize, SysRoleListQuery query) {
         IPage<SysRole> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(query.getRoleName()), SysRole::getRoleName, query.getRoleName());
-        IPage<SysRole> pageList = baseMapper.selectPage(page, queryWrapper);
-        List<SysRoleListVo> userListVos = pageList.getRecords()
-                .stream()
-                .map(SysRoleListVo::new)
-                .collect(Collectors.toList());
-        return PageUtils.buildPage(userListVos, pageList);
-    }
-
-    @Override
-    public List<SysRoleListVo> selectList() {
-        List<SysRole> list = baseMapper.selectList(null);
-        return list.stream()
-                .map(SysRoleListVo::new)
-                .collect(Collectors.toList());
+        return baseMapper.selectPage(page, queryWrapper);
     }
 
     @Override
@@ -61,7 +46,20 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void saveRole(SysRole role, Set<String> permissionIds) {
         baseMapper.insert(role);
         // 保存角色与菜单关系
-        rolePermissionService.saveOrUpdate(role.getId(), permissionIds);
+        saveOrUpdateRolePermissions(role.getId(), permissionIds);
+    }
+
+
+    private void saveOrUpdateRolePermissions(String roleId, Set<String> permissionIds) {
+        // 删除该角色关联的菜单
+        rolePermissionMapper.deleteByRoleId(roleId);
+        // 添加角色与菜单新的关联关系
+        if (CollUtil.isNotEmpty(permissionIds)) {
+            List<SysRolePermission> list = permissionIds.stream()
+                    .map(permissionId -> new SysRolePermission(roleId, permissionId))
+                    .collect(Collectors.toList());
+            rolePermissionMapper.saveBatch(list);
+        }
     }
 
     @Override
@@ -69,30 +67,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void updateRole(SysRole role, Set<String> permissionIds) {
         baseMapper.updateById(role);
         // 保存角色与菜单关系
-        rolePermissionService.saveOrUpdate(role.getId(), permissionIds);
+        saveOrUpdateRolePermissions(role.getId(), permissionIds);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteByIds(Set<String> roleIds) {
         // 删除用户与角色的关联
-        userRoleService.deleteByRoleIds(roleIds);
+        userRoleMapper.deleteByRoleIds(roleIds);
         // 删除角色与菜单权限的关联
-        rolePermissionService.deleteRolePermission(roleIds);
+        rolePermissionMapper.deleteRolePermission(roleIds);
         // 删除角色
         baseMapper.deleteBatchIds(roleIds);
-    }
-
-    @Override
-    public SysRoleInfoVo selectInfoById(String roleId) {
-        SysRole sysRole = baseMapper.selectById(roleId);
-        SysRoleInfoVo vo = new SysRoleInfoVo(sysRole);
-        List<SysPermission> permissionList = rolePermissionService.selectPermissionByRoleId(roleId);
-        Set<String> permissionIds = permissionList.stream()
-                .map(SysPermission::getId)
-                .collect(Collectors.toSet());
-        vo.setPermissionIds(permissionIds);
-        return vo;
     }
 
 }

@@ -17,6 +17,14 @@
         join sys_user su on sur.user_id = su.id
     </sql>
 
+    <insert id="saveBatch">
+        INSERT INTO sys_role_permission (role_id, permission_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId}, #{item.permissionId})
+        </foreach>
+    </insert>
+
     <delete id="deleteRolePermission">
         delete from sys_role_permission where role_id in
         <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
@@ -24,22 +32,7 @@
         </foreach>
     </delete>
 
-
-
-    <select id="selectPermissionsByUserIdAndType" resultType="com.mall.admin.api.entity.SysPermission">
-        select
-            distinct <include refid="permissionResult"/>
-        <include refid="commonJoins"/>
-        <where>
-            su.id = #{userId}
-            AND sp.type IN
-            <foreach collection="types" item="type" open="(" separator="," close=")">
-                #{type}
-            </foreach>
-        </where>
-    </select>
-
-    <select id="selectPermissionByRoleId" resultType="com.mall.admin.api.entity.SysPermission">
+    <select id="listMenusByRoleId" resultType="com.mall.admin.api.entity.SysPermission">
         select
             distinct <include refid="permissionResult"/>
         from sys_permission sp
@@ -47,6 +40,16 @@
         join sys_role sr on srp.role_id = sr.id
         <where>
             sr.id = #{roleId}
+        </where>
+    </select>
+
+    <select id="listMenusByUserId" resultType="com.mall.admin.api.entity.SysPermission">
+        select
+            distinct <include refid="permissionResult"/>
+        <include refid="commonJoins"/>
+        <where>
+            su.id = #{userId}
+            AND sp.type IN (0, 1)
         </where>
     </select>
 

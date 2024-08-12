@@ -29,16 +29,15 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
      * @param roleId 角色id
      * @return List<SysPermission>
      */
-    List<SysPermission> selectPermissionByRoleId(@Param("roleId") String roleId);
+    List<SysPermission> listMenusByRoleId(@Param("roleId") String roleId);
 
     /**
-     * 查询用户的菜单列表或菜单权限
+     * 查询用户拥有的的菜单列表
      *
      * @param userId 用户id
-     * @param types  类型
      * @return List<SysPermission>
      */
-    List<SysPermission> selectPermissionsByUserIdAndType(@Param("userId") String userId, @Param("types") Set<Integer> types);
+    List<SysPermission> listMenusByUserId(@Param("userId") String userId);
 
     /**
      * 删除角色与菜单权限的关联
@@ -56,4 +55,12 @@ public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
      */
     @Delete("delete from sys_role_permission where permission_id = #{permissionId}")
     int deleteByPermissionId(@Param("permissionId") String permissionId);
+
+    /**
+     * 批量新增角色与菜单的关联关系
+     *
+     * @param list 角色与菜单的关联关系
+     * @return 影响的数量
+     */
+    int saveBatch(@Param("list") List<SysRolePermission> list);
 }

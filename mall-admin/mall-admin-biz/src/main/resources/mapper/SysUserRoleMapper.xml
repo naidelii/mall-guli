@@ -8,6 +8,14 @@
         sr.id, sr.role_name, sr.role_code, sr.description
     </sql>
 
+    <insert id="saveBatch">
+        INSERT INTO sys_user_role (user_id, role_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId}, #{item.roleId})
+        </foreach>
+    </insert>
+
     <delete id="deleteUserRole" parameterType="string">
         delete from sys_user_role where user_id in
         <foreach collection="userIds" item="userId" open="(" separator="," close=")">
@@ -21,15 +29,18 @@
             #{roleId}
         </foreach>
     </delete>
+    <delete id="deleteByUserId">
+        delete from sys_user_role where user_id = #{userId}
+    </delete>
 
-    <select id="selectRolesByUserId" resultType="com.mall.admin.api.entity.SysRole">
+    <select id="listRolesByUserId" resultType="com.mall.admin.api.entity.SysRole">
         select
         <include refid="roleResult"/>
         from sys_role sr
         join sys_user_role sur on sr.id = sur.role_id
         join sys_user su on sur.user_id = su.id
         <where>
-            su.id = #{userId};
+            su.id = #{userId}
         </where>
     </select>
 </mapper>

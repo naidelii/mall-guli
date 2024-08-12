@@ -4,13 +4,16 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mall.admin.api.entity.SysRole;
 import com.mall.admin.api.entity.SysUser;
 import com.mall.admin.biz.domain.dto.*;
 import com.mall.admin.biz.domain.vo.SysUserInfoVo;
 import com.mall.admin.biz.domain.vo.SysUserListVo;
+import com.mall.admin.biz.service.ISysUserRoleService;
 import com.mall.admin.biz.service.ISysUserService;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
+import com.mall.common.data.utils.PageUtils;
 import com.mall.common.security.context.SecurityContext;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Naidelii
@@ -33,6 +38,7 @@ import java.util.Set;
 public class SysUserController {
 
     private final ISysUserService userService;
+    private final ISysUserRoleService userRoleService;
 
     /**
      * 用户列表
@@ -46,8 +52,13 @@ public class SysUserController {
     public Result<IPage<SysUserListVo>> list(@RequestParam(name = CommonConstants.PAGE_NO_PARAM, defaultValue = CommonConstants.PAGE_NO_DEFAULT) Integer pageNo,
                                              @RequestParam(name = CommonConstants.PAGE_SIZE_PARAM, defaultValue = CommonConstants.PAGE_SIZE_DEFAULT) Integer pageSize,
                                              SysUserListQuery query) {
-        IPage<SysUserListVo> pageList = userService.selectListPage(pageNo, pageSize, query);
-        return Result.success(pageList);
+        IPage<SysUser> pageList = userService.listUsersByPage(pageNo, pageSize, query);
+        List<SysUserListVo> userListVos = pageList.getRecords()
+                .stream()
+                .map(SysUserListVo::new)
+                .collect(Collectors.toList());
+        IPage<SysUserListVo> pageVo = PageUtils.buildPage(userListVos, pageList);
+        return Result.success(pageVo);
     }
 
 
@@ -70,8 +81,14 @@ public class SysUserController {
     @GetMapping("/info/{id}")
     @SaCheckPermission("sys:user:info")
     public Result<?> info(@PathVariable("id") String id) {
-        SysUserInfoVo sysUserVo = userService.selectInfoById(id);
-        return Result.success(sysUserVo);
+        SysUser sysUser = userService.getById(id);
+        SysUserInfoVo vo = new SysUserInfoVo(sysUser);
+        List<SysRole> rolelist = userRoleService.listRolesByUserId(id);
+        Set<String> roleIds = rolelist.stream()
+                .map(SysRole::getId)
+                .collect(Collectors.toSet());
+        vo.setRoleIds(roleIds);
+        return Result.success(vo);
     }
 
 

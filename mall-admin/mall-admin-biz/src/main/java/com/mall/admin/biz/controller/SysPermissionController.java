@@ -4,6 +4,7 @@ package com.mall.admin.biz.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import com.mall.admin.api.entity.SysPermission;
+import com.mall.admin.biz.converter.SysPermissionConverter;
 import com.mall.admin.biz.domain.dto.SysPermissionSaveDto;
 import com.mall.admin.biz.domain.dto.SysPermissionUpdateDto;
 import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,6 +37,19 @@ public class SysPermissionController {
     private final ISysRolePermissionService rolePermissionService;
     private final ISysPermissionService permissionService;
 
+    /**
+     * 查询所有菜单权限列表（列表展示）
+     *
+     * @return List<SysPermissionListVo>
+     */
+    @GetMapping("/list")
+    public Result<List<SysPermissionListVo>> list() {
+        List<SysPermission> menuList = permissionService.listAllPermissions();
+        List<SysPermissionListVo> listVos = menuList.stream()
+                .map(SysPermissionListVo::new)
+                .collect(Collectors.toList());
+        return Result.success(listVos);
+    }
 
     /**
      * 导航菜单
@@ -43,21 +58,11 @@ public class SysPermissionController {
      */
     @GetMapping("/nav")
     public Result<List<SysPermissionTreeVo>> nav() {
-        List<SysPermissionTreeVo> menuList = rolePermissionService.selectUserMenuList();
-        return Result.success(menuList);
+        List<SysPermission> menuList = rolePermissionService.listCurrentUserMenus();
+        List<SysPermissionTreeVo> vos = SysPermissionConverter.buildMenuTree(menuList);
+        return Result.success(vos);
     }
 
-
-    /**
-     * 查询所有菜单权限列表
-     *
-     * @return List<SysPermissionListVo>
-     */
-    @GetMapping("/list")
-    public Result<List<SysPermissionListVo>> list() {
-        List<SysPermissionListVo> menuList = permissionService.selectPermissionList();
-        return Result.success(menuList);
-    }
 
     /**
      * 查询所有菜单列表
@@ -66,8 +71,11 @@ public class SysPermissionController {
      */
     @GetMapping("/menuList")
     public Result<List<SysPermissionListVo>> menuList() {
-        List<SysPermissionListVo> menuList = permissionService.selectMenuList();
-        return Result.success(menuList);
+        List<SysPermission> menuList = permissionService.listAllMenus();
+        List<SysPermissionListVo> listVos = menuList.stream()
+                .map(SysPermissionListVo::new)
+                .collect(Collectors.toList());
+        return Result.success(listVos);
     }
 
     /**
@@ -110,7 +118,8 @@ public class SysPermissionController {
     @GetMapping("/info/{id}")
     @SaCheckPermission("sys:permission:info")
     public Result<?> info(@PathVariable("id") String id) {
-        SysPermissionInfoVo vo = permissionService.selectInfoById(id);
+        SysPermission permission = permissionService.getById(id);
+        SysPermissionInfoVo vo = new SysPermissionInfoVo(permission);
         return Result.success(vo);
     }
 

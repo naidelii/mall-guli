@@ -17,14 +17,14 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      *
      * @return List<SysPermission>
      */
-    List<SysPermission> selectMenuList();
+    List<SysPermission> listAllMenus();
 
     /**
      * 根据type查询菜单权限
      *
      * @return List<SysPermission>
      */
-    List<SysPermission> selectPermissionList();
+    List<SysPermission> listAllPermissions();
 
     /**
      * 根据type查询菜单权限
@@ -40,5 +40,5 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      * @param parentId 父级id
      * @return List<SysPermission>
      */
-    List<SysPermission> selectPermissionListByParentId(@Param("parentId") String parentId);
+    List<SysPermission> listPermissionByParentId(@Param("parentId") String parentId);
 }
