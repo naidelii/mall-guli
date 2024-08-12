@@ -1,11 +1,11 @@
-package com.mall.admin.biz.service.impl;
+package com.mall.auth.biz.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.mall.admin.biz.domain.dto.LoginUserDto;
-import com.mall.admin.biz.domain.entity.LoginUserInfo;
-import com.mall.admin.biz.mapper.LoginUserMapper;
-import com.mall.admin.biz.service.IAuthService;
-import com.mall.admin.biz.service.IVerifyCodeService;
+import com.mall.auth.biz.domain.dto.LoginUserDto;
+import com.mall.auth.biz.domain.entity.LoginUserInfo;
+import com.mall.auth.biz.mapper.LoginUserMapper;
+import com.mall.auth.biz.service.IAuthService;
+import com.mall.auth.biz.service.IVerifyCodeService;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.exception.GlobalException;
 import com.mall.common.base.utils.PasswordUtils;

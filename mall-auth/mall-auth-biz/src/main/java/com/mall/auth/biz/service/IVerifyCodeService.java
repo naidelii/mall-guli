@@ -1,4 +1,4 @@
-package com.mall.admin.biz.service;
+package com.mall.auth.biz.service;
 
 import java.util.Map;
 

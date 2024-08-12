@@ -1,7 +1,6 @@
-package com.mall.admin.biz.service;
+package com.mall.auth.biz.service;
 
-
-import com.mall.admin.biz.domain.dto.LoginUserDto;
+import com.mall.auth.biz.domain.dto.LoginUserDto;
 
 /**
  * @author naidelii

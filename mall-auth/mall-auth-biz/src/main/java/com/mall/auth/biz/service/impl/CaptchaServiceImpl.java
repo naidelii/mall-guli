@@ -1,11 +1,11 @@
-package com.mall.admin.biz.service.impl;
+package com.mall.auth.biz.service.impl;
 
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.crypto.SecureUtil;
-import com.mall.admin.biz.service.IVerifyCodeService;
+import com.mall.auth.biz.service.IVerifyCodeService;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.exception.GlobalException;
 import lombok.RequiredArgsConstructor;

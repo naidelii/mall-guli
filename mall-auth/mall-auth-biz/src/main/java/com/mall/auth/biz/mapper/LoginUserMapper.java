@@ -1,7 +1,7 @@
-package com.mall.admin.biz.mapper;
+package com.mall.auth.biz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mall.admin.biz.domain.entity.LoginUserInfo;
+import com.mall.auth.biz.domain.entity.LoginUserInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

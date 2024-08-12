@@ -1,12 +1,11 @@
-package com.mall.admin.biz.controller;
+package com.mall.auth.biz.controller;
 
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.mall.admin.biz.domain.dto.LoginUserDto;
-import com.mall.admin.biz.service.IAuthService;
-import com.mall.admin.biz.service.IVerifyCodeService;
+import com.mall.auth.biz.domain.dto.LoginUserDto;
+import com.mall.auth.biz.service.IAuthService;
+import com.mall.auth.biz.service.IVerifyCodeService;
 import com.mall.common.base.api.Result;
-import com.mall.common.security.context.SecurityContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

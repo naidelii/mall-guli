@@ -18,6 +18,7 @@
         <module>mall-generator</module>
         <module>mall-third-party</module>
         <module>mall-member</module>
+        <module>mall-auth</module>
     </modules>
 
     <parent>

@@ -1,4 +1,4 @@
-package com.mall.admin.biz.domain.entity;
+package com.mall.auth.biz.domain.entity;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.mall.common.security.config;
+package com.mall.auth.biz.config;
 
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
@@ -48,20 +48,5 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
                 // 指定放行路由
                 .addExclude(StringUtils.split(securityProperties.getWebIgnores(), ","));
     }
-
-//    /**
-//     * 解决跨域：如果是SpringCloud项目，则在网关进行处理
-//     *
-//     * @param registry CorsRegistry
-//     */
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowCredentials(true)
-//                .allowedOriginPatterns("*")
-//                .allowedMethods("GET", "POST", "PUT", "DELETE")
-//                .allowedHeaders("*")
-//                .exposedHeaders("*");
-//    }
 
 }
