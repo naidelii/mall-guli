@@ -1,4 +1,4 @@
-package com.mall.auth.biz.config;
+package com.mall.common.security.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

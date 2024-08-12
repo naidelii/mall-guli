@@ -1,4 +1,4 @@
-package com.mall.auth.biz.config;
+package com.mall.common.security.config;
 
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
