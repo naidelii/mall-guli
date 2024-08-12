@@ -19,5 +19,4 @@ spring:
         server-addr: http://192.168.230.7:18848
   config:
     import:
-      - optional:nacos:mall-security.yaml
       - optional:nacos:mall-admin-${spring.profiles.active}.yaml
