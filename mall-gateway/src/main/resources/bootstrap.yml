@@ -17,9 +17,9 @@ spring:
         server-addr: http://192.168.230.7:18848
   config:
     import:
-      - optional:nacos:mall-gateway-router.yaml
-      - optional:nacos:mall-gateway-${spring.profiles.active}.yaml
       - optional:nacos:mall-security.yaml
+      - optional:nacos:mall-gateway-router.yaml
+      - optional:nacos:mall-redis-${spring.profiles.active}.yaml
 
 # 自定义配置
 app:

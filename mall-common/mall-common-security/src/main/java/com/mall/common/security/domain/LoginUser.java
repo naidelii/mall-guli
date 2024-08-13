@@ -4,13 +4,15 @@ import com.mall.common.base.constant.CommonConstants;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * @author naidelii
  */
 @Data
-public class LoginUser {
+public class LoginUser implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 主键

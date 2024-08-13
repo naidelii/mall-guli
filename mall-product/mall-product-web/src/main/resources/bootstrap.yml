@@ -1,5 +1,5 @@
 server:
-  port: 18080
+  port: 18082
   servlet:
     context-path: /
 
@@ -8,7 +8,7 @@ spring:
     # 环境 dev|test|prod
     active: dev
   application:
-    name: mall-admin
+    name: mall-product
   cloud:
     nacos:
       discovery:
@@ -19,5 +19,5 @@ spring:
         server-addr: http://192.168.230.7:18848
   config:
     import:
-      - optional:nacos:mall-admin-${spring.profiles.active}.yaml
+      - optional:nacos:mall-product-${spring.profiles.active}.yaml
       - optional:nacos:mall-redis-${spring.profiles.active}.yaml

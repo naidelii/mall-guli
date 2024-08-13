@@ -27,6 +27,11 @@
             <artifactId>mall-common-datasource</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>mall-common-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

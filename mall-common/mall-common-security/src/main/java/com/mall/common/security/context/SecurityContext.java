@@ -10,21 +10,14 @@ import java.util.Set;
 /**
  * @author naidelii
  */
-public final class SecurityContext {
-
-    /**
-     * 私有化构造函数
-     */
-    private SecurityContext() {
-
-    }
+public class SecurityContext {
 
     /**
      * 设置用户缓存到会话中
      */
     public static void login(LoginUser loginUser) {
         StpUtil.login(loginUser.getId());
-        StpUtil.getTokenSession().set(CacheConstants.SYS_USERS_CACHE, loginUser);
+        StpUtil.getTokenSession().set(CacheConstants.SYS_USERS_CACHE_PREFIX, loginUser);
     }
 
     /**
@@ -35,7 +28,7 @@ public final class SecurityContext {
     public static LoginUser getLoginUser() {
         // 获取会话信息
         SaSession tokenSession = StpUtil.getTokenSession();
-        return (LoginUser) tokenSession.get(CacheConstants.SYS_USERS_CACHE);
+        return (LoginUser) tokenSession.get(CacheConstants.SYS_USERS_CACHE_PREFIX);
     }
 
     /**
