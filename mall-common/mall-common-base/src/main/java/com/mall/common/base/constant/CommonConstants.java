@@ -76,7 +76,7 @@ public interface CommonConstants {
     /**
      * 页码参数名称
      */
-    String PAGE_NO_PARAM = "page";
+    String PAGE_NO_PARAM = "pageNo";
 
     /**
      * 页码参数默认值
@@ -86,7 +86,7 @@ public interface CommonConstants {
     /**
      * 每页大小参数名称
      */
-    String PAGE_SIZE_PARAM = "limit";
+    String PAGE_SIZE_PARAM = "pageSize";
 
     /**
      * 每页大小参数默认值
