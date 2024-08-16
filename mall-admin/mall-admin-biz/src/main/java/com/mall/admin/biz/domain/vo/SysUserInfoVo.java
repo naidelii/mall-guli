@@ -5,7 +5,6 @@ import com.mall.admin.api.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -27,16 +26,6 @@ public class SysUserInfoVo implements Serializable {
     private String username;
 
     /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * md5密码盐
-     */
-    private String salt;
-
-    /**
      * 邮箱
      */
     private String email;
@@ -55,16 +44,6 @@ public class SysUserInfoVo implements Serializable {
      * 性别(0：未知，1：男，2：女)
      */
     private Integer sex;
-
-    /**
-     * 头像
-     */
-    private String avatar;
-
-    /**
-     * 出生日期
-     */
-    private LocalDateTime birthdate;
 
     /**
      * 角色列表

@@ -67,8 +67,8 @@ public class SysUserController {
      *
      * @return 用户信息
      */
-    @GetMapping("/info")
-    public Result<?> info() {
+    @GetMapping("/getCurrentUser")
+    public Result<?> getCurrentUser() {
         return Result.success(SecurityContext.getLoginUser());
     }
 
@@ -78,9 +78,9 @@ public class SysUserController {
      * @param id 用户id
      * @return 用户信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/getUserById")
     @SaCheckPermission("sys:user:info")
-    public Result<?> info(@PathVariable("id") String id) {
+    public Result<?> getUserById(@RequestParam("id") String id) {
         SysUser sysUser = userService.getById(id);
         SysUserInfoVo vo = new SysUserInfoVo(sysUser);
         List<SysRole> rolelist = userRoleService.listRolesByUserId(id);
