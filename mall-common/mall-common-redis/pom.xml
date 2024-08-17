@@ -20,5 +20,10 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>mall-common-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

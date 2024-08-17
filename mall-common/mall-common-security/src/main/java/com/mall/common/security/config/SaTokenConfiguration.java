@@ -51,5 +51,4 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
         config.setIsLog(false);
         return config;
     }
-
 }

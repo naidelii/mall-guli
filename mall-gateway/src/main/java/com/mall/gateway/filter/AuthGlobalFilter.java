@@ -3,6 +3,7 @@ package com.mall.gateway.filter;
 import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.base.constant.SecurityConstants;
+import com.mall.common.redis.utils.RedisUtils;
 import com.mall.gateway.config.SecurityProperties;
 import com.mall.gateway.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -32,7 +32,6 @@ import java.util.Set;
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     private final SecurityProperties securityProperties;
-    private final RedisTemplate<String, Object> redisTemplate;
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
@@ -58,7 +57,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             return handleUnauthorizedRequest(exchange);
         }
         // 如果包含了，则校验是否有效
-        Boolean isExits = redisTemplate.hasKey(CacheConstants.TOKEN_CACHE_PREFIX + authorizationValues);
+        Boolean isExits = RedisUtils.hasKey(CacheConstants.TOKEN_CACHE_PREFIX + authorizationValues);
         if (Boolean.FALSE.equals(isExits)) {
             log.error("=======拦截非法token：{}，请求路径：{}", authorizationValues, path);
             return handleUnauthorizedRequest(exchange);

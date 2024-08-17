@@ -16,7 +16,9 @@ public class SecurityContext {
      * 设置用户缓存到会话中
      */
     public static void login(LoginUser loginUser) {
+        // 执行登录操作
         StpUtil.login(loginUser.getId());
+        // 缓存数据
         StpUtil.getTokenSession().set(CacheConstants.SYS_USERS_CACHE_PREFIX, loginUser);
     }
 

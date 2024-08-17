@@ -1,4 +1,4 @@
-package com.mall.common.data.constant;
+package com.mall.common.base.constant;
 
 /**
  * @author naidelii
@@ -29,5 +29,10 @@ public interface DataConstants {
      * 排序字段
      */
     String ORDER_FIELD = "sidx";
+
+    /**
+     * 自定义的RedisTemplate名字
+     */
+    String REDIS_TEMPLATE_NAME = "objectRedisTemplate";
 
 }

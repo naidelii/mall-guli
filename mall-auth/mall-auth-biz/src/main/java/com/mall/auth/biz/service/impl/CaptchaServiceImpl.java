@@ -8,10 +8,10 @@ import cn.hutool.crypto.SecureUtil;
 import com.mall.auth.biz.service.IVerifyCodeService;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.exception.GlobalException;
+import com.mall.common.redis.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -27,9 +27,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Component("Captcha")
 public class CaptchaServiceImpl implements IVerifyCodeService {
-
-    private final RedisTemplate<String, Object> redisTemplate;
-
 
     /**
      * 后台生成图形验证码
@@ -49,7 +46,7 @@ public class CaptchaServiceImpl implements IVerifyCodeService {
         // 存放到redis中的key
         String realKey = SecureUtil.md5(code + key);
         // 将验证码存放到redis中，默认有效期1分钟
-        redisTemplate.opsForValue().set(CommonConstants.CAPTCHA_PREFIX + realKey, code, 1, TimeUnit.MINUTES);
+        RedisUtils.set(CommonConstants.CAPTCHA_PREFIX + realKey, code, 1, TimeUnit.MINUTES);
         Map<String, Object> map = new HashMap<>(2);
         map.put("realKey", realKey);
         map.put("img", lineCaptcha.getImageBase64());
@@ -60,7 +57,7 @@ public class CaptchaServiceImpl implements IVerifyCodeService {
     public void verifyCode(String realKey, String captcha) {
         String codeKey = CommonConstants.CAPTCHA_PREFIX + realKey;
         // 从redis中获取存储的验证码
-        Object redisCode = redisTemplate.opsForValue().get(codeKey);
+        Object redisCode = RedisUtils.get(codeKey);
         if (redisCode == null) {
             throw new GlobalException("验证码无效！");
         }
@@ -69,7 +66,7 @@ public class CaptchaServiceImpl implements IVerifyCodeService {
             throw new GlobalException("验证码错误！");
         }
         // 验证码没问题，则删除
-        redisTemplate.delete(codeKey);
+        RedisUtils.delete(codeKey);
     }
 
 }
