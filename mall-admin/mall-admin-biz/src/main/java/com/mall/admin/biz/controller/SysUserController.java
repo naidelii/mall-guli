@@ -147,24 +147,23 @@ public class SysUserController {
     }
 
     /**
-     * 删除用户
+     * 批量删除用户
      *
-     * @param userIds 用户id集合
+     * @param ids 用户id集合
      * @return Result
      */
-    @PostMapping("/delete")
+    @PostMapping("/deleteBatch")
     @SaCheckPermission("sys:user:delete")
-    public Result<?> delete(@RequestBody Set<String> userIds) {
+    public Result<?> deleteBatch(@RequestBody Set<String> ids) {
         String userId = SecurityContext.getLoginUser().getId();
-        if (CollUtil.contains(userIds, userId)) {
+        if (CollUtil.contains(ids, userId)) {
             return Result.fail("当前用户不能删除");
         }
-        if (CollUtil.contains(userIds, CommonConstants.SUPER_ADMIN)) {
+        if (CollUtil.contains(ids, CommonConstants.SUPER_ADMIN)) {
             return Result.fail("管理员不能删除");
         }
-        userService.deleteUserByIds(userIds);
+        userService.deleteUserByIds(ids);
         return Result.success();
     }
-
 
 }

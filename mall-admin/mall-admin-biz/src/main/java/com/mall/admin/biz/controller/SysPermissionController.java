@@ -52,6 +52,18 @@ public class SysPermissionController {
     }
 
     /**
+     * 查询所有菜单权限列表（树形结构）
+     *
+     * @return List<SysPermissionListVo>
+     */
+    @GetMapping("/tree")
+    public Result<List<SysPermissionTreeVo>> getPermissionTree() {
+        List<SysPermission> menuList = permissionService.listAllPermissions();
+        List<SysPermissionTreeVo> vos = SysPermissionConverter.buildMenuTree(menuList);
+        return Result.success(vos);
+    }
+
+    /**
      * 导航菜单
      *
      * @return Result

@@ -113,9 +113,9 @@ public class SysRoleController {
      * @param id 角色id
      * @return 角色信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/getRoleById")
     @SaCheckPermission("sys:role:info")
-    public Result<?> info(@PathVariable("id") String id) {
+    public Result<?> getRoleById(@RequestParam String id) {
         SysRole sysRole = roleService.getById(id);
         SysRoleInfoVo vo = new SysRoleInfoVo(sysRole);
         List<SysPermission> permissionList = rolePermissionService.listMenusByRoleId(id);
@@ -127,12 +127,12 @@ public class SysRoleController {
     }
 
     /**
-     * 删除角色
+     * 批量删除角色
      */
-    @PostMapping("/delete")
+    @PostMapping("/deleteBatch")
     @SaCheckPermission("sys:role:delete")
-    public Result<?> delete(@RequestBody Set<String> roleIds) {
-        roleService.deleteByIds(roleIds);
+    public Result<?> deleteBatch(@RequestBody Set<String> ids) {
+        roleService.deleteByIds(ids);
         return Result.success();
     }
 }
