@@ -13,13 +13,16 @@ import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.admin.biz.service.ISysPermissionService;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.common.base.api.Result;
+import com.mall.common.base.constant.CommonConstants;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -56,8 +59,8 @@ public class SysPermissionController {
      *
      * @return List<SysPermissionListVo>
      */
-    @GetMapping("/tree")
-    public Result<List<SysPermissionTreeVo>> getPermissionTree() {
+    @GetMapping("/getPermissionListToTree")
+    public Result<List<SysPermissionTreeVo>> getPermissionListToTree() {
         List<SysPermission> menuList = permissionService.listAllPermissions();
         List<SysPermissionTreeVo> vos = SysPermissionConverter.buildMenuTree(menuList);
         return Result.success(vos);
@@ -81,13 +84,11 @@ public class SysPermissionController {
      *
      * @return List<SysPermissionListVo>
      */
-    @GetMapping("/menuList")
-    public Result<List<SysPermissionListVo>> menuList() {
+    @GetMapping("/getMenuListToTree")
+    public Result<List<SysPermissionTreeVo>> getMenuListToTree() {
         List<SysPermission> menuList = permissionService.listAllMenus();
-        List<SysPermissionListVo> listVos = menuList.stream()
-                .map(SysPermissionListVo::new)
-                .collect(Collectors.toList());
-        return Result.success(listVos);
+        List<SysPermissionTreeVo> vos = SysPermissionConverter.buildMenuTree(menuList);
+        return Result.success(vos);
     }
 
     /**
@@ -127,11 +128,20 @@ public class SysPermissionController {
      * @param id 菜单权限id
      * @return 用户信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/getPermissionById")
     @SaCheckPermission("sys:permission:info")
-    public Result<?> info(@PathVariable("id") String id) {
+    public Result<?> getPermissionById(@RequestParam("id") String id) {
         SysPermission permission = permissionService.getById(id);
+        // 转成vo
         SysPermissionInfoVo vo = new SysPermissionInfoVo(permission);
+        // 查询父菜单信息
+        String parentId = permission.getParentId();
+        if (StringUtils.isNotBlank(parentId) && !CommonConstants.PARENT_CODE.equals(parentId)) {
+            SysPermission parentData = permissionService.getById(parentId);
+            if (Objects.nonNull(parentData)) {
+                vo.setParentName(parentData.getName());
+            }
+        }
         return Result.success(vo);
     }
 

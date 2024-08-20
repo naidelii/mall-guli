@@ -34,6 +34,12 @@ public class SysPermissionInfoVo implements Serializable {
      */
     private String parentId;
 
+
+    /**
+     * 父级菜单名称
+     */
+    private String parentName;
+
     /**
      * 类型（0：目录，1：菜单，2：按钮权限）
      */
