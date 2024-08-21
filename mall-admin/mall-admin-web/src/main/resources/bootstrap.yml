@@ -4,20 +4,17 @@ server:
     context-path: /
 
 spring:
-  profiles:
-    # 环境 dev|test|prod
-    active: dev
   application:
     name: mall-admin
   cloud:
     nacos:
       discovery:
         #naocs-server地址
-        server-addr: http://192.168.230.7:18848
+        server-addr: @config.server-addr@
       config:
         # 配置中心地址
-        server-addr: http://192.168.230.7:18848
+        server-addr: @config.server-addr@
   config:
     import:
-      - optional:nacos:mall-admin-${spring.profiles.active}.yaml
-      - optional:nacos:mall-redis-${spring.profiles.active}.yaml
+      - optional:nacos:mall-admin-@profile.name@.yaml
+      - optional:nacos:mall-redis-@profile.name@.yaml

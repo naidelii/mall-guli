@@ -2,24 +2,21 @@ server:
   port: 9999
 
 spring:
-  profiles:
-    # 环境 dev|test|prod
-    active: dev
   application:
     name: mall-gateway
   cloud:
     nacos:
       discovery:
         #naocs-server地址
-        server-addr: http://192.168.230.7:18848
+        server-addr: @config.server-addr@
       config:
         # 配置中心地址
-        server-addr: http://192.168.230.7:18848
+        server-addr: @config.server-addr@
   config:
     import:
       - optional:nacos:mall-security.yaml
       - optional:nacos:mall-gateway-router.yaml
-      - optional:nacos:mall-redis-${spring.profiles.active}.yaml
+      - optional:nacos:mall-redis-@profile.name@.yaml
 
 # 自定义配置
 app:
