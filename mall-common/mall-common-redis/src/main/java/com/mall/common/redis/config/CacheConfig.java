@@ -1,8 +1,5 @@
 package com.mall.common.redis.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.common.base.constant.DataConstants;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -33,25 +30,27 @@ public class CacheConfig extends CachingConfigurerSupport {
         // 设置连接工厂
         redisTemplate.setConnectionFactory(connectionFactory);
         // 设置序列化工具（JSON）
-        RedisSerializer<Object> customJsonSerializer = redisSerializer();
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
         // key和hashKey采用String序列化
         redisTemplate.setKeySerializer(RedisSerializer.string());
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
         // value和hashValue采用JSON序列化
-        redisTemplate.setValueSerializer(customJsonSerializer);
-        redisTemplate.setHashValueSerializer(customJsonSerializer);
+        redisTemplate.setValueSerializer(jsonRedisSerializer);
+        redisTemplate.setHashValueSerializer(jsonRedisSerializer);
         return redisTemplate;
     }
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        // 设置序列化工具（JSON）
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
         // 生成一个默认配置，通过config对象即可对缓存进行自定义配置
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration
                 .defaultCacheConfig()
                 // 设置key为String序列化
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
                 // 设置value为JSON序列化
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonRedisSerializer))
                 // 设置缓存的默认过期时间为30分钟
                 .entryTtl(Duration.ofMinutes(30L))
                 // 不缓存空值
@@ -65,15 +64,4 @@ public class CacheConfig extends CachingConfigurerSupport {
                 .build();
     }
 
-    /**
-     * 自定义的json序列化方式
-     *
-     * @return RedisSerializer
-     */
-    private RedisSerializer<Object> redisSerializer() {
-        // 配置序列化方式
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        return new GenericJackson2JsonRedisSerializer(objectMapper);
-    }
 }

@@ -15,7 +15,6 @@ import java.io.Serializable;
 public class SysPermission extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     /**
      * 主键
      */

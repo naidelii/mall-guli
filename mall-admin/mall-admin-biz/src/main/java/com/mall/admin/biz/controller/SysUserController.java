@@ -1,6 +1,7 @@
 package com.mall.admin.biz.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -135,12 +136,13 @@ public class SysUserController {
     }
 
     /**
-     * 重置密码
+     * 重置用户密码
      *
      * @param dto 用户信息
      * @return userService
      */
     @PostMapping("/resetPassword")
+    @SaCheckRole(CommonConstants.SUPER_ADMIN_ROLE)
     public Result<?> resetPassword(@Valid @RequestBody SysUserResetPasswordDto dto) {
         userService.resetPassword(dto.getId(), dto.getNewPassword());
         return Result.success();
