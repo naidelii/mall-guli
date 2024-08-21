@@ -24,11 +24,6 @@ public class SysPermissionUpdateDto {
     private String parentId;
 
     /**
-     * 类型（0：目录，1：菜单，2：按钮权限）
-     */
-    private Integer type;
-
-    /**
      * 菜单URL
      */
     private String url;

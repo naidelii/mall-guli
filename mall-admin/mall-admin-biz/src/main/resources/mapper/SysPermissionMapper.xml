@@ -47,4 +47,16 @@
         </where>
     </select>
 
+    <select id="getDetailsById" resultType="com.mall.admin.biz.domain.vo.SysPermissionInfoVo">
+        SELECT
+            <include refid="permissionResult"/>,
+            parent.name AS parent_name
+        FROM
+            sys_permission sp
+        LEFT JOIN sys_permission parent ON sp.parent_id = parent.id
+        <where>
+            sp.id = #{id}
+        </where>
+    </select>
+
 </mapper>

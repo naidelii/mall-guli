@@ -13,17 +13,13 @@ import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.admin.biz.service.ISysPermissionService;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.common.base.api.Result;
-import com.mall.common.base.constant.CommonConstants;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -48,9 +44,7 @@ public class SysPermissionController {
     @GetMapping("/list")
     public Result<List<SysPermissionListVo>> list() {
         List<SysPermission> menuList = permissionService.listAllPermissions();
-        List<SysPermissionListVo> listVos = menuList.stream()
-                .map(SysPermissionListVo::new)
-                .collect(Collectors.toList());
+        List<SysPermissionListVo> listVos = SysPermissionConverter.buildMenuList(menuList);
         return Result.success(listVos);
     }
 
@@ -72,10 +66,10 @@ public class SysPermissionController {
      * @return Result
      */
     @GetMapping("/nav")
-    public Result<List<SysPermissionTreeVo>> nav() {
+    public Result<List<SysPermissionListVo>> nav() {
         List<SysPermission> menuList = rolePermissionService.listCurrentUserMenus();
-        List<SysPermissionTreeVo> vos = SysPermissionConverter.buildMenuTree(menuList);
-        return Result.success(vos);
+        List<SysPermissionListVo> listVos = SysPermissionConverter.buildMenuList(menuList);
+        return Result.success(listVos);
     }
 
 
@@ -131,17 +125,7 @@ public class SysPermissionController {
     @GetMapping("/getPermissionById")
     @SaCheckPermission("sys:permission:info")
     public Result<?> getPermissionById(@RequestParam("id") String id) {
-        SysPermission permission = permissionService.getById(id);
-        // 转成vo
-        SysPermissionInfoVo vo = new SysPermissionInfoVo(permission);
-        // 查询父菜单信息
-        String parentId = permission.getParentId();
-        if (StringUtils.isNotBlank(parentId) && !CommonConstants.PARENT_CODE.equals(parentId)) {
-            SysPermission parentData = permissionService.getById(parentId);
-            if (Objects.nonNull(parentData)) {
-                vo.setParentName(parentData.getName());
-            }
-        }
+        SysPermissionInfoVo vo = permissionService.getDetailsById(id);
         return Result.success(vo);
     }
 

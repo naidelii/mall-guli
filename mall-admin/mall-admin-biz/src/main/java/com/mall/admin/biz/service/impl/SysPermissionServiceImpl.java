@@ -4,6 +4,7 @@ package com.mall.admin.biz.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.admin.api.entity.SysPermission;
+import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
 import com.mall.admin.biz.mapper.SysPermissionMapper;
 import com.mall.admin.biz.mapper.SysRolePermissionMapper;
 import com.mall.admin.biz.service.ISysPermissionService;
@@ -56,6 +57,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         // 删除菜单与角色关联
         rolePermissionMapper.deleteByPermissionId(id);
         baseMapper.deleteById(id);
+    }
+
+    @Override
+    public SysPermissionInfoVo getDetailsById(String id) {
+        return baseMapper.getDetailsById(id);
     }
 
 }

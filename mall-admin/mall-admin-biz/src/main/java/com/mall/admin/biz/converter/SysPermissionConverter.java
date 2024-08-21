@@ -1,6 +1,7 @@
 package com.mall.admin.biz.converter;
 
 import com.mall.admin.api.entity.SysPermission;
+import com.mall.admin.biz.domain.vo.SysPermissionListVo;
 import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.common.base.constant.CommonConstants;
 
@@ -16,6 +17,12 @@ public final class SysPermissionConverter {
 
     private SysPermissionConverter() {
 
+    }
+
+    public static List<SysPermissionListVo> buildMenuList(List<SysPermission> menuList) {
+        return menuList.stream()
+                .map(SysPermissionListVo::new)
+                .collect(Collectors.toList());
     }
 
     public static List<SysPermissionTreeVo> buildMenuTree(List<SysPermission> list) {

@@ -2,6 +2,7 @@ package com.mall.admin.biz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mall.admin.api.entity.SysPermission;
+import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -41,4 +42,12 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
      * @return List<SysPermission>
      */
     List<SysPermission> listPermissionByParentId(@Param("parentId") String parentId);
+
+    /**
+     * 根据id查询详细信息
+     *
+     * @param id 主键
+     * @return SysPermissionInfoVo
+     */
+    SysPermissionInfoVo getDetailsById(@Param("id") String id);
 }

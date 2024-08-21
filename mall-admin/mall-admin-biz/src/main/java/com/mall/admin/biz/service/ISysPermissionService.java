@@ -3,6 +3,7 @@ package com.mall.admin.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.admin.api.entity.SysPermission;
+import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
 
 import java.util.List;
 
@@ -14,14 +15,12 @@ import java.util.List;
  */
 public interface ISysPermissionService extends IService<SysPermission> {
 
-
     /**
      * 查询所有菜单权限列表
      *
      * @return List<SysPermissionListVo>
      */
     List<SysPermission> listAllPermissions();
-
 
     /**
      * 查询所有菜单列表
@@ -50,4 +49,12 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @param id 主键
      */
     void deleteById(String id);
+
+    /**
+     * 根据id查询详细信息
+     *
+     * @param id 主键
+     * @return SysPermissionInfoVo
+     */
+    SysPermissionInfoVo getDetailsById(String id);
 }
