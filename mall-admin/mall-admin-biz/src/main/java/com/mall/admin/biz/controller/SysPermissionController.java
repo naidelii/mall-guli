@@ -13,6 +13,8 @@ import com.mall.admin.biz.domain.vo.SysPermissionTreeVo;
 import com.mall.admin.biz.service.ISysPermissionService;
 import com.mall.admin.biz.service.ISysRolePermissionService;
 import com.mall.common.base.api.Result;
+import com.mall.common.security.context.SecurityContext;
+import com.mall.common.security.domain.LoginUser;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +69,9 @@ public class SysPermissionController {
      */
     @GetMapping("/nav")
     public Result<List<SysPermissionListVo>> nav() {
-        List<SysPermission> menuList = rolePermissionService.listCurrentUserMenus();
+        // 获取当前登录用户
+        LoginUser loginUser = SecurityContext.getLoginUser();
+        List<SysPermission> menuList = rolePermissionService.listMenusByUserId(loginUser.getId());
         List<SysPermissionListVo> listVos = SysPermissionConverter.buildMenuList(menuList);
         return Result.success(listVos);
     }

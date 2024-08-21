@@ -39,11 +39,7 @@ public class LoginUser implements Serializable {
      */
     private Set<String> permissions;
 
-    public boolean isAdmin() {
-        return isAdmin(this.id);
-    }
-
-    private boolean isAdmin(String id) {
+    public static boolean isAdmin(String id) {
         return StringUtils.isNotBlank(id) && CommonConstants.SUPER_ADMIN.equals(id);
     }
 

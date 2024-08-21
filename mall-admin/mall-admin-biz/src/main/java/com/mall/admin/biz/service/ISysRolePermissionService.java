@@ -23,10 +23,11 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
     List<SysPermission> listMenusByRoleId(String roleId);
 
     /**
-     * 查询用户拥有的菜单列表，并组装成树形结构
+     * 根据用户id查询拥有的菜单列表
      *
+     * @param userId 用户id
      * @return 菜单列表
      */
-    List<SysPermission> listCurrentUserMenus();
+    List<SysPermission> listMenusByUserId(String userId);
 
 }

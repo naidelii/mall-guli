@@ -41,29 +41,29 @@ public class AuthServiceImpl implements IAuthService {
         LoginUser loginUser = new LoginUser();
         // 拷贝属性
         BeanUtils.copyProperties(loginUserInfo, loginUser);
-        Set<String> roleCodes = selectRoleByLoginUser(loginUser);
+        Set<String> roleCodes = selectRoleByUserId(loginUser.getId());
         loginUser.setRoles(roleCodes);
-        Set<String> perms = selectPermsByLoginUser(loginUser);
+        Set<String> perms = selectPermsByUserId(loginUser.getId());
         loginUser.setPermissions(perms);
         // 执行登录方法
         SecurityContext.login(loginUser);
         return StpUtil.getTokenValue();
     }
 
-    private Set<String> selectPermsByLoginUser(LoginUser loginUser) {
-        if (loginUser.isAdmin()) {
+    private Set<String> selectPermsByUserId(String userId) {
+        if (LoginUser.isAdmin(userId)) {
             List<String> perms = loginUserMapper.listAllPermission();
             return new HashSet<>(perms);
         }
-        List<String> perms = loginUserMapper.listPermsByUserId(loginUser.getId());
+        List<String> perms = loginUserMapper.listPermsByUserId(userId);
         return new HashSet<>(perms);
     }
 
-    private Set<String> selectRoleByLoginUser(LoginUser loginUser) {
-        if (loginUser.isAdmin()) {
+    private Set<String> selectRoleByUserId(String userId) {
+        if (LoginUser.isAdmin(userId)) {
             return Collections.singleton(CommonConstants.SUPER_ADMIN_ROLE);
         }
-        List<String> roles = loginUserMapper.selectRolesByUserId(loginUser.getId());
+        List<String> roles = loginUserMapper.selectRolesByUserId(userId);
         return new HashSet<>(roles);
     }
 

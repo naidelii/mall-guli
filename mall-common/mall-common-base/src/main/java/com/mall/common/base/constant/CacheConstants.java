@@ -5,12 +5,17 @@ package com.mall.common.base.constant;
  */
 public interface CacheConstants {
     /**
-     * 用户缓存key
+     * 用户信息
      */
     String SYS_USERS_CACHE_PREFIX = "sys:cache:user";
 
     /**
-     * token 缓存前缀
+     * token
      */
     String TOKEN_CACHE_PREFIX = "Authorization:login:token:";
+
+    /**
+     * 用户菜单缓存前缀
+     */
+    String USER_MENU_LIST_CACHE_PREFIX = "sys:cache:menu:user:";
 }
