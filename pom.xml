@@ -110,13 +110,13 @@
         <profile>
             <id>dev</id>
             <properties>
-                <!--当前环境-->
+                <!--环境名称-->
                 <profile.name>dev</profile.name>
-                <!--Nacos服务地址-->
+                <!--Nacos配置中心地址-->
                 <config.server-addr>http://192.168.230.7:18848</config.server-addr>
             </properties>
+            <!-- 默认环境（标志dev为默认的环境） -->
             <activation>
-                <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
@@ -124,9 +124,9 @@
         <profile>
             <id>prod</id>
             <properties>
-                <!--当前环境-->
+                <!--环境名称-->
                 <profile.name>prod</profile.name>
-                <!--Nacos服务地址-->
+                <!--Nacos配置中心地址-->
                 <config.server-addr>http://10.8.8.7:18848</config.server-addr>
             </properties>
         </profile>
