@@ -8,6 +8,7 @@ import com.mall.product.biz.domain.dto.ProductCategorySaveDTO;
 import com.mall.product.biz.domain.dto.ProductCategoryUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
+import com.mall.product.biz.domain.vo.ProductCategoryVo;
 import com.mall.product.biz.service.IProductCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,10 +68,10 @@ public class ProductCategoryController {
         return Result.success();
     }
 
-    @GetMapping("/info/{id}")
-    public Result<?> info(@PathVariable("id") String id) {
-        ProductCategory data = productCategoryService.getById(id);
-        return Result.success(data);
+    @GetMapping("/info")
+    public Result<?> info(@RequestParam String id) {
+        ProductCategoryVo vo = productCategoryService.getDetailsById(id);
+        return Result.success(vo);
     }
 
     @PostMapping("/update")

@@ -3,6 +3,7 @@ package com.mall.product.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.product.biz.domain.entity.ProductCategory;
+import com.mall.product.biz.domain.vo.ProductCategoryVo;
 
 import java.util.List;
 import java.util.Set;
@@ -51,5 +52,12 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      */
     List<ProductCategory> listAllData();
 
+    /**
+     * 根据id查询详细信息
+     *
+     * @param id 主键
+     * @return ProductCategoryVo
+     */
+    ProductCategoryVo getDetailsById(String id);
 }
 

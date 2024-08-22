@@ -3,6 +3,7 @@ package com.mall.product.biz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mall.product.biz.domain.entity.ProductCategory;
+import com.mall.product.biz.domain.vo.ProductCategoryVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,4 +23,12 @@ public interface ProductCategoryMapper extends BaseMapper<ProductCategory> {
      * @return List<ProductCategory>
      */
     List<ProductCategory> listByParentId(@Param("parentId") String parentId);
+
+    /**
+     * 根据id查询详情
+     *
+     * @param id 主键
+     * @return ProductCategoryVo
+     */
+    ProductCategoryVo getDetailsById(@Param("id") String id);
 }

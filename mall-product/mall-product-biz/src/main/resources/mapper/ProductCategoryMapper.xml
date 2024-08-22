@@ -10,4 +10,16 @@
             pc.parent_id = #{parentId}
         </where>
     </select>
+
+    <select id="getDetailsById" resultType="com.mall.product.biz.domain.vo.ProductCategoryVo">
+        select
+            pc.* ,
+            parent.category_name AS parent_name
+        FROM
+            product_category pc
+        LEFT JOIN product_category parent  ON pc.parent_id = parent.id
+        <where>
+            pc.id = #{id}
+        </where>
+    </select>
 </mapper>

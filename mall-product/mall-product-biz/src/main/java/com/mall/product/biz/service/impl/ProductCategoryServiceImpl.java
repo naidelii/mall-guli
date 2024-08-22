@@ -6,6 +6,7 @@ import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.exception.GlobalException;
 import com.mall.product.biz.domain.entity.ProductCategory;
+import com.mall.product.biz.domain.vo.ProductCategoryVo;
 import com.mall.product.biz.mapper.ProductBrandCategoryRelationMapper;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
@@ -35,6 +36,11 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         // 进行排序
         list.sort(Comparator.comparingInt(ProductCategory::getSortOrder).reversed());
         return list;
+    }
+
+    @Override
+    public ProductCategoryVo getDetailsById(String id) {
+        return baseMapper.getDetailsById(id);
     }
 
     @Override
