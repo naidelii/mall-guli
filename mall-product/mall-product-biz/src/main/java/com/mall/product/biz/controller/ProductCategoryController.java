@@ -1,7 +1,9 @@
 package com.mall.product.biz.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.mall.common.base.api.Result;
+import com.mall.product.biz.converter.ProductCategoryConverter;
 import com.mall.product.biz.domain.dto.ProductCategorySaveDTO;
 import com.mall.product.biz.domain.dto.ProductCategoryUpdateDTO;
 import com.mall.product.biz.domain.entity.ProductCategory;
@@ -14,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -36,13 +38,23 @@ public class ProductCategoryController {
     @GetMapping("/listWithTree")
     @ApiOperation("商品分类列表-树形结构")
     public Result<List<ProductCategoryListTreeVO>> listWithTree() {
-        List<ProductCategoryListTreeVO> listTreeVos = productCategoryService.listWithTree();
+        // 查询出所有的分类数据
+        List<ProductCategory> list = productCategoryService.listAllData();
+        // 组装成树形结构
+        List<ProductCategoryListTreeVO> listTreeVos = ProductCategoryConverter.buildCategoryTree(list);
         return Result.success(listTreeVos);
     }
 
+    @PostMapping("/delete")
+    public Result<?> delete(@RequestBody String id) {
+        productCategoryService.deleteById(id);
+        return Result.success();
+    }
+
+
     @PostMapping("/deleteBatch")
     public Result<?> deleteBatch(@RequestBody String[] ids) {
-        List<String> categoryIds = Arrays.asList(ids);
+        Set<String> categoryIds = CollUtil.newHashSet(ids);
         productCategoryService.deleteByIds(categoryIds);
         return Result.success();
     }

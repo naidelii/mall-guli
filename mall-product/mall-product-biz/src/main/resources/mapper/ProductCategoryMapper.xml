@@ -4,4 +4,10 @@
 <mapper namespace="com.mall.product.biz.mapper.ProductCategoryMapper">
 
 
+    <select id="listByParentId" resultType="com.mall.product.biz.domain.entity.ProductCategory">
+        select * from product_category pc
+        <where>
+            pc.parent_id = #{parentId}
+        </where>
+    </select>
 </mapper>

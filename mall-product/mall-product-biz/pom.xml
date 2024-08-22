@@ -14,17 +14,22 @@
     <dependencies>
         <dependency>
             <groupId>com.mall</groupId>
-            <artifactId>mall-common-swagger</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.mall</groupId>
             <artifactId>mall-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mall</groupId>
+            <artifactId>mall-common-swagger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mall</groupId>
             <artifactId>mall-common-datasource</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mall</groupId>
+            <artifactId>mall-common-redis</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -43,7 +43,7 @@
         <include refid="permissionResult"/>
         from sys_permission sp
         <where>
-            parent_id = #{parentId}
+            sp.parent_id = #{parentId}
         </where>
     </select>
 

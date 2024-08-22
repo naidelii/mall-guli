@@ -3,9 +3,9 @@ package com.mall.product.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.product.biz.domain.entity.ProductCategory;
-import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 商品分类表
@@ -16,18 +16,18 @@ import java.util.List;
 public interface IProductCategoryService extends IService<ProductCategory> {
 
     /**
-     * 查询出所有分类及其子分类，以树形结构展示
+     * 根据id进行删除
      *
-     * @return 商品分类树
+     * @param id 主键
      */
-    List<ProductCategoryListTreeVO> listWithTree();
+    void deleteById(String id);
 
     /**
      * 批量删除
      *
      * @param categoryIds 分类id集合
      */
-    void deleteByIds(List<String> categoryIds);
+    void deleteByIds(Set<String> categoryIds);
 
     /**
      * 根据id查询出完整的path
@@ -43,5 +43,13 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      * @param data 分类数据
      */
     void updateData(ProductCategory data);
+
+    /**
+     * 查询所有的三级分类数据
+     *
+     * @return List<ProductCategory>
+     */
+    List<ProductCategory> listAllData();
+
 }
 

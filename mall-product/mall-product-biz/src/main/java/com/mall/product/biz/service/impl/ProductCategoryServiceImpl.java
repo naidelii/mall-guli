@@ -1,19 +1,22 @@
 package com.mall.product.biz.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.base.constant.CommonConstants;
+import com.mall.common.base.exception.GlobalException;
 import com.mall.product.biz.domain.entity.ProductCategory;
-import com.mall.product.biz.domain.vo.ProductCategoryListTreeVO;
 import com.mall.product.biz.mapper.ProductBrandCategoryRelationMapper;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -26,21 +29,27 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     private final ProductBrandCategoryRelationMapper brandCategoryRelationMapper;
 
     @Override
-    public List<ProductCategoryListTreeVO> listWithTree() {
-        List<ProductCategory> productCategoryList = baseMapper.selectList(null);
-        productCategoryList.sort(Comparator.comparingInt(ProductCategory::getSortOrder).reversed());
-        Map<String, List<ProductCategory>> parentIdToChildrenMap = productCategoryList.stream()
-                .collect(Collectors.groupingBy(ProductCategory::getParentId));
-        // 获取顶级分类
-        return parentIdToChildrenMap.getOrDefault(CommonConstants.PARENT_CODE, Collections.emptyList())
-                .stream()
-                .map(vo -> convertToVo(vo, parentIdToChildrenMap))
-                .sorted((a, b) -> a.getSortOrder() - b.getSortOrder())
-                .collect(Collectors.toList());
+    @Cacheable(value = CacheConstants.PRODUCT_CATEGORY_LIST_CACHE, key = CacheConstants.ALL_DATA_CACHE_KEY, unless = "#result == null || #result.isEmpty()")
+    public List<ProductCategory> listAllData() {
+        List<ProductCategory> list = baseMapper.selectList(null);
+        // 进行排序
+        list.sort(Comparator.comparingInt(ProductCategory::getSortOrder).reversed());
+        return list;
     }
 
     @Override
-    public void deleteByIds(List<String> categoryIds) {
+    @CacheEvict(value = CacheConstants.PRODUCT_CATEGORY_LIST_CACHE, allEntries = true)
+    public void deleteById(String id) {
+        // 判断是否还有子菜单
+        List<ProductCategory> list = baseMapper.listByParentId(id);
+        if (CollUtil.isNotEmpty(list)) {
+            throw new GlobalException("该分类下还有子分类数据");
+        }
+        baseMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteByIds(Set<String> categoryIds) {
         // 批量删除
         baseMapper.deleteBatchIds(categoryIds);
     }
@@ -63,6 +72,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         baseMapper.updateById(data);
     }
 
+
     private void getCategoryPathRecursive(String id, List<String> categoryPath) {
         // 防止无限递归
         if (categoryPath.contains(id)) {
@@ -78,19 +88,5 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         }
     }
 
-    private List<ProductCategoryListTreeVO> getChildren(String parentId, Map<String, List<ProductCategory>> parentIdToChildrenMap) {
-        return parentIdToChildrenMap.getOrDefault(parentId, Collections.emptyList())
-                .stream()
-                .map(vo -> convertToVo(vo, parentIdToChildrenMap))
-                .sorted((a, b) -> a.getSortOrder() - b.getSortOrder())
-                .collect(Collectors.toList());
-    }
-
-    private ProductCategoryListTreeVO convertToVo(ProductCategory entity, Map<String, List<ProductCategory>> parentIdToChildrenMap) {
-        ProductCategoryListTreeVO vo = new ProductCategoryListTreeVO(entity);
-        List<ProductCategoryListTreeVO> children = getChildren(entity.getId(), parentIdToChildrenMap);
-        vo.setChildren(children);
-        return vo;
-    }
 
 }
