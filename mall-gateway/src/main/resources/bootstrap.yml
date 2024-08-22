@@ -7,8 +7,8 @@ spring:
   cloud:
     nacos:
       discovery:
-        #naocs-server地址
-        server-addr: @config.server-addr@
+        # naocs-server地址：如果未显式配置，它会默认使用配置中心的地址
+        server-addr: ${spring.cloud.nacos.config.server-addr}
       config:
         # 配置中心地址
         server-addr: @config.server-addr@
