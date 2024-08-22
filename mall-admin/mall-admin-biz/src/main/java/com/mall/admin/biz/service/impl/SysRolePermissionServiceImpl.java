@@ -26,7 +26,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     private final SysPermissionMapper permissionMapper;
 
     @Override
-    @Cacheable(value = CacheConstants.USER_MENU_LIST_CACHE_PREFIX + "list", key = "#userId", unless = "#result == null || #result.isEmpty()")
+    @Cacheable(value = CacheConstants.USER_MENU_LIST_CACHE, key = "#userId", unless = "#result == null || #result.isEmpty()")
     public List<SysPermission> listMenusByUserId(String userId) {
         // 如果是管理员，则查询所有
         return LoginUser.isAdmin(userId) ?

@@ -8,9 +8,11 @@ import com.mall.admin.biz.domain.vo.SysPermissionInfoVo;
 import com.mall.admin.biz.mapper.SysPermissionMapper;
 import com.mall.admin.biz.mapper.SysRolePermissionMapper;
 import com.mall.admin.biz.service.ISysPermissionService;
+import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.base.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,16 +39,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.USER_MENU_LIST_CACHE, allEntries = true)
     public void savePermission(SysPermission permission) {
         baseMapper.insert(permission);
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.USER_MENU_LIST_CACHE, allEntries = true)
     public void updatePermission(SysPermission permission) {
         baseMapper.updateById(permission);
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.USER_MENU_LIST_CACHE, allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(String id) {
         // 判断是否有子菜单或按钮

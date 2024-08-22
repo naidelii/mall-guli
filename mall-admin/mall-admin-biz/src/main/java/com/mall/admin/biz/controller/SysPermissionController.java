@@ -29,7 +29,6 @@ import java.util.List;
  */
 @Api(tags = "菜单权限信息")
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/sys/permission")
 @RequiredArgsConstructor
@@ -97,7 +96,7 @@ public class SysPermissionController {
      */
     @PostMapping("/save")
     @SaCheckPermission("sys:permission:save")
-    public Result<?> save(@RequestBody SysPermissionSaveDto dto) {
+    public Result<?> save(@Validated @RequestBody SysPermissionSaveDto dto) {
         SysPermission permission = new SysPermission();
         BeanUtil.copyProperties(dto, permission);
         permissionService.savePermission(permission);
@@ -112,7 +111,7 @@ public class SysPermissionController {
      */
     @PostMapping("/update")
     @SaCheckPermission("sys:permission:update")
-    public Result<?> update(@RequestBody SysPermissionUpdateDto dto) {
+    public Result<?> update(@Validated @RequestBody SysPermissionUpdateDto dto) {
         SysPermission permission = new SysPermission();
         BeanUtil.copyProperties(dto, permission);
         permissionService.updatePermission(permission);
@@ -124,7 +123,7 @@ public class SysPermissionController {
      * 根据id获取菜单权限信息
      *
      * @param id 菜单权限id
-     * @return 用户信息
+     * @return 菜单权限信息
      */
     @GetMapping("/getPermissionById")
     @SaCheckPermission("sys:permission:info")
@@ -137,13 +136,12 @@ public class SysPermissionController {
      * 根据id删除菜单权限信息
      *
      * @param id 菜单权限id
-     * @return 用户信息
+     * @return Result
      */
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete")
     @SaCheckPermission("sys:permission:delete")
-    public Result<?> delete(@PathVariable("id") String id) {
+    public Result<?> delete(@RequestBody String id) {
         permissionService.deleteById(id);
         return Result.success();
     }
-
 }

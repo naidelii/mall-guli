@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,7 +31,6 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "角色信息")
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/sys/role")
 @RequiredArgsConstructor
@@ -84,7 +82,7 @@ public class SysRoleController {
      */
     @PostMapping("/save")
     @SaCheckPermission("sys:role:save")
-    public Result<?> save(@Valid @RequestBody SysRoleSaveDto roleDto) {
+    public Result<?> save(@Validated @RequestBody SysRoleSaveDto roleDto) {
         SysRole sysRoleEntity = new SysRole();
         BeanUtil.copyProperties(roleDto, sysRoleEntity);
         roleService.saveRole(sysRoleEntity, roleDto.getPermissionIds());
@@ -99,7 +97,7 @@ public class SysRoleController {
      */
     @PostMapping("/update")
     @SaCheckPermission("sys:role:update")
-    public Result<?> save(@Valid @RequestBody SysRoleUpdateDto roleDto) {
+    public Result<?> save(@Validated @RequestBody SysRoleUpdateDto roleDto) {
         SysRole sysRoleEntity = new SysRole();
         BeanUtil.copyProperties(roleDto, sysRoleEntity);
         roleService.updateRole(sysRoleEntity, roleDto.getPermissionIds());

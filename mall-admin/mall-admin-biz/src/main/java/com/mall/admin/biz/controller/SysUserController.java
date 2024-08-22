@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,7 +31,6 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "系统用户")
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/sys/user")
 @RequiredArgsConstructor
@@ -101,7 +99,7 @@ public class SysUserController {
      */
     @PostMapping("/save")
     @SaCheckPermission("sys:user:save")
-    public Result<?> save(@Valid @RequestBody SysUserSaveDto userDto) {
+    public Result<?> save(@Validated @RequestBody SysUserSaveDto userDto) {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(userDto, sysUser);
         userService.saveUser(sysUser, userDto.getRoleIds());
@@ -113,7 +111,7 @@ public class SysUserController {
      */
     @PostMapping("/update")
     @SaCheckPermission("sys:user:update")
-    public Result<?> update(@Valid @RequestBody SysUserUpdateDto userDto) {
+    public Result<?> update(@Validated @RequestBody SysUserUpdateDto userDto) {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(userDto, sysUser);
         Set<String> roleIdList = userDto.getRoleIds();
@@ -129,7 +127,7 @@ public class SysUserController {
      * @return userService
      */
     @PostMapping("/updatePassword")
-    public Result<?> updatePassword(@Valid @RequestBody SysUserUpdatePasswordDto dto) {
+    public Result<?> updatePassword(@Validated @RequestBody SysUserUpdatePasswordDto dto) {
         String userId = SecurityContext.getLoginUser().getId();
         userService.updatePassword(userId, dto.getPassword(), dto.getNewPassword());
         return Result.success();
@@ -143,7 +141,7 @@ public class SysUserController {
      */
     @PostMapping("/resetPassword")
     @SaCheckRole(CommonConstants.SUPER_ADMIN_ROLE)
-    public Result<?> resetPassword(@Valid @RequestBody SysUserResetPasswordDto dto) {
+    public Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordDto dto) {
         userService.resetPassword(dto.getId(), dto.getNewPassword());
         return Result.success();
     }

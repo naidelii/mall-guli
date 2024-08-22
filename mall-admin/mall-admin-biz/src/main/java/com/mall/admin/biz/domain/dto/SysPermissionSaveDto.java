@@ -20,7 +20,7 @@ public class SysPermissionSaveDto {
     /**
      * 父级id（0：顶级）
      */
-    @NotBlank(message = "父类id不能为空")
+    @NotBlank(message = "上级菜单不能为空")
     private String parentId;
 
     /**

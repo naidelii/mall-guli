@@ -15,7 +15,7 @@ public interface CacheConstants {
     String TOKEN_CACHE_PREFIX = "Authorization:login:token:";
 
     /**
-     * 用户菜单缓存前缀
+     * 用户菜单缓存
      */
-    String USER_MENU_LIST_CACHE_PREFIX = "sys:cache:menu:user:";
+    String USER_MENU_LIST_CACHE = "sys:cache:user:menu:list";
 }
