@@ -38,6 +38,8 @@ public class ProductBrandServiceImpl extends ServiceImpl<ProductBrandMapper, Pro
     public IPage<ProductBrandListVO> selectListPage(Integer pageNo, Integer pageSize, ProductBrandQuery query) {
         Page<ProductBrand> page = new Page<>(pageNo, pageSize);
         LambdaQueryWrapper<ProductBrand> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(query.getBrandName()), ProductBrand::getBrandName, query.getBrandName())
+                .eq(StringUtils.isNotBlank(query.getFirstLetter()), ProductBrand::getFirstLetter, query.getFirstLetter());
         IPage<ProductBrand> pageList = baseMapper.selectPage(page, queryWrapper);
         List<ProductBrandListVO> userListVos = pageList.getRecords()
                 .stream()

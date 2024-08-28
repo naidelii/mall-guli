@@ -14,9 +14,9 @@ import com.mall.product.biz.service.IProductBrandService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +54,7 @@ public class ProductBrandController {
     }
 
     @PostMapping("/save")
-    public Result<?> save(@Valid @RequestBody ProductBrandSaveDTO saveDto) {
+    public Result<?> save(@Validated @RequestBody ProductBrandSaveDTO saveDto) {
         ProductBrand data = new ProductBrand();
         BeanUtil.copyProperties(saveDto, data);
         productBrandService.save(data);
@@ -62,7 +62,7 @@ public class ProductBrandController {
     }
 
     @PostMapping("/update")
-    public Result<?> update(@Valid @RequestBody ProductBrandUpdateDTO updateDto) {
+    public Result<?> update(@Validated @RequestBody ProductBrandUpdateDTO updateDto) {
         ProductBrand data = new ProductBrand();
         BeanUtil.copyProperties(updateDto, data);
         productBrandService.updateData(data);

@@ -14,9 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -61,10 +61,18 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/save")
-    public Result<?> save(@Valid @RequestBody ProductCategorySaveDTO saveDto) {
+    public Result<?> save(@Validated @RequestBody ProductCategorySaveDTO saveDto) {
         ProductCategory data = new ProductCategory();
         BeanUtil.copyProperties(saveDto, data);
-        productCategoryService.save(data);
+        productCategoryService.saveData(data);
+        return Result.success();
+    }
+
+    @PostMapping("/update")
+    public Result<?> update(@Validated @RequestBody ProductCategoryUpdateDTO saveDto) {
+        ProductCategory data = new ProductCategory();
+        BeanUtil.copyProperties(saveDto, data);
+        productCategoryService.updateData(data);
         return Result.success();
     }
 
@@ -74,12 +82,5 @@ public class ProductCategoryController {
         return Result.success(vo);
     }
 
-    @PostMapping("/update")
-    public Result<?> update(@Valid @RequestBody ProductCategoryUpdateDTO saveDto) {
-        ProductCategory data = new ProductCategory();
-        BeanUtil.copyProperties(saveDto, data);
-        productCategoryService.updateData(data);
-        return Result.success();
-    }
 
 }

@@ -27,6 +27,11 @@ public interface CommonConstants {
     String PARENT_CODE = "0";
 
     /**
+     * 默认的分类等级
+     */
+    Integer DEFAULT_CATEGORY_LEVEL = 1;
+
+    /**
      * 随机数字和英文字母
      */
     String RANDOM_STR = "0123456789qwertyuioplkjhgfdsazxcvbnmQAZWSXEDCRFVTGBYHNUJMIKLOP";

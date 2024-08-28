@@ -59,5 +59,12 @@ public interface IProductCategoryService extends IService<ProductCategory> {
      * @return ProductCategoryVo
      */
     ProductCategoryVo getDetailsById(String id);
+
+    /**
+     * 保存
+     *
+     * @param data 分类数据
+     */
+    void saveData(ProductCategory data);
 }
 

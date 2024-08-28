@@ -30,11 +30,6 @@ public class ProductCategoryUpdateDTO {
     private String parentId;
 
     /**
-     * 层级
-     */
-    private Integer level;
-
-    /**
      * 排序值
      */
     private Integer sortOrder;

@@ -7,15 +7,14 @@ import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.exception.GlobalException;
 import com.mall.product.biz.domain.entity.ProductCategory;
 import com.mall.product.biz.domain.vo.ProductCategoryVo;
-import com.mall.product.biz.mapper.ProductBrandCategoryRelationMapper;
+import com.mall.product.biz.event.ProductCategoryUpdateEvent;
 import com.mall.product.biz.mapper.ProductCategoryMapper;
 import com.mall.product.biz.service.IProductCategoryService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -27,7 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements IProductCategoryService {
 
-    private final ProductBrandCategoryRelationMapper brandCategoryRelationMapper;
+    private final ApplicationEventPublisher publisher;
 
     @Override
     @Cacheable(value = CacheConstants.PRODUCT_CATEGORY_LIST_CACHE, key = CacheConstants.ALL_DATA_CACHE_KEY, unless = "#result == null || #result.isEmpty()")
@@ -41,6 +40,39 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     @Override
     public ProductCategoryVo getDetailsById(String id) {
         return baseMapper.getDetailsById(id);
+    }
+
+    @Override
+    @CacheEvict(value = CacheConstants.PRODUCT_CATEGORY_LIST_CACHE, allEntries = true)
+    public void saveData(ProductCategory data) {
+        // 设置层级并保存数据
+        int level = calculationHierarchy(data.getParentId());
+        data.setLevel(level);
+        baseMapper.insert(data);
+    }
+
+    @Override
+    @CacheEvict(value = CacheConstants.PRODUCT_CATEGORY_LIST_CACHE, allEntries = true)
+    public void updateData(ProductCategory data) {
+        // 计算层级并设置
+        data.setLevel(calculationHierarchy(data.getParentId()));
+        // 更新数据
+        baseMapper.updateById(data);
+        // 发布更新事件
+        publisher.publishEvent(new ProductCategoryUpdateEvent(this, data));
+    }
+
+    private int calculationHierarchy(String parentId) {
+        // 默认将层级设置为初始等级
+        if (CommonConstants.PARENT_CODE.equals(parentId)) {
+            return CommonConstants.DEFAULT_CATEGORY_LEVEL;
+        }
+        // 如果不是顶级分类，计算层级
+        ProductCategory parentData = baseMapper.selectById(parentId);
+        if (parentData == null) {
+            throw new GlobalException("父分类不存在！");
+        }
+        return parentData.getLevel() + 1;
     }
 
     @Override
@@ -66,16 +98,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
         getCategoryPathRecursive(id, categoryPath);
         Collections.reverse(categoryPath);
         return categoryPath;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateData(ProductCategory data) {
-        String categoryName = data.getCategoryName();
-        if (StringUtils.isNotBlank(categoryName)) {
-            brandCategoryRelationMapper.updateCategory(data.getId(), categoryName);
-        }
-        baseMapper.updateById(data);
     }
 
 
