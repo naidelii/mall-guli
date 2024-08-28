@@ -1,0 +1,12 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: mall-gateway
+
+# 自定义配置
+app:
+  # 跨域配置是否开启
+  cors:
+    enabled: true

@@ -1,11 +1,4 @@
-server:
-  port: 18080
-  servlet:
-    context-path: /
-
 spring:
-  application:
-    name: mall-admin
   cloud:
     nacos:
       discovery:
@@ -14,7 +7,10 @@ spring:
       config:
         # 配置中心地址
         server-addr: @config.server-addr@
+  # 拉取配置中心的配置文件
   config:
     import:
-      - optional:nacos:mall-admin-@profile.name@.yaml
+      - optional:nacos:mall-boot.yaml
       - optional:nacos:mall-redis-@profile.name@.yaml
+      - optional:nacos:mall-db-@profile.name@.yaml
+

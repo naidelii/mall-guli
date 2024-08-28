@@ -1,9 +1,4 @@
-server:
-  port: 9999
-
 spring:
-  application:
-    name: mall-gateway
   cloud:
     nacos:
       discovery:
@@ -12,14 +7,10 @@ spring:
       config:
         # 配置中心地址
         server-addr: @config.server-addr@
+  # 拉取配置中心的配置文件
   config:
     import:
       - optional:nacos:mall-security.yaml
       - optional:nacos:mall-gateway-router.yaml
       - optional:nacos:mall-redis-@profile.name@.yaml
 
-# 自定义配置
-app:
-  # 跨域配置是否开启
-  cors:
-    enabled: true

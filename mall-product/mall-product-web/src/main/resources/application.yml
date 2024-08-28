@@ -1,0 +1,16 @@
+server:
+  port: 18082
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: mall-product
+  # 数据源配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${product-db.url}
+    username: ${product-db.username}
+    password: ${product-db.password}
+
