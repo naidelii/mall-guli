@@ -7,7 +7,6 @@ import com.mall.common.minio.service.IOssService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,15 +18,14 @@ import java.util.Map;
  * @author naidelii
  */
 @Slf4j
-@Controller
-@RequestMapping("/thirdparty/oss")
+@RestController
+@RequestMapping("/thirdParty/oss")
 @RequiredArgsConstructor
 public class OssFileController {
 
     private final IOssService ossService;
 
 
-    @ResponseBody
     @PostMapping("/upload")
     public Result<?> upload(@RequestParam("file") MultipartFile file,
                             @RequestParam("dirName") String dirName) throws IOException {
@@ -51,7 +49,6 @@ public class OssFileController {
     }
 
 
-    @ResponseBody
     @GetMapping("/getPolicy")
     public Result<?> getPolicy(@RequestParam String fileName,
                                @RequestParam("dirName") String dirName) {

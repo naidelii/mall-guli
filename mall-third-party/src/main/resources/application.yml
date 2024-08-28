@@ -3,20 +3,5 @@ server:
   servlet:
     context-path: /
 spring:
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
   application:
     name: mall-third-party
-  cloud:
-    nacos:
-      discovery:
-        #naocs-server地址
-        server-addr: http://192.168.230.7:18848
-
-minio:
-  endpoint: http://192.168.230.7:9000
-  accessKey: cqgsl
-  secretKey: gsl_123456
-  bucket: gongshanglian
