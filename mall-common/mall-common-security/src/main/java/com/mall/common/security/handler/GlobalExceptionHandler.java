@@ -8,6 +8,7 @@ import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CommonConstants;
 import com.mall.common.base.constant.enums.ResultCodeEnum;
 import com.mall.common.base.exception.GlobalException;
+import com.mall.common.base.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
@@ -39,6 +40,30 @@ public class GlobalExceptionHandler {
         return Result.fail();
     }
 
+    /**
+     * 处理自定义通用异常
+     *
+     * @param e 自定义异常
+     * @return Result
+     */
+    @ExceptionHandler(GlobalException.class)
+    public Result<?> handlerBootException(GlobalException e) {
+        log.error("=========GlobalException：{}", e.getMessage());
+        return Result.fail(e.getMessage());
+    }
+
+    /**
+     * 处理自定义业务异常
+     *
+     * @param e 自定义异常
+     * @return Result
+     */
+    @ExceptionHandler(ServiceException.class)
+    public Result<?> handlerBootException(ServiceException e) {
+        log.error("=========ServiceException：{}", e.getMessage());
+        return Result.error(e.getCode(), e.getMessage());
+    }
+
 
     /**
      * 处理没有权限
@@ -59,22 +84,11 @@ public class GlobalExceptionHandler {
      * @return 返回结果
      */
     @ExceptionHandler(NotLoginException.class)
-    public Result<Object> handleNotLoginException(Exception e) {
+    public Result<Object> handleNotLoginException(NotLoginException e) {
         log.error("=========handleNotLoginException：{}", e.getMessage());
         return Result.fail(ResultCodeEnum.UNAUTHORIZED);
     }
 
-    /**
-     * 处理自定义异常
-     *
-     * @param e 自定义异常
-     * @return Result
-     */
-    @ExceptionHandler(GlobalException.class)
-    public Result<?> handlerBootException(GlobalException e) {
-        log.error("=========自定义异常：{}", e.getMessage());
-        return Result.fail(e.getMessage());
-    }
 
     /**
      * 处理唯一性约束异常

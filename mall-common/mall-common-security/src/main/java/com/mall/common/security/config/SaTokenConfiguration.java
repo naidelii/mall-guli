@@ -37,10 +37,10 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
         config.setTokenName(SecurityConstants.AUTHORIZATION);
         // token风格
         config.setTokenStyle("uuid");
-        // token有效期，单位s 默认30天，不支持自动续签（30分钟）
-        config.setTimeout(30 * 60);
-        // 自动续签，指定时间内有操作，则会自动续签
-        config.setAutoRenew(true);
+        // token有效期，单位s 默认30天，不支持自动续签（60分钟）
+        config.setTimeout(60 * 60);
+        // token有效期，单位s （30分钟），支持续期
+        config.setActivityTimeout(30 * 60);
         // 是否尝试从请求体里读取token
         config.setIsReadBody(false);
         // 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)

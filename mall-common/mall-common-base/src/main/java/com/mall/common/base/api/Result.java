@@ -95,6 +95,16 @@ public class Result<T> implements Serializable {
     }
 
     /**
+     * 错误响应（自定义状态码和消息）
+     *
+     * @return Result
+     */
+    public static <T> Result<T> error(Integer code, String msg) {
+        return new Result<>(code, msg, null);
+    }
+
+
+    /**
      * 身份认证失败响应
      *
      * @return Result

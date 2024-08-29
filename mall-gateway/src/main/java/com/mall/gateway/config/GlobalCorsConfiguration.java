@@ -11,7 +11,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
  * @author naidelii
  */
 @Configuration
-public class GlobalCorsConfig {
+public class GlobalCorsConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "app.cors.enabled", matchIfMissing = true)

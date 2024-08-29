@@ -1,20 +1,17 @@
 package com.mall.gateway.filter;
 
-import com.mall.common.base.api.Result;
 import com.mall.common.base.constant.CacheConstants;
 import com.mall.common.base.constant.SecurityConstants;
 import com.mall.common.redis.utils.RedisUtils;
 import com.mall.gateway.config.SecurityProperties;
-import com.mall.gateway.utils.ResponseUtil;
+import com.mall.gateway.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -54,24 +51,16 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         // 如果请求没有包含token，则是非法请求
         if (!headers.containsKey(SecurityConstants.AUTHORIZATION)) {
             log.error("=======拦截非法请求：{}", path);
-            return handleUnauthorizedRequest(exchange);
+            throw new UnauthorizedException();
         }
         // 如果包含了，则校验是否有效
         Boolean isExits = RedisUtils.hasKey(CacheConstants.TOKEN_CACHE_PREFIX + authorizationValues);
         if (Boolean.FALSE.equals(isExits)) {
             log.error("=======拦截非法token：{}，请求路径：{}", authorizationValues, path);
-            return handleUnauthorizedRequest(exchange);
+            throw new UnauthorizedException();
         }
         return chain.filter(exchange);
     }
-
-    private Mono<Void> handleUnauthorizedRequest(ServerWebExchange exchange) {
-        ServerHttpResponse response = exchange.getResponse();
-        Result<Object> result = Result.unauthorized();
-        DataBuffer dataBuffer = ResponseUtil.writeJsonResponse(response, result);
-        return response.writeWith(Mono.just(dataBuffer));
-    }
-
 
     @Override
     public int getOrder() {
