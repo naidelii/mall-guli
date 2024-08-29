@@ -86,11 +86,11 @@ public class Result<T> implements Serializable {
     }
 
     /**
-     * 失败响应（自定义状态码和消息）
+     * 错误响应（自定义状态码和消息）
      *
      * @return Result
      */
-    public static <T> Result<T> fail(ResultCodeEnum resultCodeEnum) {
+    public static <T> Result<T> error(ResultCodeEnum resultCodeEnum) {
         return new Result<>(resultCodeEnum, null);
     }
 
@@ -103,14 +103,5 @@ public class Result<T> implements Serializable {
         return new Result<>(code, msg, null);
     }
 
-
-    /**
-     * 身份认证失败响应
-     *
-     * @return Result
-     */
-    public static <T> Result<T> unauthorized() {
-        return new Result<>(ResultCodeEnum.UNAUTHORIZED, null);
-    }
 
 }

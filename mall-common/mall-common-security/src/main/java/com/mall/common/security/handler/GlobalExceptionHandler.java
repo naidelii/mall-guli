@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NotPermissionException.class, NotRoleException.class})
     public Result<Object> handleNotPermissionException(Exception e) {
         log.error("=========handleNotPermissionException：{}", e.getMessage());
-        return Result.fail(ResultCodeEnum.FORBIDDEN);
+        return Result.error(ResultCodeEnum.FORBIDDEN);
     }
 
     /**
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotLoginException.class)
     public Result<Object> handleNotLoginException(NotLoginException e) {
         log.error("=========handleNotLoginException：{}", e.getMessage());
-        return Result.fail(ResultCodeEnum.UNAUTHORIZED);
+        return Result.error(ResultCodeEnum.UNAUTHORIZED);
     }
 
 
