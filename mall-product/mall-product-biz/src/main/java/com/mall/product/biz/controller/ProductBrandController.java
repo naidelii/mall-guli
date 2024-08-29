@@ -69,8 +69,8 @@ public class ProductBrandController {
         return Result.success();
     }
 
-    @GetMapping("/info/{id}")
-    public Result<?> info(@PathVariable("id") String id) {
+    @GetMapping("/info")
+    public Result<?> info(@RequestParam String id) {
         ProductBrand data = productBrandService.getById(id);
         return Result.success(data);
     }
